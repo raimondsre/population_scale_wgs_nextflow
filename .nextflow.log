@@ -1,0 +1,621 @@
+Apr-16 21:50:40.882 [main] DEBUG nextflow.cli.Launcher - $> nextflow main.nf
+Apr-16 21:50:40.941 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 21.10.6
+Apr-16 21:50:40.976 [main] INFO  nextflow.cli.CmdRun - Launching `main.nf` [adoring_faggin] - revision: 2848526b6a
+Apr-16 21:50:41.024 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; plugins-dir=/Users/work/.nextflow/plugins
+Apr-16 21:50:41.026 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Apr-16 21:50:41.033 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Apr-16 21:50:41.035 [main] INFO  org.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Apr-16 21:50:41.038 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Apr-16 21:50:41.046 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Apr-16 21:50:41.089 [main] DEBUG nextflow.Session - Session uuid: dddac016-baad-4212-ad21-66381f7f8a2d
+Apr-16 21:50:41.089 [main] DEBUG nextflow.Session - Run name: adoring_faggin
+Apr-16 21:50:41.090 [main] DEBUG nextflow.Session - Executor pool size: 8
+Apr-16 21:50:41.309 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 21.10.6 build 5660
+  Created: 21-12-2021 16:55 UTC (18:55 EEST)
+  System: Mac OS X 13.1
+  Runtime: Groovy 3.0.9 on OpenJDK 64-Bit Server VM 11.0.13+7-b1751.21
+  Encoding: UTF-8 (UTF-8)
+  Process: 37178@Raimondss-MacBook-Pro.local [127.0.0.1]
+  CPUs: 8 - Mem: 8 GB (77.9 MB) - Swap: 11 GB (954.6 MB)
+Apr-16 21:50:41.323 [main] DEBUG nextflow.Session - Work-dir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work [Mac OS X]
+Apr-16 21:50:41.323 [main] DEBUG nextflow.Session - Script base path does not exist or is not a directory: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/bin
+Apr-16 21:50:41.333 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Apr-16 21:50:41.342 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Apr-16 21:50:41.368 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
+Apr-16 21:50:41.421 [main] DEBUG nextflow.Session - Session start invoked
+Apr-16 21:50:42.073 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Apr-16 21:50:42.131 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 9; maxThreads: 1000
+Apr-16 21:50:42.228 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-16 21:50:42.228 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-16 21:50:42.231 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Apr-16 21:50:42.235 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=8; memory=8 GB; capacity=8; pollInterval=100ms; dumpInterval=5m
+Apr-16 21:50:42.317 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-16 21:50:42.317 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-16 21:50:42.331 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-16 21:50:42.331 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-16 21:50:42.342 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-16 21:50:42.342 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-16 21:50:42.349 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-16 21:50:42.349 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-16 21:50:42.384 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-16 21:50:42.384 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-16 21:50:42.390 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-16 21:50:42.390 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-16 21:50:42.392 [main] DEBUG nextflow.Session - Workflow process names [dsl1]: separateVCF, extract_vcf_samples, concatanate_segments, merge_samples, separateVCF_by_samples, manipulate_segment, manipulate_segment_samples
+Apr-16 21:50:42.393 [main] DEBUG nextflow.script.ScriptRunner - > Await termination 
+Apr-16 21:50:42.393 [main] DEBUG nextflow.Session - Session await
+Apr-16 21:50:42.423 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:42.427 [Task submitter] INFO  nextflow.Session - [69/5c1708] Submitted process > separateVCF (2)
+Apr-16 21:50:42.432 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:42.432 [Task submitter] INFO  nextflow.Session - [a5/dd2fb6] Submitted process > separateVCF (6)
+Apr-16 21:50:42.435 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:42.435 [Task submitter] INFO  nextflow.Session - [76/4de90a] Submitted process > separateVCF (8)
+Apr-16 21:50:42.440 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:42.441 [Task submitter] INFO  nextflow.Session - [47/2f6185] Submitted process > separateVCF (5)
+Apr-16 21:50:42.444 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:42.445 [Task submitter] INFO  nextflow.Session - [c9/376874] Submitted process > separateVCF (1)
+Apr-16 21:50:42.448 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:42.449 [Task submitter] INFO  nextflow.Session - [e4/688f61] Submitted process > separateVCF (4)
+Apr-16 21:50:42.452 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:42.454 [Task submitter] INFO  nextflow.Session - [6a/415088] Submitted process > extract_vcf_samples (1)
+Apr-16 21:50:42.461 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:42.463 [Task submitter] INFO  nextflow.Session - [27/541c20] Submitted process > separateVCF (3)
+Apr-16 21:50:42.755 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 1; name: extract_vcf_samples (1); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/6a/415088d862d114d852acaa235bd002]
+Apr-16 21:50:42.762 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:42.762 [Task submitter] INFO  nextflow.Session - [e7/dad2d0] Submitted process > separateVCF (7)
+Apr-16 21:50:43.260 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 9; name: separateVCF (8); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/76/4de90a4af9244d9e82fae0c7512152]
+Apr-16 21:50:43.286 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.286 [Task submitter] INFO  nextflow.Session - [96/b9552f] Submitted process > separateVCF (9)
+Apr-16 21:50:43.317 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 7; name: separateVCF (6); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/a5/dd2fb684e260a90bb5731865cfea1c]
+Apr-16 21:50:43.321 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.321 [Task submitter] INFO  nextflow.Session - [6a/59f8e2] Submitted process > separateVCF (10)
+Apr-16 21:50:43.342 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 2; name: separateVCF (1); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c9/37687487a26af2caa3582eb9293680]
+Apr-16 21:50:43.346 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.346 [Task submitter] INFO  nextflow.Session - [fa/b71bff] Submitted process > separateVCF (11)
+Apr-16 21:50:43.380 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 5; name: separateVCF (4); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/e4/688f611a025eee055f6655d9b9df97]
+Apr-16 21:50:43.385 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.385 [Task submitter] INFO  nextflow.Session - [32/948880] Submitted process > separateVCF (12)
+Apr-16 21:50:43.417 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 3; name: separateVCF (2); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/69/5c170882136886a4ffa93f34a1f082]
+Apr-16 21:50:43.419 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 6; name: separateVCF (5); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/47/2f6185506b77d5ae3443e12b915dda]
+Apr-16 21:50:43.421 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.421 [Task submitter] INFO  nextflow.Session - [22/f3b7d2] Submitted process > separateVCF (13)
+Apr-16 21:50:43.427 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.427 [Task submitter] INFO  nextflow.Session - [36/11d4d6] Submitted process > separateVCF (14)
+Apr-16 21:50:43.471 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 4; name: separateVCF (3); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/27/541c20c6ef3b9765471820e6981e52]
+Apr-16 21:50:43.476 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.477 [Task submitter] INFO  nextflow.Session - [d9/c2ef45] Submitted process > separateVCF (22)
+Apr-16 21:50:43.658 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 8; name: separateVCF (7); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/e7/dad2d068121c203d544cd046a87a4e]
+Apr-16 21:50:43.661 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.662 [Task submitter] INFO  nextflow.Session - [e7/39a972] Submitted process > separateVCF (20)
+Apr-16 21:50:43.821 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 10; name: separateVCF (9); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/96/b9552fd987873eee46bd110d40c51d]
+Apr-16 21:50:43.824 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.825 [Task submitter] INFO  nextflow.Session - [0b/05a954] Submitted process > separateVCF (19)
+Apr-16 21:50:43.844 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 11; name: separateVCF (10); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/6a/59f8e2f24b497087504b0a3c23a6bd]
+Apr-16 21:50:43.847 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.848 [Task submitter] INFO  nextflow.Session - [2b/ee5098] Submitted process > separateVCF (15)
+Apr-16 21:50:43.863 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 12; name: separateVCF (11); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/fa/b71bff596b2d3292ea60084cf3f89f]
+Apr-16 21:50:43.866 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.866 [Task submitter] INFO  nextflow.Session - [ca/653fd5] Submitted process > separateVCF (16)
+Apr-16 21:50:43.958 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 13; name: separateVCF (12); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/32/948880c7d1d143c693ca3c666e9ad3]
+Apr-16 21:50:43.961 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.961 [Task submitter] INFO  nextflow.Session - [33/86ec97] Submitted process > separateVCF (21)
+Apr-16 21:50:43.978 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 15; name: separateVCF (14); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/36/11d4d68870b615cb2a5686303dfb3c]
+Apr-16 21:50:43.981 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:43.981 [Task submitter] INFO  nextflow.Session - [15/2b2297] Submitted process > separateVCF (18)
+Apr-16 21:50:44.020 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 14; name: separateVCF (13); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/22/f3b7d2b9082ef9a2f2dd3df65ecd00]
+Apr-16 21:50:44.025 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.026 [Task submitter] INFO  nextflow.Session - [d0/b6d5bb] Submitted process > separateVCF (17)
+Apr-16 21:50:44.038 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 23; name: separateVCF (22); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/d9/c2ef45503924c78d9a1afb882a43c2]
+Apr-16 21:50:44.046 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.047 [Task submitter] INFO  nextflow.Session - [a9/c8beee] Submitted process > separateVCF (23)
+Apr-16 21:50:44.267 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 21; name: separateVCF (20); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/e7/39a972b5ce71fa9aae2897fa1bc41e]
+Apr-16 21:50:44.270 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.271 [Task submitter] INFO  nextflow.Session - [52/6dabb1] Submitted process > separateVCF (28)
+Apr-16 21:50:44.368 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 16; name: separateVCF (15); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/2b/ee5098f63e181646196ecf5681e678]
+Apr-16 21:50:44.370 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.371 [Task submitter] INFO  nextflow.Session - [f7/5f39f0] Submitted process > separateVCF (24)
+Apr-16 21:50:44.390 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 20; name: separateVCF (19); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/0b/05a9548e73e4cc9cf4f612f7703c06]
+Apr-16 21:50:44.393 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.393 [Task submitter] INFO  nextflow.Session - [7d/80fa32] Submitted process > separateVCF (25)
+Apr-16 21:50:44.408 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 17; name: separateVCF (16); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/ca/653fd58823ed7a6da475aeee9bb008]
+Apr-16 21:50:44.411 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.412 [Task submitter] INFO  nextflow.Session - [d3/6dbd11] Submitted process > separateVCF (26)
+Apr-16 21:50:44.498 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 19; name: separateVCF (18); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/15/2b22978021b32a0e9bcf9859f528b7]
+Apr-16 21:50:44.502 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.502 [Task submitter] INFO  nextflow.Session - [65/ef5814] Submitted process > separateVCF (27)
+Apr-16 21:50:44.520 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 29; name: separateVCF (28); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/52/6dabb1588c8cbe98df90851f68c985]
+Apr-16 21:50:44.523 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.524 [Task submitter] INFO  nextflow.Session - [12/7b25e4] Submitted process > separateVCF (31)
+Apr-16 21:50:44.545 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 22; name: separateVCF (21); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/33/86ec978e6ba94378b71f3c71def478]
+Apr-16 21:50:44.549 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.550 [Task submitter] INFO  nextflow.Session - [ec/559158] Submitted process > separateVCF (30)
+Apr-16 21:50:44.591 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 24; name: separateVCF (23); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/a9/c8beee3a4af86f7da541e96341422f]
+Apr-16 21:50:44.593 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.594 [Task submitter] INFO  nextflow.Session - [de/4e1024] Submitted process > separateVCF (29)
+Apr-16 21:50:44.601 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 18; name: separateVCF (17); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/d0/b6d5bb0d78c361673a594876c2bb08]
+Apr-16 21:50:44.604 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.605 [Task submitter] INFO  nextflow.Session - [80/b83d1e] Submitted process > separateVCF (37)
+Apr-16 21:50:44.745 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 27; name: separateVCF (26); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/d3/6dbd112536aff5f3177fdfeec1103e]
+Apr-16 21:50:44.749 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.749 [Task submitter] INFO  nextflow.Session - [6c/0fc9d4] Submitted process > separateVCF (32)
+Apr-16 21:50:44.791 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 28; name: separateVCF (27); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/65/ef5814b81b6b49f92cb392a36f8e43]
+Apr-16 21:50:44.796 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.796 [Task submitter] INFO  nextflow.Session - [58/07023d] Submitted process > separateVCF (34)
+Apr-16 21:50:44.899 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 25; name: separateVCF (24); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/f7/5f39f00c83c2cd29dcf1b07af3ef64]
+Apr-16 21:50:44.902 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.903 [Task submitter] INFO  nextflow.Session - [df/5a5dc1] Submitted process > separateVCF (33)
+Apr-16 21:50:44.980 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 30; name: separateVCF (29); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/de/4e1024aa8f04ca67c8e92a09ff9255]
+Apr-16 21:50:44.983 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:44.983 [Task submitter] INFO  nextflow.Session - [29/3f634e] Submitted process > separateVCF (35)
+Apr-16 21:50:45.010 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 31; name: separateVCF (30); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/ec/559158b6a52462432d3b4afb4c3121]
+Apr-16 21:50:45.014 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.014 [Task submitter] INFO  nextflow.Session - [ce/e51527] Submitted process > separateVCF (36)
+Apr-16 21:50:45.068 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 32; name: separateVCF (31); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/12/7b25e44365f3fa39303dbc0fe78d3a]
+Apr-16 21:50:45.073 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.073 [Task submitter] INFO  nextflow.Session - [77/dc0955] Submitted process > separateVCF (38)
+Apr-16 21:50:45.152 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 38; name: separateVCF (37); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/80/b83d1ea14292884049d5506cf99b8b]
+Apr-16 21:50:45.156 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.156 [Task submitter] INFO  nextflow.Session - [2b/f02e21] Submitted process > separateVCF (39)
+Apr-16 21:50:45.335 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 33; name: separateVCF (32); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/6c/0fc9d49f8e7c7dfec72b63b25b07fd]
+Apr-16 21:50:45.344 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.345 [Task submitter] INFO  nextflow.Session - [a2/fe0ba4] Submitted process > separateVCF (40)
+Apr-16 21:50:45.392 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 35; name: separateVCF (34); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/58/07023dbda2f8e059559cd4d6074ef4]
+Apr-16 21:50:45.394 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.394 [Task submitter] INFO  nextflow.Session - [d0/4072cc] Submitted process > separateVCF (41)
+Apr-16 21:50:45.504 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 34; name: separateVCF (33); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/df/5a5dc13e72b57bdfa9f3ccd9c0a017]
+Apr-16 21:50:45.507 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.507 [Task submitter] INFO  nextflow.Session - [92/2d617d] Submitted process > separateVCF (42)
+Apr-16 21:50:45.549 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 36; name: separateVCF (35); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/29/3f634ea4999b8008f1124b6696a69b]
+Apr-16 21:50:45.552 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.552 [Task submitter] INFO  nextflow.Session - [25/27cbbe] Submitted process > separateVCF (43)
+Apr-16 21:50:45.554 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 37; name: separateVCF (36); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/ce/e51527d84cae583ddf8a977dbdfe1c]
+Apr-16 21:50:45.557 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.557 [Task submitter] INFO  nextflow.Session - [ff/565e5e] Submitted process > separateVCF (588)
+Apr-16 21:50:45.565 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 26; name: separateVCF (25); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/7d/80fa327fe9815f90b1f2debebf63c2]
+Apr-16 21:50:45.568 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.569 [Task submitter] INFO  nextflow.Session - [94/b9b3b2] Submitted process > separateVCF (49)
+Apr-16 21:50:45.682 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 39; name: separateVCF (38); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/77/dc0955ebe2bdce5332d7958aaccb7b]
+Apr-16 21:50:45.691 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.691 [Task submitter] INFO  nextflow.Session - [b0/ca1314] Submitted process > separateVCF (44)
+Apr-16 21:50:45.705 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 40; name: separateVCF (39); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/2b/f02e21f5ba7a7bea88aef0dae85223]
+Apr-16 21:50:45.708 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.709 [Task submitter] INFO  nextflow.Session - [28/a9d678] Submitted process > separateVCF (50)
+Apr-16 21:50:45.902 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 41; name: separateVCF (40); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/a2/fe0ba4dadf517d4020d8e76a374ce8]
+Apr-16 21:50:45.909 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:45.909 [Task submitter] INFO  nextflow.Session - [91/18293b] Submitted process > separateVCF (45)
+Apr-16 21:50:46.030 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 42; name: separateVCF (41); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/d0/4072cc98817222a00021a6175bedcc]
+Apr-16 21:50:46.034 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.034 [Task submitter] INFO  nextflow.Session - [aa/04643d] Submitted process > separateVCF (47)
+Apr-16 21:50:46.096 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 43; name: separateVCF (42); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/92/2d617dfb62d4b2dc44e57d02d01529]
+Apr-16 21:50:46.098 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 589; name: separateVCF (588); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/ff/565e5e3125a064608c53bd485a8816]
+Apr-16 21:50:46.103 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.103 [Task submitter] INFO  nextflow.Session - [ef/e6320e] Submitted process > separateVCF (46)
+Apr-16 21:50:46.110 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.110 [Task submitter] INFO  nextflow.Session - [90/4eafaf] Submitted process > separateVCF (48)
+Apr-16 21:50:46.141 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 44; name: separateVCF (43); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/25/27cbbeaa4d60d7e632d9f6cd8f1409]
+Apr-16 21:50:46.145 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.145 [Task submitter] INFO  nextflow.Session - [5b/5d40fc] Submitted process > separateVCF (51)
+Apr-16 21:50:46.191 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 50; name: separateVCF (49); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/94/b9b3b2337eaf272337e997aee2368c]
+Apr-16 21:50:46.194 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.195 [Task submitter] INFO  nextflow.Session - [b6/4e5444] Submitted process > separateVCF (53)
+Apr-16 21:50:46.425 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 45; name: separateVCF (44); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b0/ca1314eed5ce73d4623e0e94b361b2]
+Apr-16 21:50:46.428 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.428 [Task submitter] INFO  nextflow.Session - [ae/d4d837] Submitted process > separateVCF (52)
+Apr-16 21:50:46.451 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 51; name: separateVCF (50); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/28/a9d678dc07da3f82a1e97e7a0f7a08]
+Apr-16 21:50:46.459 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.459 [Task submitter] INFO  nextflow.Session - [bc/2ece2a] Submitted process > separateVCF (54)
+Apr-16 21:50:46.535 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 46; name: separateVCF (45); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/91/18293bdbedd1e9c7d993f4566a3622]
+Apr-16 21:50:46.538 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.538 [Task submitter] INFO  nextflow.Session - [b8/587c48] Submitted process > separateVCF (57)
+Apr-16 21:50:46.701 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 48; name: separateVCF (47); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/aa/04643dc87e0703f7424bc5cc830b5f]
+Apr-16 21:50:46.703 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.704 [Task submitter] INFO  nextflow.Session - [a6/4d4c21] Submitted process > separateVCF (55)
+Apr-16 21:50:46.731 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 47; name: separateVCF (46); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/ef/e6320ea267fc8b9d215cb5914856e7]
+Apr-16 21:50:46.735 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.736 [Task submitter] INFO  nextflow.Session - [05/fcce9a] Submitted process > separateVCF (56)
+Apr-16 21:50:46.808 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 54; name: separateVCF (53); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b6/4e5444f65a02625a9142213aee581c]
+Apr-16 21:50:46.811 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.812 [Task submitter] INFO  nextflow.Session - [73/7de1ce] Submitted process > separateVCF (61)
+Apr-16 21:50:46.816 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 49; name: separateVCF (48); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/90/4eafaf83efb77391d45058d760a25b]
+Apr-16 21:50:46.819 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.819 [Task submitter] INFO  nextflow.Session - [f9/f9d602] Submitted process > separateVCF (59)
+Apr-16 21:50:46.829 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 52; name: separateVCF (51); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/5b/5d40fcd39c62ca71f0b09210f9d450]
+Apr-16 21:50:46.832 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:46.832 [Task submitter] INFO  nextflow.Session - [f3/0866a6] Submitted process > separateVCF (58)
+Apr-16 21:50:47.069 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 55; name: separateVCF (54); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/bc/2ece2a91948fe93f55a80251005ba6]
+Apr-16 21:50:47.072 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.072 [Task submitter] INFO  nextflow.Session - [65/d7392a] Submitted process > separateVCF (65)
+Apr-16 21:50:47.085 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 53; name: separateVCF (52); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/ae/d4d837aa49ac2727a995fc35c25074]
+Apr-16 21:50:47.088 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.088 [Task submitter] INFO  nextflow.Session - [83/2a156d] Submitted process > separateVCF (66)
+Apr-16 21:50:47.170 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 58; name: separateVCF (57); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b8/587c483eb782bc491d06de49517afc]
+Apr-16 21:50:47.174 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.174 [Task submitter] INFO  nextflow.Session - [b6/bfb94b] Submitted process > separateVCF (60)
+Apr-16 21:50:47.252 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 56; name: separateVCF (55); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/a6/4d4c2106d87754bd38080b44b4592d]
+Apr-16 21:50:47.259 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.259 [Task submitter] INFO  nextflow.Session - [16/b5637b] Submitted process > separateVCF (68)
+Apr-16 21:50:47.279 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 57; name: separateVCF (56); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/05/fcce9a908ff8ded4df9a7ccee2871f]
+Apr-16 21:50:47.282 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.282 [Task submitter] INFO  nextflow.Session - [c6/e44a2f] Submitted process > separateVCF (63)
+Apr-16 21:50:47.369 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 62; name: separateVCF (61); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/73/7de1ceec96068efb818eb1497f0c93]
+Apr-16 21:50:47.374 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.374 [Task submitter] INFO  nextflow.Session - [62/409a94] Submitted process > separateVCF (67)
+Apr-16 21:50:47.440 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 59; name: separateVCF (58); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/f3/0866a61d9dacd8473f119904565a80]
+Apr-16 21:50:47.442 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.443 [Task submitter] INFO  nextflow.Session - [fd/112a6c] Submitted process > separateVCF (70)
+Apr-16 21:50:47.448 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 60; name: separateVCF (59); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/f9/f9d602cb9bd53ecf1722cecc550b53]
+Apr-16 21:50:47.454 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.455 [Task submitter] INFO  nextflow.Session - [eb/097422] Submitted process > separateVCF (62)
+Apr-16 21:50:47.526 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 66; name: separateVCF (65); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/65/d7392a1382758688b3e8fd1ea8975c]
+Apr-16 21:50:47.529 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.530 [Task submitter] INFO  nextflow.Session - [26/1e34bc] Submitted process > separateVCF (71)
+Apr-16 21:50:47.685 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 67; name: separateVCF (66); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/83/2a156d0ee32b699d7e5b83bd1c2de4]
+Apr-16 21:50:47.705 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.705 [Task submitter] INFO  nextflow.Session - [ba/c9f66f] Submitted process > separateVCF (64)
+Apr-16 21:50:47.767 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 69; name: separateVCF (68); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/16/b5637b9f9df36bd304740e8f3859fa]
+Apr-16 21:50:47.770 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 61; name: separateVCF (60); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b6/bfb94b8810b7fe7b21e130ed9e408b]
+Apr-16 21:50:47.770 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.771 [Task submitter] INFO  nextflow.Session - [d8/4f62cf] Submitted process > separateVCF (69)
+Apr-16 21:50:47.774 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.774 [Task submitter] INFO  nextflow.Session - [74/33c254] Submitted process > separateVCF (72)
+Apr-16 21:50:47.816 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 64; name: separateVCF (63); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c6/e44a2f4d8ec0f491793b9f33639911]
+Apr-16 21:50:47.822 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.823 [Task submitter] INFO  nextflow.Session - [00/3df970] Submitted process > separateVCF (73)
+Apr-16 21:50:47.917 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 71; name: separateVCF (70); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/fd/112a6cb6fcbaad0f07345b7d00c296]
+Apr-16 21:50:47.941 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.942 [Task submitter] INFO  nextflow.Session - [b6/8d77b5] Submitted process > separateVCF (78)
+Apr-16 21:50:47.982 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 68; name: separateVCF (67); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/62/409a94d7e461744f57b41461459189]
+Apr-16 21:50:47.985 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:47.986 [Task submitter] INFO  nextflow.Session - [f7/b33253] Submitted process > separateVCF (75)
+Apr-16 21:50:48.027 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 63; name: separateVCF (62); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/eb/097422ef9736d07ac3fae4883798b0]
+Apr-16 21:50:48.030 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.030 [Task submitter] INFO  nextflow.Session - [be/5575b4] Submitted process > separateVCF (74)
+Apr-16 21:50:48.070 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 72; name: separateVCF (71); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/26/1e34bc57ab41c412325e71f0fd5891]
+Apr-16 21:50:48.073 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.073 [Task submitter] INFO  nextflow.Session - [87/388914] Submitted process > separateVCF (83)
+Apr-16 21:50:48.275 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 65; name: separateVCF (64); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/ba/c9f66f125fb55fdef3c5d7793328c4]
+Apr-16 21:50:48.279 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.279 [Task submitter] INFO  nextflow.Session - [9e/759403] Submitted process > separateVCF (77)
+Apr-16 21:50:48.334 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 73; name: separateVCF (72); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/74/33c254b5124fcb05a17f4ba6a1338a]
+Apr-16 21:50:48.338 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.338 [Task submitter] INFO  nextflow.Session - [cc/72acdb] Submitted process > separateVCF (76)
+Apr-16 21:50:48.379 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 70; name: separateVCF (69); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/d8/4f62cf9fd2adf3ab1c8c7647a43717]
+Apr-16 21:50:48.382 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.382 [Task submitter] INFO  nextflow.Session - [ae/fc0ac8] Submitted process > separateVCF (80)
+Apr-16 21:50:48.396 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 74; name: separateVCF (73); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/00/3df97002aa1f8025ec6c608571f910]
+Apr-16 21:50:48.399 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.399 [Task submitter] INFO  nextflow.Session - [fb/7dc373] Submitted process > separateVCF (81)
+Apr-16 21:50:48.479 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 79; name: separateVCF (78); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b6/8d77b5d3e36a31eff57b5f54b53158]
+Apr-16 21:50:48.482 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.482 [Task submitter] INFO  nextflow.Session - [2f/0ad0f1] Submitted process > separateVCF (79)
+Apr-16 21:50:48.527 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 76; name: separateVCF (75); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/f7/b3325362ecc21dfb01a178ac7d716f]
+Apr-16 21:50:48.529 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 84; name: separateVCF (83); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/87/3889145d34ab31b1a1197e69c844f4]
+Apr-16 21:50:48.530 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.530 [Task submitter] INFO  nextflow.Session - [20/31d2b5] Submitted process > separateVCF (82)
+Apr-16 21:50:48.533 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.533 [Task submitter] INFO  nextflow.Session - [5d/2a5c32] Submitted process > separateVCF (84)
+Apr-16 21:50:48.568 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 75; name: separateVCF (74); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/be/5575b443eba3aa7d5795c660801740]
+Apr-16 21:50:48.571 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.571 [Task submitter] INFO  nextflow.Session - [e0/8d284c] Submitted process > separateVCF (90)
+Apr-16 21:50:48.794 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 78; name: separateVCF (77); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/9e/759403adb549390d8f75ead7a1abe2]
+Apr-16 21:50:48.796 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.797 [Task submitter] INFO  nextflow.Session - [1e/942128] Submitted process > separateVCF (85)
+Apr-16 21:50:48.837 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 81; name: separateVCF (80); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/ae/fc0ac877997be34cf85529926ec1bb]
+Apr-16 21:50:48.840 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.841 [Task submitter] INFO  nextflow.Session - [0b/99f53a] Submitted process > separateVCF (86)
+Apr-16 21:50:48.881 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 77; name: separateVCF (76); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/cc/72acdba2ff37172bb6f149ab46e838]
+Apr-16 21:50:48.887 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.887 [Task submitter] INFO  nextflow.Session - [bc/e61475] Submitted process > separateVCF (92)
+Apr-16 21:50:48.901 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 82; name: separateVCF (81); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/fb/7dc37393b5e20b072621965f583709]
+Apr-16 21:50:48.904 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:48.904 [Task submitter] INFO  nextflow.Session - [52/d5c9d5] Submitted process > separateVCF (88)
+Apr-16 21:50:49.047 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 80; name: separateVCF (79); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/2f/0ad0f1890a981a173e122ca7d98152]
+Apr-16 21:50:49.051 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.051 [Task submitter] INFO  nextflow.Session - [95/8a5cf6] Submitted process > separateVCF (87)
+Apr-16 21:50:49.052 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 91; name: separateVCF (90); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/e0/8d284cf22cae3ed78047d146a3c170]
+Apr-16 21:50:49.054 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.054 [Task submitter] INFO  nextflow.Session - [d3/502b46] Submitted process > separateVCF (95)
+Apr-16 21:50:49.068 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 85; name: separateVCF (84); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/5d/2a5c326add1b2c6c5640bde282cd89]
+Apr-16 21:50:49.072 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.072 [Task submitter] INFO  nextflow.Session - [be/cb83df] Submitted process > separateVCF (89)
+Apr-16 21:50:49.173 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 83; name: separateVCF (82); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/20/31d2b5c2aa3b8086969a3601d2dba7]
+Apr-16 21:50:49.175 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.176 [Task submitter] INFO  nextflow.Session - [3c/09439d] Submitted process > separateVCF (98)
+Apr-16 21:50:49.342 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 87; name: separateVCF (86); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/0b/99f53a342a9777bf92195c33b9ba7f]
+Apr-16 21:50:49.346 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.346 [Task submitter] INFO  nextflow.Session - [e6/4d5c75] Submitted process > separateVCF (91)
+Apr-16 21:50:49.365 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 86; name: separateVCF (85); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/1e/942128da58842d3c97971c1e3ff4f5]
+Apr-16 21:50:49.368 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.369 [Task submitter] INFO  nextflow.Session - [89/be06a2] Submitted process > separateVCF (93)
+Apr-16 21:50:49.373 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 89; name: separateVCF (88); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/52/d5c9d5a2ce3511d0e81a34a3610d16]
+Apr-16 21:50:49.376 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.377 [Task submitter] INFO  nextflow.Session - [1a/ee5eb5] Submitted process > separateVCF (94)
+Apr-16 21:50:49.418 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 93; name: separateVCF (92); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/bc/e614758021f4486ee8d78d1a30fca7]
+Apr-16 21:50:49.422 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.422 [Task submitter] INFO  nextflow.Session - [10/3cc92d] Submitted process > separateVCF (101)
+Apr-16 21:50:49.540 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 90; name: separateVCF (89); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/be/cb83dfefe8dd6d6002100902e1d450]
+Apr-16 21:50:49.542 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.542 [Task submitter] INFO  nextflow.Session - [03/bb518d] Submitted process > separateVCF (102)
+Apr-16 21:50:49.551 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 88; name: separateVCF (87); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/95/8a5cf6e0dcc097e86893c1f6a87b4b]
+Apr-16 21:50:49.554 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.554 [Task submitter] INFO  nextflow.Session - [c9/818dbf] Submitted process > separateVCF (100)
+Apr-16 21:50:49.576 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 96; name: separateVCF (95); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/d3/502b46483aebc73741ca29cb11015f]
+Apr-16 21:50:49.579 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.579 [Task submitter] INFO  nextflow.Session - [a3/d64376] Submitted process > separateVCF (96)
+Apr-16 21:50:49.748 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 99; name: separateVCF (98); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/3c/09439d8d160c0b70d2b7517bb1111e]
+Apr-16 21:50:49.751 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.751 [Task submitter] INFO  nextflow.Session - [42/26fe3b] Submitted process > separateVCF (104)
+Apr-16 21:50:49.813 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 92; name: separateVCF (91); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/e6/4d5c756d82cac5e1d679cd21928614]
+Apr-16 21:50:49.818 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.818 [Task submitter] INFO  nextflow.Session - [f2/79c9b7] Submitted process > separateVCF (97)
+Apr-16 21:50:49.884 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 94; name: separateVCF (93); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/89/be06a20eb5ac78b8a629559ee2aefe]
+Apr-16 21:50:49.887 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.887 [Task submitter] INFO  nextflow.Session - [74/33b51b] Submitted process > separateVCF (106)
+Apr-16 21:50:49.891 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 95; name: separateVCF (94); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/1a/ee5eb5770d410002dec65fb58dc060]
+Apr-16 21:50:49.896 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.896 [Task submitter] INFO  nextflow.Session - [41/cd4871] Submitted process > separateVCF (105)
+Apr-16 21:50:49.986 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 102; name: separateVCF (101); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/10/3cc92d1e7ee1dae92434849e4f25a6]
+Apr-16 21:50:49.989 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:49.989 [Task submitter] INFO  nextflow.Session - [c7/17dde9] Submitted process > separateVCF (103)
+Apr-16 21:50:50.061 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 103; name: separateVCF (102); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/03/bb518d4cfeb7e1c61bfec3f430033d]
+Apr-16 21:50:50.066 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.067 [Task submitter] INFO  nextflow.Session - [c0/0744b7] Submitted process > separateVCF (108)
+Apr-16 21:50:50.137 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 97; name: separateVCF (96); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/a3/d64376041ddba0604c60021f997224]
+Apr-16 21:50:50.143 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.143 [Task submitter] INFO  nextflow.Session - [2f/ddd018] Submitted process > separateVCF (99)
+Apr-16 21:50:50.183 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 101; name: separateVCF (100); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c9/818dbf9947bf11869f10d9a9b6ee29]
+Apr-16 21:50:50.186 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.187 [Task submitter] INFO  nextflow.Session - [5f/170896] Submitted process > separateVCF (109)
+Apr-16 21:50:50.336 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 105; name: separateVCF (104); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/42/26fe3be9251a5ffc2c4c11c68ff675]
+Apr-16 21:50:50.340 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.340 [Task submitter] INFO  nextflow.Session - [69/7d0075] Submitted process > separateVCF (110)
+Apr-16 21:50:50.392 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 98; name: separateVCF (97); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/f2/79c9b7b20369b59db36015f42cb18e]
+Apr-16 21:50:50.395 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.396 [Task submitter] INFO  nextflow.Session - [c7/42f620] Submitted process > separateVCF (112)
+Apr-16 21:50:50.409 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 107; name: separateVCF (106); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/74/33b51b1aebb477a09244b73f48f432]
+Apr-16 21:50:50.412 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.412 [Task submitter] INFO  nextflow.Session - [83/5e7b58] Submitted process > separateVCF (111)
+Apr-16 21:50:50.429 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 106; name: separateVCF (105); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/41/cd4871532ec650bf0051f8192f9f6a]
+Apr-16 21:50:50.433 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.433 [Task submitter] INFO  nextflow.Session - [26/33dc04] Submitted process > separateVCF (107)
+Apr-16 21:50:50.437 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 104; name: separateVCF (103); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c7/17dde9ce852067829c226c1aa63f40]
+Apr-16 21:50:50.443 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.443 [Task submitter] INFO  nextflow.Session - [c6/f5bb77] Submitted process > separateVCF_by_samples (136)
+Apr-16 21:50:50.527 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 100; name: separateVCF (99); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/2f/ddd0188406e3f6deafc4433b09b050]
+Apr-16 21:50:50.530 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.530 [Task submitter] INFO  nextflow.Session - [9e/7da74d] Submitted process > separateVCF (116)
+Apr-16 21:50:50.566 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 109; name: separateVCF (108); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c0/0744b7318580aec4c190640bb0af06]
+Apr-16 21:50:50.570 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.570 [Task submitter] INFO  nextflow.Session - [96/fa50af] Submitted process > separateVCF (115)
+Apr-16 21:50:50.648 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 110; name: separateVCF (109); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/5f/170896458c4a78a8a45ae07221abe6]
+Apr-16 21:50:50.651 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.651 [Task submitter] INFO  nextflow.Session - [a7/0e7fb0] Submitted process > separateVCF (113)
+Apr-16 21:50:50.821 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 111; name: separateVCF (110); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/69/7d0075972161b60565e31623b21a4a]
+Apr-16 21:50:50.825 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.825 [Task submitter] INFO  nextflow.Session - [e4/50d174] Submitted process > separateVCF (114)
+Apr-16 21:50:50.826 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 837; name: separateVCF_by_samples (136); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c6/f5bb7773f96ad17108d04951bafc17]
+Apr-16 21:50:50.830 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.830 [Task submitter] INFO  nextflow.Session - [da/ba9250] Submitted process > separateVCF (189)
+Apr-16 21:50:50.909 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 113; name: separateVCF (112); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c7/42f620b6199afbab2d79ccf30c5c5a]
+Apr-16 21:50:50.910 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 108; name: separateVCF (107); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/26/33dc04d9a6fd5d0d2343ad9089ad17]
+Apr-16 21:50:50.916 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.916 [Task submitter] INFO  nextflow.Session - [34/efa413] Submitted process > separateVCF (119)
+Apr-16 21:50:50.920 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.920 [Task submitter] INFO  nextflow.Session - [0b/6780d3] Submitted process > separateVCF (117)
+Apr-16 21:50:50.944 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 112; name: separateVCF (111); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/83/5e7b587f7411ac79ef915690a8b32e]
+Apr-16 21:50:50.948 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:50.948 [Task submitter] INFO  nextflow.Session - [f8/0d285f] Submitted process > separateVCF (120)
+Apr-16 21:50:51.066 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 117; name: separateVCF (116); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/9e/7da74de5edd8b0447a2fb8ebb9e1a3]
+Apr-16 21:50:51.069 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.069 [Task submitter] INFO  nextflow.Session - [5b/3575a2] Submitted process > separateVCF (118)
+Apr-16 21:50:51.193 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 114; name: separateVCF (113); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/a7/0e7fb03074330fb071bd69c5175700]
+Apr-16 21:50:51.196 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.196 [Task submitter] INFO  nextflow.Session - [c3/f745c7] Submitted process > separateVCF (126)
+Apr-16 21:50:51.214 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 116; name: separateVCF (115); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/96/fa50af43e1ea1c27004ec7e7bd2b0e]
+Apr-16 21:50:51.222 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.223 [Task submitter] INFO  nextflow.Session - [51/5bb7b8] Submitted process > separateVCF (122)
+Apr-16 21:50:51.377 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 115; name: separateVCF (114); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/e4/50d17456e5fa5bfa4eac188af98a0e]
+Apr-16 21:50:51.380 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.380 [Task submitter] INFO  nextflow.Session - [ee/9480a4] Submitted process > separateVCF (121)
+Apr-16 21:50:51.422 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 118; name: separateVCF (117); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/0b/6780d3527379215495153fce605b26]
+Apr-16 21:50:51.427 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.427 [Task submitter] INFO  nextflow.Session - [b0/bca9ee] Submitted process > separateVCF (124)
+Apr-16 21:50:51.434 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 190; name: separateVCF (189); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/da/ba925019410492a4bc677689f890cd]
+Apr-16 21:50:51.436 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.437 [Task submitter] INFO  nextflow.Session - [b4/d6a5b2] Submitted process > separateVCF (123)
+Apr-16 21:50:51.478 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 121; name: separateVCF (120); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/f8/0d285fdbdf4afde23a21ca6576a3af]
+Apr-16 21:50:51.481 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.481 [Task submitter] INFO  nextflow.Session - [de/731e97] Submitted process > separateVCF (125)
+Apr-16 21:50:51.514 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 120; name: separateVCF (119); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/34/efa4131e68b8eca2246036014ebe0b]
+Apr-16 21:50:51.517 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.517 [Task submitter] INFO  nextflow.Session - [68/6738fb] Submitted process > separateVCF (127)
+Apr-16 21:50:51.736 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 119; name: separateVCF (118); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/5b/3575a2be7b1b27437dd6df9466c5a5]
+Apr-16 21:50:51.739 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.740 [Task submitter] INFO  nextflow.Session - [b9/613c36] Submitted process > separateVCF (128)
+Apr-16 21:50:51.799 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 127; name: separateVCF (126); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c3/f745c745fa1adfdf6c199cfda9c50d]
+Apr-16 21:50:51.802 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.802 [Task submitter] INFO  nextflow.Session - [c9/ee01f8] Submitted process > separateVCF (134)
+Apr-16 21:50:51.817 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 123; name: separateVCF (122); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/51/5bb7b8d72598e271fbad3f845cb00d]
+Apr-16 21:50:51.824 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.824 [Task submitter] INFO  nextflow.Session - [8e/a87336] Submitted process > separateVCF (135)
+Apr-16 21:50:51.969 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 125; name: separateVCF (124); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b0/bca9ee9111eaf96dc2c144cbf878dd]
+Apr-16 21:50:51.973 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:51.974 [Task submitter] INFO  nextflow.Session - [cc/7cc202] Submitted process > separateVCF (136)
+Apr-16 21:50:52.009 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 122; name: separateVCF (121); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/ee/9480a411c8d67a663c0c17cdf5c6c5]
+Apr-16 21:50:52.014 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.014 [Task submitter] INFO  nextflow.Session - [46/022e0d] Submitted process > separateVCF (129)
+Apr-16 21:50:52.042 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 124; name: separateVCF (123); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b4/d6a5b2c2ad4911e73b786c22850cc0]
+Apr-16 21:50:52.046 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.047 [Task submitter] INFO  nextflow.Session - [e9/c83ce3] Submitted process > separateVCF (131)
+Apr-16 21:50:52.066 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 126; name: separateVCF (125); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/de/731e97dc9ed69f78390a2df0f16a60]
+Apr-16 21:50:52.069 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.070 [Task submitter] INFO  nextflow.Session - [d9/7e5c45] Submitted process > separateVCF (139)
+Apr-16 21:50:52.119 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 128; name: separateVCF (127); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/68/6738fbeb4fd6c57daa41af7a7e2bb0]
+Apr-16 21:50:52.128 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.128 [Task submitter] INFO  nextflow.Session - [c6/a927e8] Submitted process > separateVCF (137)
+Apr-16 21:50:52.331 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 129; name: separateVCF (128); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b9/613c361ecf3db24b1c6bc6882653a9]
+Apr-16 21:50:52.334 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.334 [Task submitter] INFO  nextflow.Session - [e7/263435] Submitted process > separateVCF (140)
+Apr-16 21:50:52.401 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 136; name: separateVCF (135); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/8e/a87336f3710783edadc59d90906c5b]
+Apr-16 21:50:52.405 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.405 [Task submitter] INFO  nextflow.Session - [2e/31f9f2] Submitted process > separateVCF (130)
+Apr-16 21:50:52.411 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 135; name: separateVCF (134); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c9/ee01f807ba1343e1e41cd5af4fd7f2]
+Apr-16 21:50:52.414 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.416 [Task submitter] INFO  nextflow.Session - [b7/a9634e] Submitted process > separateVCF (132)
+Apr-16 21:50:52.538 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 137; name: separateVCF (136); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/cc/7cc2024f00a118031969781fa73bd8]
+Apr-16 21:50:52.539 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 140; name: separateVCF (139); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/d9/7e5c45b78e64c8372ba29c0739ce85]
+Apr-16 21:50:52.540 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.540 [Task submitter] INFO  nextflow.Session - [61/d61fd4] Submitted process > separateVCF (133)
+Apr-16 21:50:52.543 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.544 [Task submitter] INFO  nextflow.Session - [70/f0cde8] Submitted process > separateVCF (146)
+Apr-16 21:50:52.610 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 132; name: separateVCF (131); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/e9/c83ce32208ecc95c81726ac697b911]
+Apr-16 21:50:52.613 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.613 [Task submitter] INFO  nextflow.Session - [63/1a46f2] Submitted process > separateVCF (138)
+Apr-16 21:50:52.651 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 130; name: separateVCF (129); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/46/022e0d957dbd10874aeda2b2127053]
+Apr-16 21:50:52.654 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.654 [Task submitter] INFO  nextflow.Session - [8e/7801a1] Submitted process > separateVCF (141)
+Apr-16 21:50:52.675 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 138; name: separateVCF (137); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c6/a927e854b2826b7db8fa5223cda9f2]
+Apr-16 21:50:52.678 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.678 [Task submitter] INFO  nextflow.Session - [5e/41b07b] Submitted process > separateVCF (142)
+Apr-16 21:50:52.891 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 131; name: separateVCF (130); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/2e/31f9f213f045f2ffcbfa3f34023b68]
+Apr-16 21:50:52.893 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.894 [Task submitter] INFO  nextflow.Session - [09/ad9e3c] Submitted process > separateVCF (147)
+Apr-16 21:50:52.915 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 141; name: separateVCF (140); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/e7/263435bf5618aa8cd0273fc654a5d0]
+Apr-16 21:50:52.918 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.918 [Task submitter] INFO  nextflow.Session - [ea/758c68] Submitted process > separateVCF (148)
+Apr-16 21:50:52.964 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 133; name: separateVCF (132); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b7/a9634e51eeae21d93a15cd481e52b6]
+Apr-16 21:50:52.967 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:52.967 [Task submitter] INFO  nextflow.Session - [b6/1951b6] Submitted process > separateVCF (143)
+Apr-16 21:50:53.008 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 147; name: separateVCF (146); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/70/f0cde8322527fa79acbdfd30aa4b41]
+Apr-16 21:50:53.011 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.011 [Task submitter] INFO  nextflow.Session - [98/c0b38c] Submitted process > separateVCF (150)
+Apr-16 21:50:53.034 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 134; name: separateVCF (133); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/61/d61fd4cf5d9b2b7920a54dd2babc4d]
+Apr-16 21:50:53.037 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.037 [Task submitter] INFO  nextflow.Session - [2e/07d427] Submitted process > separateVCF (144)
+Apr-16 21:50:53.209 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 139; name: separateVCF (138); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/63/1a46f2344bdf52c61202fef1fa8353]
+Apr-16 21:50:53.212 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.212 [Task submitter] INFO  nextflow.Session - [e2/da767a] Submitted process > separateVCF (151)
+Apr-16 21:50:53.243 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 143; name: separateVCF (142); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/5e/41b07b2f49505ecfe52c4863bf31f6]
+Apr-16 21:50:53.247 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.247 [Task submitter] INFO  nextflow.Session - [af/500522] Submitted process > separateVCF (145)
+Apr-16 21:50:53.263 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 142; name: separateVCF (141); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/8e/7801a1e8caa8978d346e2453b33ca9]
+Apr-16 21:50:53.266 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.267 [Task submitter] INFO  nextflow.Session - [07/65ee27] Submitted process > separateVCF (155)
+Apr-16 21:50:53.454 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 149; name: separateVCF (148); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/ea/758c68d932d37d5e7cb646356558f8]
+Apr-16 21:50:53.460 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.460 [Task submitter] INFO  nextflow.Session - [68/08c7ef] Submitted process > separateVCF (156)
+Apr-16 21:50:53.480 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 151; name: separateVCF (150); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/98/c0b38c4d06feebf46a72e3e6d67182]
+Apr-16 21:50:53.483 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.483 [Task submitter] INFO  nextflow.Session - [87/0483fa] Submitted process > separateVCF (158)
+Apr-16 21:50:53.498 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 144; name: separateVCF (143); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b6/1951b692326ed43ecb16e3c9008782]
+Apr-16 21:50:53.501 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.501 [Task submitter] INFO  nextflow.Session - [c1/b54ade] Submitted process > separateVCF (149)
+Apr-16 21:50:53.513 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 148; name: separateVCF (147); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/09/ad9e3c99093bf2d221441c5f2f2c9b]
+Apr-16 21:50:53.531 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.531 [Task submitter] INFO  nextflow.Session - [bd/87d18f] Submitted process > separateVCF (152)
+Apr-16 21:50:53.572 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 145; name: separateVCF (144); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/2e/07d427e89ad6a9993f9f52434bec92]
+Apr-16 21:50:53.576 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.576 [Task submitter] INFO  nextflow.Session - [a5/c8142d] Submitted process > separateVCF (162)
+Apr-16 21:50:53.812 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 146; name: separateVCF (145); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/af/500522f4ed1a0b1e6cf07debcb76bc]
+Apr-16 21:50:53.815 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.815 [Task submitter] INFO  nextflow.Session - [e2/8b0701] Submitted process > separateVCF (153)
+Apr-16 21:50:53.833 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 156; name: separateVCF (155); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/07/65ee27b0c3e8de3eb93d78805a8b6c]
+Apr-16 21:50:53.835 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.836 [Task submitter] INFO  nextflow.Session - [62/6bb699] Submitted process > separateVCF (163)
+Apr-16 21:50:53.850 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 152; name: separateVCF (151); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/e2/da767aeb2297e330985356fdb6038a]
+Apr-16 21:50:53.854 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.854 [Task submitter] INFO  nextflow.Session - [f2/c4b5c3] Submitted process > separateVCF (154)
+Apr-16 21:50:53.974 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 159; name: separateVCF (158); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/87/0483fa4636c482c8edd18cf1f1ce5a]
+Apr-16 21:50:53.983 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:53.983 [Task submitter] INFO  nextflow.Session - [61/c524bd] Submitted process > separateVCF (164)
+Apr-16 21:50:54.018 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 157; name: separateVCF (156); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/68/08c7ef89bb8168743f385faa1a487b]
+Apr-16 21:50:54.021 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.021 [Task submitter] INFO  nextflow.Session - [96/4df13a] Submitted process > separateVCF (165)
+Apr-16 21:50:54.084 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 163; name: separateVCF (162); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/a5/c8142dbbf5cd25157f88d7b10f796a]
+Apr-16 21:50:54.088 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.088 [Task submitter] INFO  nextflow.Session - [33/a14f6c] Submitted process > separateVCF (167)
+Apr-16 21:50:54.150 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 153; name: separateVCF (152); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/bd/87d18f82585cb7acae0f6fc741f311]
+Apr-16 21:50:54.152 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.152 [Task submitter] INFO  nextflow.Session - [b1/1ad498] Submitted process > separateVCF (157)
+Apr-16 21:50:54.191 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 150; name: separateVCF (149); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/c1/b54ade96118dc3a70ccd10af479a01]
+Apr-16 21:50:54.194 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.194 [Task submitter] INFO  nextflow.Session - [dc/0d1c29] Submitted process > separateVCF (159)
+Apr-16 21:50:54.356 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 155; name: separateVCF (154); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/f2/c4b5c31b4acd4495e6f9a59c8340fa]
+Apr-16 21:50:54.359 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.359 [Task submitter] INFO  nextflow.Session - [82/83faab] Submitted process > separateVCF (161)
+Apr-16 21:50:54.371 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 154; name: separateVCF (153); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/e2/8b0701cea6eb328d8fcf6e820b7aa4]
+Apr-16 21:50:54.374 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.374 [Task submitter] INFO  nextflow.Session - [73/6329df] Submitted process > separateVCF (160)
+Apr-16 21:50:54.405 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 164; name: separateVCF (163); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/62/6bb699dffa066b86463f9d17e617c6]
+Apr-16 21:50:54.408 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.408 [Task submitter] INFO  nextflow.Session - [3d/6c7623] Submitted process > separateVCF (166)
+Apr-16 21:50:54.539 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 165; name: separateVCF (164); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/61/c524bdc737fd4c40a5f096e9bd191d]
+Apr-16 21:50:54.542 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.542 [Task submitter] INFO  nextflow.Session - [0c/bf4925] Submitted process > separateVCF (168)
+Apr-16 21:50:54.567 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 166; name: separateVCF (165); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/96/4df13a13fd3306f7cb8c9d1783e81b]
+Apr-16 21:50:54.570 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.570 [Task submitter] INFO  nextflow.Session - [c3/4480b5] Submitted process > separateVCF (173)
+Apr-16 21:50:54.702 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 168; name: separateVCF (167); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/33/a14f6c022b47abf004b67f330e9252]
+Apr-16 21:50:54.703 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 158; name: separateVCF (157); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/b1/1ad498cd9036d9f9f003cb6b813ad3]
+Apr-16 21:50:54.704 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 160; name: separateVCF (159); status: COMPLETED; exit: 0; error: -; workDir: /Users/work/Documents/ngs/hs/paper202208/pipeline/pipelineTemplates/population_analysis_nextflow/population_scale_wgs_nextflow/work/dc/0d1c29fc09ee7fa016cd0c8c96e156]
+Apr-16 21:50:54.705 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.706 [Task submitter] INFO  nextflow.Session - [c9/91207b] Submitted process > separateVCF (174)
+Apr-16 21:50:54.708 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.708 [Task submitter] INFO  nextflow.Session - [90/ab4e46] Submitted process > separateVCF (175)
+Apr-16 21:50:54.712 [Task submitter] DEBUG nextflow.executor.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-16 21:50:54.712 [Task submitter] INFO  nextflow.Session - [a5/3cd18b] Submitted process > separateVCF (169)
+Apr-16 21:50:54.862 [SIGINT handler] DEBUG nextflow.Session - Session aborted -- Cause: SIGINT
+Apr-16 21:50:54.906 [SIGINT handler] DEBUG nextflow.Session - The following nodes are still active:
+[process] separateVCF_by_samples
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] manipulate_segment
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] manipulate_segment_samples
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] merge_samples
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] concatanate_segments
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+Apr-16 21:50:54.908 [main] DEBUG nextflow.Session - Session await > all process finished
+Apr-16 21:50:54.909 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Apr-16 21:50:54.930 [main] WARN  n.processor.TaskPollingMonitor - Killing pending tasks (8)
+Apr-16 21:50:54.985 [main] DEBUG nextflow.executor.LocalTaskHandler - Unable to kill separateVCF (160) -- command: kill -TERM 40933; exit: 1 
+ bash: line 0: kill: (40933) - No such process
+
+Apr-16 21:50:54.991 [main] DEBUG nextflow.executor.LocalTaskHandler - Unable to kill separateVCF (166) -- command: kill -TERM 40947; exit: 1 
+ bash: line 0: kill: (40947) - No such process
+
+Apr-16 21:50:54.997 [main] DEBUG nextflow.executor.LocalTaskHandler - Unable to kill separateVCF (168) -- command: kill -TERM 40997; exit: 1 
+ bash: line 0: kill: (40997) - No such process
+
+Apr-16 21:50:55.002 [main] DEBUG nextflow.executor.LocalTaskHandler - Unable to kill separateVCF (173) -- command: kill -TERM 41002; exit: 1 
+ bash: line 0: kill: (41002) - No such process
+
+Apr-16 21:50:55.007 [main] DEBUG nextflow.executor.LocalTaskHandler - Unable to kill separateVCF (174) -- command: kill -TERM 41044; exit: 1 
+ bash: line 0: kill: (41044) - No such process
+
+Apr-16 21:50:55.013 [main] DEBUG nextflow.executor.LocalTaskHandler - Unable to kill separateVCF (175) -- command: kill -TERM 41045; exit: 1 
+ bash: line 0: kill: (41045) - No such process
+
+Apr-16 21:50:55.018 [main] DEBUG nextflow.executor.LocalTaskHandler - Unable to kill separateVCF (169) -- command: kill -TERM 41046; exit: 1 
+ bash: line 0: kill: (41046) - No such process
+
+Apr-16 21:50:55.019 [main] DEBUG nextflow.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=168; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=956; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=8; succeedDuration=1m 26s; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=8; peakCpus=8; peakMemory=0; ]
+Apr-16 21:50:55.027 [main] DEBUG nextflow.CacheDB - Closing CacheDB done
+Apr-16 21:50:55.041 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
