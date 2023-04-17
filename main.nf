@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-params.publishDir = '/Users/work/Documents/ngs/hs/paper202208/pipeline/results'
+params.publishDir = './results'
 
 params.VCFfile = './merged.two.vcf.gz'
 params.input = './hg38chr25int5e6.bed'
