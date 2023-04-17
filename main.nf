@@ -1,5 +1,5 @@
 #!/usr/bin/env nextflow
-
+// Testing
 params.publishDir = './results'
 
 params.VCFfile = './merged.two.vcf.gz'
