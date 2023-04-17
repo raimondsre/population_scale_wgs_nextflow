@@ -111,7 +111,7 @@ process manipulate_segment_samples {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi"), val(order_samp), val(sample) into segments_sample_ready_for_collection
 
  """
- bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Ov -o ${remExt(vcf.name)}.setID.vcf.gz
+ bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
