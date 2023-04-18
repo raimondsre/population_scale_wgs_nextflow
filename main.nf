@@ -3,7 +3,7 @@
 params.publishDir = './results'
 
 params.VCFfile = './merged.two.vcf.gz'
-params.input = './hg38chr25int5e6.bed'
+params.input = './intervals50mil'
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file
