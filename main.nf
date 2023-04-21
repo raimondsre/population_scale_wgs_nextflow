@@ -3,7 +3,7 @@
 params.publishDir = './results'
 
 params.VCFfile = './merged.two.vcf.gz'
-params.input = './intervals50mil'
+params.intervalsBed = './hg38chr25int5e6.bed'
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file
@@ -14,7 +14,7 @@ Channel
 // Intervals
 counter = 0
 Channel
- .fromPath(params.input)
+ .fromPath(params.intervalsBed)
  .splitCsv(header:false, sep:'\t',strip:true)
  .map { row -> tuple(row[0], row[1], row[2], row[0]+"_"+row[1]+"_"+row[2]) }
  .map {value ->
