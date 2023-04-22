@@ -87,7 +87,7 @@ process separateVCF_by_samples {
 
 // Customise manipulation steps
 process manipulate_segment {
- publishDir = params.publishDir
+ //publishDir = params.publishDir
  
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
@@ -102,7 +102,7 @@ process manipulate_segment {
 }
 
 process manipulate_segment_samples {
- publishDir = params.publishDir
+ //publishDir = params.publishDir
  
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_and_sample
@@ -153,7 +153,7 @@ segments_sample_ready_for_collection_collected = segments_sample_ready_for_colle
 
 // Concatanate segments
 process concatanate_segments {
- publishDir = params.publishDir
+ publishDir = params.publishDir, mode: 'move', overwrite: false
 
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
