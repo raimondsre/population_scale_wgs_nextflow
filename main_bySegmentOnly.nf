@@ -1,5 +1,5 @@
 #!/usr/bin/env nextflow
-// Testin
+// main_bySegmentOnly.nf
 params.publishDir = './results'
 
 params.VCFfile = './merged.two.vcf.gz'
@@ -54,6 +54,7 @@ vcfIntervals = intervals1.combine(vcf)
 
 // Separate VCF into fragments, has to be before separating by sample
 process separateVCF {
+ publishDir params.publishDir
  
  input:
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals
@@ -87,7 +88,7 @@ process separateVCF {
 
 // Customise manipulation steps
 process manipulate_segment {
- //publishDir = params.publishDir
+ publishDir params.publishDir
  
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
