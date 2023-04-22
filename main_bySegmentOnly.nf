@@ -55,7 +55,7 @@ vcfIntervals = intervals1.combine(vcf)
 // Separate VCF into fragments, has to be before separating by sample
 process separateVCF {
  publishDir params.publishDir
- 
+
  input:
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals
  
@@ -154,7 +154,7 @@ segments_ready_for_collection_collected = segments_ready_for_collection
 
 // Concatanate segments
 process concatanate_segments {
- publishDir params.publishDir, mode: 'move', overwrite: false
+ publishDir params.publishDir, mode: 'move', overwrite: true
 
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
