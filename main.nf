@@ -3,7 +3,7 @@
 params.publishDir = './results'
 
 params.VCFfile = './merged.two.vcf.gz'
-params.intervalsBed = './hg38chr25int5e6.bed'
+params.intervalsBed = './hg38intervals50mil'
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file
@@ -153,7 +153,7 @@ segments_sample_ready_for_collection_collected = segments_sample_ready_for_colle
 
 // Concatanate segments
 process concatanate_segments {
- publishDir params.publishDir, mode: 'move', overwrite: false
+ publishDir params.publishDir, mode: 'move', overwrite: true
 
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
