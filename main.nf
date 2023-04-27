@@ -4,7 +4,7 @@ params.publishDir = './results'
 
 params.VCFfile = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
-
+params.samplesToKeep = './keep.samples'
 // Define channels for intervals and initial .vcf.gz file
 // Input file
 Channel
@@ -54,7 +54,7 @@ vcfIntervals = intervals1.combine(vcf)
 
 // Separate VCF into fragments, has to be before separating by sample
 process separateVCF {
- publishDir params.publishDir
+ //publishDir params.publishDir
 
  input:
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals
@@ -88,7 +88,8 @@ process separateVCF {
 
 // Customise manipulation steps
 process manipulate_segment {
- publishDir params.publishDir
+ //publishDir params.publishDir
+ //cpus 16
  
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
@@ -155,7 +156,7 @@ segments_ready_for_collection_collected = segments_ready_for_collection
 // Concatanate segments
 process concatanate_segments {
  publishDir params.publishDir, mode: 'move', overwrite: true
- cpus 16
+ //cpus 16
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
  output:
