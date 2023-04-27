@@ -1,8 +1,10 @@
 #!/usr/bin/env nextflow
 
+// Pipeline is useful to catch individual sample issues
+
 // Important notes
-// 1. Only variants <50 bp
-// 2. Only variants AC >= 3
+// 1. Only variants >50 bp, including SVs and MEIs
+// 2. Only variants AC >= 1
 
 // Parameters //
 params.publishDir = '/Users/work/Documents/ngs/hs/paper202208/pipeline/results'
@@ -11,6 +13,7 @@ params.input = './hg38chr25int5e6.bed'
 // Constants
 params.baseDir='/home_beegfs/groups/bmc/genome_analysis_tmp/hs'
 params.beegfProgs = '/home_beegfs/raimondsre/programmas'
+params.annotsvDir = '/home_beegfs/raimondsre/programmas/AnnotSV/bin/AnnotSV'
 
 // Channels //
 // Define channels for intervals and initial .vcf.gz file
@@ -91,59 +94,46 @@ process separateVCF_by_samples {
  """
 }
 
-// Vep <50 bp variant annotation and counting
-process vep_snp_annotate_segments {
+// Annotsv >50 bp variant annotation and counting
+process annotsv_sv_annotate_segments {
  
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
 
  output:
- file '*vepCounts.txt' into vepCounts_separated_by_segment_ch
+ file '*vepCounts.txt' into annotsvCounts_separated_by_segment_ch
  //set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
  # Variant annotation
- bcftools view -c3 ${vcf} | bcftools sort -Oz -o ${input}.${intervalname}.ac3.vcf.gz
- singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
-    --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
-    --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
-    -o ${input}.${intervalname}.ac3.vep.vcf.gz
-    -i ${input}.${intervalname}.ac3.vcf.gz
-  # VCF to txt
-  ${params.beegfProgs}/bcftools-1.15.1/bcftools +split-vep -d \
-    -f '%CHROM:%POS:%REF:%ALT %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF\n' \
-    ${input}.${intervalname}.ac3.vep.vcf.gz | \
-    awk '!a[\$0]++' > ${intervalname}.${input}.vep 
+ bcftools view -c1 ${vcf} | bcftools sort -Oz -o ${input}.${intervalname}.ac1.vcf.gz
+ ${params.annotsvDir} -SVinputFile ${input}.${intervalname}.ac1.vcf.gz \
+                -outputFile ${intervalname}.${input}.ac1.annotsv \
+                -genomeBuild GRCh38 \
+                -overlap 95
   # Count variants by type, function and location
-    Rscript vep_annotated_variant_counting.R ${intervalname} ${input}
+    Rscript annotsv_annotated_variant_counting.R ${intervalname} ${input}
  """
 }
-process vep_snp_annotate_segments_by_sample {
+process annotsv_sv_annotate_segments_by_sample {
  publishDir = params.publishDir
  
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_and_sample
 
  output:
- file '*vepCounts.txt' into vepCounts_separated_by_segment_and_sample_ch
+ file '*vepCounts.txt' into annotsvCounts_separated_by_segment_and_sample_ch
  //set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi"), val(order_samp), val(sample) into segments_sample_ready_for_collection
 
  """
   # Variant annotation
-  # c1 to filter out only observed variant for this sample
- bcftools view -c1 ${vcf} | bcftools sort -Oz -o ${input}.${intervalname}.${sample}.ac3.vcf.gz
- singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
-    --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
-    --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
-    -o ${input}.${intervalname}.${sample}.ac3.vep.vcf.gz
-    -i ${input}.${intervalname}.${sample}.ac3.vcf.gz
-  # VCF to txt
-  ${params.beegfProgs}/bcftools-1.15.1/bcftools +split-vep -d \
-    -f '%CHROM:%POS:%REF:%ALT %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF\n' \
-    ${input}.${intervalname}.${sample}.ac3.vep.vcf.gz | \
-    awk '!a[\$0]++' > ${intervalname}.${sample}.${input}.vep 
+ bcftools view -c1 ${vcf} | bcftools sort -Oz -o ${input}.${intervalname}.${sample}.ac1.vcf.gz
+ ${params.annotsvDir} -SVinputFile ${input}.${intervalname}.${sample}.ac1.vcf.gz \
+                -outputFile ${intervalname}.${input}.ac1.annotsv \
+                -genomeBuild GRCh38 \
+                -overlap 95
   # Count variants by type, function and location
-    Rscript vep_annotated_variant_counting.R ${intervalname} ${input} ${sample}
+    Rscript annotsv_annotated_variant_counting.R ${intervalname} ${input}
  """
 }
 
@@ -153,17 +143,17 @@ process vep_snp_annotate_segments_by_sample {
 //### Merging
 //###
 
-process vep_snp_annotate_merge {
+process annotsv_sv_annotate_merge {
        publishDir = params.publishDir
        scratch = '/scratch'
        input:
-       file (vep_annotated_counts) from vepCounts_separated_by_segment_ch.concat(vepCounts_separated_by_segment_and_sample_ch)
+       file (vep_annotated_counts) from annotsvCounts_separated_by_segment_ch.concat(annotsvCounts_separated_by_segment_and_sample_ch)
 
        output:
-       file 'vepCounts.snp.total.txt'
+       file 'annotsvCounts.sv.total.txt'
        script:
        """
-       cat *vepCounts.txt > vepCounts.snp.total.txt
+       cat *annotsvCounts.txt > annotsvCounts.sv.total.txt
        """
 }
 /*
