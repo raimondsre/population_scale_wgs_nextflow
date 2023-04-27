@@ -90,7 +90,7 @@ process separateVCF {
 process manipulate_segment {
  //publishDir params.publishDir
  //cpus 16
- 
+
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
 
@@ -156,7 +156,7 @@ segments_ready_for_collection_collected = segments_ready_for_collection
 // Concatanate segments
 process concatanate_segments {
  publishDir params.publishDir, mode: 'move', overwrite: true
- //cpus 16
+ cpus 16
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
  output:
