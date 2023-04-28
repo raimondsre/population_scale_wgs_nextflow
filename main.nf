@@ -106,7 +106,7 @@ process concatanate_segments {
  output:
  file (outputVCF)
  script:
- outputVCF = input+"ChrPos.539samples.splitMultiall.c3.vcf.gz"
+ outputVCF = input+".ChrPos.539samples.splitMultiall.c3.vcf.gz"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  # --naive is risky as it does not check if samples match.
