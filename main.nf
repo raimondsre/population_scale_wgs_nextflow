@@ -65,31 +65,16 @@ process separateVCF {
  script:
  input = remExt(vcf.name) 
  """
- bcftools view ${vcf} ${chr}:${start}-${stop} -Oz -o ${input}.${intervalname}.vcf.gz
+ bcftools view ${vcf} ${chr}:${start}-${stop} |
+ bcftools view --exclude 'POS<${start} && POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
  bcftools index -t ${input}.${intervalname}.vcf.gz
  """
 }
 
-// Separate segment into samples
-// ( separated_by_segment, separated_by_segment_split_samples ) = separated_by_segment.into(2)
-// separated_by_segment_split_samples = separated_by_segment_split_samples.combine(samples_ch1)
-// process separateVCF_by_samples {
-//  input:
-//  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_split_samples
-
-//  output:
-//  set val(order), val(intervalname), val(input), file("${input}.${intervalname}.${sample}.vcf.gz"), file("${input}.${intervalname}.${sample}.vcf.gz.tbi"), val(order_samp), val(sample) into separated_by_segment_and_sample
-//  script:
-//  """
-//  bcftools view ${vcf} -s ${sample} -Oz -o ${input}.${intervalname}.${sample}.vcf.gz
-//  bcftools index -t ${input}.${intervalname}.${sample}.vcf.gz
-//  """
-// }
-
 // Customise manipulation steps
 process manipulate_segment {
  //publishDir params.publishDir
- //cpus 16
+ cpus 2
 
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
@@ -98,55 +83,14 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
- bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
+ bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} |
+ bcftools view -S ${params.samplesToKeep} | 
+ bcftools norm --multiallelics - |
+ bcftools view -c3 -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
 
-// process manipulate_segment_samples {
-//  //publishDir = params.publishDir
- 
-//  input:
-//  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_and_sample
-
-//  output:
-//  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi"), val(order_samp), val(sample) into segments_sample_ready_for_collection
-
-//  """
-//  bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
-//  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
-//  """
-// }
-
-//###
-//### Merging
-//###
-// segments_sample_ready_for_collection_collected = segments_sample_ready_for_collection
-//  .toSortedList({ a,b -> a[5] <=> b[5] })
-//  .flatten().buffer( size: 7 )
-//  .groupTuple(by:[0,1,2]) 
-// // Merge samples
-// process merge_samples {
-//  input:
-//  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all), val(order_samp), val(sample_all) from segments_sample_ready_for_collection_collected
-//  output:
-//   set val(order), val(intervalname), val(input), file("merged.${intervalname}.vcf.gz"), file("merged.${intervalname}.vcf.gz.tbi"), val(order_samp), val(sample_all) into segments_sample_ready_for_collection_merged
-
-//  script:
-//  """
-//  bcftools merge ${vcf_all.join(' ')} -Oz -o merged.${intervalname}.vcf.gz
-//  bcftools index -t merged.${intervalname}.vcf.gz
-//  """
-// }
-//segments_sample_ready_for_collection_merged.subscribe {println it}
-
-// segments_sample_ready_for_collection_collected = segments_sample_ready_for_collection_merged
-//  .map { tuple(it[0],it[1],it[2],it[3],it[4]) }
-//  .toSortedList({ a,b -> a[0] <=> b[0] })
-//  .flatten().buffer ( size: 5 )
-//  .groupTuple(by:[2])
-//segments_sample_ready_for_collection_collected.subscribe {println it}
- 
 // Arrange segments and group by input file name
 segments_ready_for_collection_collected = segments_ready_for_collection
 .toSortedList({ a,b -> a[0] <=> b[0] })
@@ -156,7 +100,7 @@ segments_ready_for_collection_collected = segments_ready_for_collection
 // Concatanate segments
 process concatanate_segments {
  publishDir params.publishDir, mode: 'move', overwrite: true
- cpus 16
+ //cpus 16
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
  output:
@@ -164,6 +108,7 @@ process concatanate_segments {
  script:
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
+ # --naive is risky as it does not check if samples match.
  bcftools concat --naive -f vcfFiles.txt -Oz -o merged.vcf.gz
  """
 }
