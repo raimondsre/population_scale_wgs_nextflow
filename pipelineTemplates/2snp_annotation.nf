@@ -83,7 +83,7 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.vep") //into segments_ready_for_collection
 
  """
- echo "${vcf}"
+ touch ${remExt(vcf.name)}.vep
  
  """
 }
