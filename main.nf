@@ -105,10 +105,11 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
  output:
- set file("${outputVCF}"), file("${outputVCF}.tbi")
+ set file(outputVCF), file(outputVCFtbi)
 
  script:
  outputVCF = input+".ChrPos.539samples.splitMultiall.c3.vcf.gz"
+ outputVCFtbi = outputVCF+".tbi"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  # --naive is risky as it does not check if samples match.
