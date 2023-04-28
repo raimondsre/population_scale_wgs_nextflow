@@ -104,12 +104,12 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
  output:
- file ("merged.vcf.gz")
+ file (outputVCF)
  script:
- output = ${input}+"ChrPos.539samples.splitMultiall.c3"
+ outputVCF = ${input}+"ChrPos.539samples.splitMultiall.c3.vcf.gz"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  # --naive is risky as it does not check if samples match.
- bcftools concat --naive -f vcfFiles.txt -Oz -o ${output}
+ bcftools concat --naive -f vcfFiles.txt -Oz -o ${outputVCF}
  """
 }
