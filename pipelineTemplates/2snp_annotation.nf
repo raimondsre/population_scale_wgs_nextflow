@@ -120,3 +120,4 @@ process concatanate_segments {
  bcftools index -t ${outputVCF}
  """
 }
+*/
