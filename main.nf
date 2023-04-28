@@ -84,7 +84,7 @@ process manipulate_segment {
 
  """
  bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} |
- bcftools view -S ${params.samplesToKeep} | 
+ bcftools view -S ${params.samplesToKeep} --force-samples | 
  bcftools norm --multiallelics - |
  bcftools view -c3 -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
