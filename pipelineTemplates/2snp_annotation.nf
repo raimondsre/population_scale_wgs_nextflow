@@ -84,6 +84,7 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.vep") //into segments_ready_for_collection
 
  """
+ echo "${vcf}"
  singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
     --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
     --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
