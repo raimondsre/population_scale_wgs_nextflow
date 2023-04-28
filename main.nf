@@ -66,7 +66,8 @@ process separateVCF {
  input = remExt(vcf.name) 
  """
  bcftools view ${vcf} ${chr}:${start}-${stop} |
- bcftools view --exclude 'POS<${start} && POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+ bcftools view --exclude 'POS<${start}' |
+ bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
  bcftools index -t ${input}.${intervalname}.vcf.gz
  """
 }
@@ -104,12 +105,14 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
  output:
- file (outputVCF)
+ set file(outputVCF), file(outputVCF+".tbi")
+
  script:
  outputVCF = input+".ChrPos.539samples.splitMultiall.c3.vcf.gz"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  # --naive is risky as it does not check if samples match.
  bcftools concat --naive -f vcfFiles.txt -Oz -o ${outputVCF}
+ bcftools index -t ${outputVCF}
  """
 }
