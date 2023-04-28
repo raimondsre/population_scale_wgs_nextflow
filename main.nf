@@ -105,7 +105,7 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
  output:
- set file(outputVCF)
+ set file(outputVCF), file(outputVCF+".tbi")
 
  script:
  outputVCF = input+".ChrPos.539samples.splitMultiall.c3.vcf.gz"
