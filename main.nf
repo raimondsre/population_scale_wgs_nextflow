@@ -74,7 +74,7 @@ process separateVCF {
 // Customise manipulation steps
 process manipulate_segment {
  //publishDir params.publishDir
- cpus 2
+ cpus 1
 
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
