@@ -4,7 +4,6 @@ params.publishDir = './results'
 
 params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
-params.samplesToKeep = './keep.samples'
 // Define channels for intervals and initial .vcf.gz file
 // Input file
 Channel
@@ -85,7 +84,11 @@ process manipulate_segment {
 
  """
  echo "${vcf}"
- singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
+ 
+ """
+}
+/*
+singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
     --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
     --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
     -i ${vcf} \
@@ -95,9 +98,7 @@ process manipulate_segment {
     -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF\n' \
     ${remExt(vcf.name)}.vep.vcf.gz | \
     awk '!a[\$0]++' > ${remExt(vcf.name)}.vep
- """
-}
-/*
+
 // Arrange segments and group by input file name
 segments_ready_for_collection_collected = segments_ready_for_collection
 .toSortedList({ a,b -> a[0] <=> b[0] })
