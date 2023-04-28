@@ -2,13 +2,13 @@
 // main_bySegmentOnly.nf
 params.publishDir = './results'
 
-params.VCFfile = './merged.two.vcf.gz'
+params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
 params.samplesToKeep = './keep.samples'
 // Define channels for intervals and initial .vcf.gz file
 // Input file
 Channel
- .fromPath(params.VCFfile)
+ .fromPath(params.inputVCF)
  .map { tuple(it, it+".tbi") }
  .into { vcf; vcf_extractSamples }
 // Intervals
