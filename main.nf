@@ -106,9 +106,10 @@ process concatanate_segments {
  output:
  file ("merged.vcf.gz")
  script:
+ output = ${input}+"ChrPos.539samples.splitMultiall.c3"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  # --naive is risky as it does not check if samples match.
- bcftools concat --naive -f vcfFiles.txt -Oz -o merged.vcf.gz
+ bcftools concat --naive -f vcfFiles.txt -Oz -o ${output}
  """
 }
