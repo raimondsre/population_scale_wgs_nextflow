@@ -80,7 +80,7 @@ process manipulate_segment_vep {
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
 
  output:
- set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.vep.vcf.gz"), file("${remExt(vcf.name)}.vep.vcf.gz.tbi") into segments_ready_for_collection
+ set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.vep.vcf.gz") into segments_ready_for_collection
 
  script:
  vcf_name = vcf.name
@@ -92,8 +92,6 @@ process manipulate_segment_vep {
     --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
     -i vcf_file/${vcf_name} \
     -o ${remExt(vcf.name)}.vep.vcf.gz
- bcftools index -t ${remExt(vcf.name)}.vep.vcf.gz
-
  """
 }
 /*
