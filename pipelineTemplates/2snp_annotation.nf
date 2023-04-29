@@ -70,7 +70,7 @@ process separateVCF {
        bcftools index -t ${input}.${intervalname}.vcf.gz
        
        entries=1
-       if [ $(bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l) -eq 0 ]; then entries=0; fi
+       if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then entries=0; fi
  """
 }
 
