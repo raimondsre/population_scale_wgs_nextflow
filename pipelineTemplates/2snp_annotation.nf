@@ -116,12 +116,12 @@ process concatanate_segments {
  publishDir params.publishDir, mode: 'move', overwrite: true
  //cpus 16
  input:
- set val(order), val(intervalname), val(input), file(vep) from segments_ready_for_collection_collected 
+ set val(order), val(intervalname), val(input), file(vep_all) from segments_ready_for_collection_collected 
  output:
  set file("merged.vep.txt")
  script:
  """
- cat ${vcf_all.join('\n')} > merged.vep.txt
+ cat ${vep_all.join('\n')} > merged.vep.txt
  
  """
 }
