@@ -92,7 +92,7 @@ process manipulate_segment_vep {
  """
  mkdir vcf_file
  cp ${vcf} vcf_file/  
- singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
+ singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline --canonical \
     --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
     --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
     -i vcf_file/${vcf_name} \
