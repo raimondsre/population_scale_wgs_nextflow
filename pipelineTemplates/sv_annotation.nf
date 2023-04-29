@@ -74,8 +74,10 @@ process separateVCF {
  script:
  input = remExt(vcf.name) 
  """
- bcftools view ${vcf} ${chr}:${start}-${stop} -Oz -o ${input}.${intervalname}.vcf.gz
- bcftools index -t ${input}.${intervalname}.vcf.gz
+       bcftools view ${vcf} ${chr}:${start}-${stop} |
+       bcftools view --exclude 'POS<${start}' |
+       bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+       bcftools index -t ${input}.${intervalname}.vcf.gz
  """
 }
 // Separate segment into samples

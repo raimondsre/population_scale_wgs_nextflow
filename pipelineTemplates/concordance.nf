@@ -81,10 +81,11 @@ process separateVCF {
        script:
        input = remExt(vcf.name) 
        """
-       bcftools view ${vcf} ${chr}:${start}-${stop} |
-       bcftools view -S ${samples} |
-       bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' -Oz -o ${input}.${intervalname}.vcf.gz
-       bcftools index -t ${input}.${intervalname}.vcf.gz
+              bcftools view ${vcf} ${chr}:${start}-${stop} |
+              bcftools view -S ${samples} |
+              bcftools view --exclude 'POS<${start}' |
+              bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+              bcftools index -t ${input}.${intervalname}.vcf.gz
        """
 }
 

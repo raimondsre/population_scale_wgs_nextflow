@@ -5,7 +5,7 @@
 // 2. Only variants AC >= 3
 
 // Parameters //
-params.publishDir = '/Users/work/Documents/ngs/hs/paper202208/pipeline/results'
+params.publishDir = './results'
 params.VCFfile = './merged.two.vcf.gz'
 params.input = './hg38chr25int5e6.bed'
 // Constants
@@ -71,8 +71,10 @@ process separateVCF {
  script:
  input = remExt(vcf.name) 
  """
- bcftools view ${vcf} ${chr}:${start}-${stop} -Oz -o ${input}.${intervalname}.vcf.gz
- bcftools index -t ${input}.${intervalname}.vcf.gz
+       bcftools view ${vcf} ${chr}:${start}-${stop} |
+       bcftools view --exclude 'POS<${start}' |
+       bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+       bcftools index -t ${input}.${intervalname}.vcf.gz
  """
 }
 // Separate segment into samples
@@ -110,7 +112,7 @@ process vep_snp_annotate_segments {
     -o ${input}.${intervalname}.ac3.vep.vcf.gz
     -i ${input}.${intervalname}.ac3.vcf.gz
   # VCF to txt
-  ${params.beegfProgs}/bcftools-1.15.1/bcftools +split-vep -d \
+  bcftools +split-vep -d \
     -f '%CHROM:%POS:%REF:%ALT %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF\n' \
     ${input}.${intervalname}.ac3.vep.vcf.gz | \
     awk '!a[\$0]++' > ${intervalname}.${input}.vep 
