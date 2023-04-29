@@ -92,7 +92,7 @@ process manipulate_segment_vep {
  singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
     --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
     --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
-    -i vcf_file/${vcf_name} \
+    -i ${vcf} \
     -o ${remExt(vcf.name)}.vep.vcf.gz
   # VCF to txt
   bcftools +split-vep -d \
