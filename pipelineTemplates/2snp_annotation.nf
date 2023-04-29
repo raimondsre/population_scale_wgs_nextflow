@@ -80,25 +80,14 @@ process manipulate_segment_vep {
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
 
  output:
- set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.vep"), file("${remExt(vcf.name)}.setID.vcf.gz") //into segments_ready_for_collection
+ set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz") //into segments_ready_for_collection
 
  script:
  vcf_name = vcf.name
  """
  bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
- mkdir vcf_file
- cp ${vcf} vcf_file/
- singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
-    --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
-    --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
-    -i vcf_file/${vcf_name} \
-    -o ${remExt(vcf.name)}.vep.vcf.gz
-  # VCF to txt
-  bcftools +split-vep -d \
-    -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF\n' \
-    ${remExt(vcf.name)}.vep.vcf.gz | \
-    awk '!a[\$0]++' > ${remExt(vcf.name)}.vep
+ 
  """
 }
 /*
