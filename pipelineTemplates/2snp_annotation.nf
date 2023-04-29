@@ -72,7 +72,7 @@ process separateVCF {
 }
 
 // Customise manipulation steps
-process manipulate_segment {
+process manipulate_segment_vep {
  publishDir params.publishDir
  cpus 1
 
@@ -97,6 +97,8 @@ process manipulate_segment {
     -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF\n' \
     ${remExt(vcf.name)}.vep.vcf.gz | \
     awk '!a[\$0]++' > ${remExt(vcf.name)}.vep
+ bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
+ bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
 /*
