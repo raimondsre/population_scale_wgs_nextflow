@@ -59,7 +59,7 @@ process separateVCF {
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals
  
  output:
- set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi"), env(entries) into separated_by_segment
+ set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into separated_by_segment
 
  script:
  input = remExt(vcf.name) 
@@ -69,18 +69,20 @@ process separateVCF {
        bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
        
-       entries=1
-       if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then entries=0; fi
+       variantsPresent=1
+       if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
+separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map {it - it[5]}
+
 
 // Customise manipulation steps
 process manipulate_segment_vep {
  publishDir params.publishDir
- cpus 1
+ //cpus 1
 
  input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment.filter { it[5] = 1 }
+ set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
 
  output:
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.vep") into segments_ready_for_collection
@@ -102,22 +104,11 @@ process manipulate_segment_vep {
     awk '!a[\$0]++' > ${remExt(vcf.name)}.vep
  """
 }
-/*
- singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
-    --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
-    --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
-    -i vcf_file/${vcf_name} \
-    -o ${remExt(vcf.name)}.vep.vcf.gz
-# VCF to txt
-  bcftools +split-vep -d \
-    -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF\n' \
-    ${remExt(vcf.name)}.vep.vcf.gz | \
-    awk '!a[\$0]++' > ${remExt(vcf.name)}.vep
 
 // Arrange segments and group by input file name
 segments_ready_for_collection_collected = segments_ready_for_collection
 .toSortedList({ a,b -> a[0] <=> b[0] })
-.flatten().buffer ( size: 5 )
+.flatten().buffer ( size: 4 )
 .groupTuple(by:[2])
 
 // Concatanate segments
@@ -125,16 +116,12 @@ process concatanate_segments {
  publishDir params.publishDir, mode: 'move', overwrite: true
  //cpus 16
  input:
- set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
+ set val(order), val(intervalname), val(input), file(vep) from segments_ready_for_collection_collected 
  output:
- set file(outputVCF), file(outputVCF+".tbi")
+ set file("merged.vep.txt")
  script:
- outputVCF = input+".ChrPos.539samples.splitMultiall.c3.vcf.gz"
  """
- echo "${vcf_all.join('\n')}" > vcfFiles.txt
- # --naive is risky as it does not check if samples match.
- bcftools concat --naive -f vcfFiles.txt -Oz -o ${outputVCF}
- bcftools index -t ${outputVCF}
+ cat ${vcf_all.join('\n')} > merged.vep.txt
+ 
  """
 }
-*/
