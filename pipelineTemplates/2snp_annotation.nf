@@ -94,14 +94,16 @@ process manipulate_segment_vep {
     --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
     -i vcf_file/${vcf_name} \
     -o ${remExt(vcf.name)}.vep.vcf.gz
-  # VCF to txt
+  
+ """
+}
+/*
+# VCF to txt
   bcftools +split-vep -d \
     -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF\n' \
     ${remExt(vcf.name)}.vep.vcf.gz | \
     awk '!a[\$0]++' > ${remExt(vcf.name)}.vep
- """
-}
-/*
+    
 // Arrange segments and group by input file name
 segments_ready_for_collection_collected = segments_ready_for_collection
 .toSortedList({ a,b -> a[0] <=> b[0] })
