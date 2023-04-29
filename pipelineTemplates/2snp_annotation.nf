@@ -80,9 +80,10 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
 
  output:
- set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.vep") //into segments_ready_for_collection
+ set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.vep"), file("test") //into segments_ready_for_collection
 
  """
+ ls ${vcf} > test
  singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
     --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
     --af_gnomade --variant_class --biotype --check_existing --compress_output bgzip \
