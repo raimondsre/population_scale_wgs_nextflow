@@ -84,10 +84,10 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
- bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} |
- bcftools view -S ${params.samplesToKeep} --force-samples | 
+ bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} | 
  bcftools norm --multiallelics - |
- bcftools view -c3 -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
+ bcftools view -c3 |
+ bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
