@@ -121,7 +121,7 @@ process concatanate_segments {
  set file("merged.vep.txt")
  script:
  """
- cat ${vep_all.join('\n')} > merged.vep.txt
+ cat ${vep_all.join(' ')} > merged.vep.txt
  
  """
 }
