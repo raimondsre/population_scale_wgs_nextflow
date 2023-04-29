@@ -80,7 +80,7 @@ process manipulate_segment_vep {
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
 
  output:
- set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.vep.vcf.gz") into segments_ready_for_collection
+ set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.vep") into segments_ready_for_collection
 
  script:
  vcf_name = vcf.name
