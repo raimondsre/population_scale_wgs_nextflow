@@ -102,7 +102,7 @@ process manipulate_segment_vep {
     -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %PHENO\n' \
     ${remExt(vcf.name)}.vep.vcf.gz > ${remExt(vcf.name)}.vep
  # Count features
- Rscript countVEPfeatures.R --input ${remExt(vcf.name)}.vep --intervals ${intervalname} --sample all --original_file_name ${input}
+ Rscript ./pipelineTemplates/countVEPfeatures.R --input ${remExt(vcf.name)}.vep --intervals ${intervalname} --sample all --original_file_name ${input}
  """
 }
 
