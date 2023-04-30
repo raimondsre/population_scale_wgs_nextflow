@@ -22,10 +22,10 @@ annotsv <- data %>%
     mutate(novel_annotsv = ifelse(is.na(GnomAD_pLI) & 
         B_loss_source=="" & 
         B_gain_source=="",
-        "TRUE", "FALSE")) %>%
+        TRUE, FALSE)) %>%
     group_by(novel_annotsv,SV_type) %>%
     count(SV_type, name = "Count") %>% 
-    select(var=SV_type,count=Count,novel_annotsv) %>%
+    select(var=SV_type,count=Count,novel_annotsv=novel_annotsv) %>%
     mutate(interval = interval,
         sample = sample,
         original_file_name = original_file_name) %>%
