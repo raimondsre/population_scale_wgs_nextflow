@@ -77,7 +77,7 @@ process separateVCF {
 }
 //separated_by_segment.subscribe { println it}
 
-separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map { tuple(it[0], it[1]) }
+separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map { tuple(-it[1]) }
 
 separated_by_segment.subscribe {println it}
 
