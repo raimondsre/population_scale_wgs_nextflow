@@ -19,7 +19,7 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- .filter({it[1].contains('chrM')})
+ //.filter({it[1].contains('chrM')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
@@ -139,7 +139,7 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vep_all) from segments_ready_for_collection_collected 
  output:
- set file("${input}.vep.counted")
+ set file("${input}.by_segment_and_sample.vep.counted")
  script:
  """
  cat ${vep_all.join(' ')} > ${input}.vep.counted
