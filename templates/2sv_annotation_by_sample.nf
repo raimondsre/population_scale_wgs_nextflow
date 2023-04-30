@@ -1,6 +1,9 @@
 #!/usr/bin/env nextflow
 // main_bySegmentOnly.nf
 params.publishDir = './results'
+params.baseDir='/home_beegfs/groups/bmc/genome_analysis_tmp/hs'
+params.beegfProgs = '/home_beegfs/raimondsre/programmas'
+params.annotsvDir = '/home_beegfs/raimondsre/programmas/AnnotSV/bin/AnnotSV'
 
 params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './intervals50mil'
