@@ -98,8 +98,7 @@ process manipulate_segment_vep {
     -i vcf_file/${vcf_name} \
     -o ${remExt(vcf.name)}.vep.vcf.gz
  # VCF to txt
-  bcftools +split-vep -d \ 
-    -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %PHENO\n' \
+  bcftools +split-vep -d -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %PHENO\n' \
     ${remExt(vcf.name)}.vep.vcf.gz > ${remExt(vcf.name)}.vep
  # Count features
  Rscript countVEPfeatures.R --input ${remExt(vcf.name)}.vep --intervals ${intervalname} --sample all --original_file_name ${input}
