@@ -29,4 +29,4 @@ annotsv <- data %>%
     mutate(interval = interval,
         sample = sample,
         original_file_name = original_file_name) %>%
-    fwrite(sprintf("%s.%s.annotsv.counted", interval, sample), col.names=FALSE, sep="\t")
+    fwrite(sprintf("%s.%s.annotsv.counted", interval, sample), col.names=T, sep="\t")
