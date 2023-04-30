@@ -38,7 +38,7 @@ samples_ch
  .splitText() {it.replaceFirst(/\n/,'')}
  .map {value ->
         counter2 += 1
-        [counter2, value].flatten()}
+        [counter2, value].flatten()}.first()
  .into { samples_ch1; samples_ch2}
 
 // Define function to remove .vcf.gz extension
