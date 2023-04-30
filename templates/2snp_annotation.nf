@@ -46,12 +46,12 @@ def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 
 // Make single channel for intervals and vcf file
 vcfIntervals = intervals1.combine(vcf)
-vcfIntervals.subscribe { println it }
+//samples_ch1.subscribe { println it }
  
 //###
 //### Analysis
 //###
-/*
+
 // Separate VCF into fragments, has to be before separating by sample
 process separateVCF {
  //publishDir params.publishDir
@@ -65,13 +65,14 @@ process separateVCF {
  script:
  input = remExt(vcf.name) 
  """
-       bcftools view ${vcf} ${chr}:${start}-${stop} |
-       bcftools view --exclude 'POS<${start}' |
-       bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
-       bcftools index -t ${input}.${intervalname}.vcf.gz
-       
+       # bcftools view ${vcf} ${chr}:${start}-${stop} |
+       # bcftools view --exclude 'POS<${start}' |
+       # bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+       # bcftools index -t ${input}.${intervalname}.vcf.gz
+       touch ${input}.${intervalname}.vcf.gz
+       touch ${input}.${intervalname}.vcf.gz.tbi
        variantsPresent=1
-       if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
+       # if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
 separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map {it - it[5]}
