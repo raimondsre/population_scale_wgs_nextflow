@@ -132,4 +132,3 @@ process concatanate_segments {
  cat ${vep_all.join(' ')} > ${input}.vep.counted
  """
 }
-*/
