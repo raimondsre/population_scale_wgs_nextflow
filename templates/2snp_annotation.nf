@@ -78,7 +78,7 @@ separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map {it - i
 
 // Customise manipulation steps
 process manipulate_segment_vep {
- //publishDir params.publishDir
+ publishDir params.publishDir
  //cpus 1
 
  input:
