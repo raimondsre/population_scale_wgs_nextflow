@@ -13,7 +13,7 @@ if (!is.null(input_file)) {
     data <- fread(input_file, h=FALSE)
 } else {stop('VEP annotated input file not specified')}
 if (is.null(interval)) { interval <- "all" } 
-if (is.null(sample)) { sample <- "all" } 
+if (is.null(sample)) { sample <- "all" }  
 
 
 # Separate into individual features
