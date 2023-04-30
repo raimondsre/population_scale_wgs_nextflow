@@ -115,7 +115,7 @@ process manipulate_segment_by_interval_and_sample_annotsv {
  vcf_name = vcf.name
  """
  export ANNOTSV=${params.annotsvDir}
- ANNOTSV -SVinputFile ${vcf} \
+ ${params.annotsvDir} -SVinputFile ${vcf} \
                 -outputFile ${intervalname}.${input}.ac1.annotsv \
                 -genomeBuild GRCh38 \
                 -overlap 95
