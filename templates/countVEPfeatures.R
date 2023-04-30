@@ -37,4 +37,4 @@ total <- rbind(
 )
 # Add interval and sample
 total <- total %>% mutate(interval = interval, sample = sample, original_file_name = original_file_name)
-fwrite(total, sprintf("%s.%s.vep.counted", interval, sample),col.names=F, sep="\t")
+fwrite(total, sprintf("%s.%s.vep.counted", interval, sample),col.names=FALSE, sep="\t")

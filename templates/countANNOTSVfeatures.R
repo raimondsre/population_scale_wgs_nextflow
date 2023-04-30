@@ -19,14 +19,16 @@ if (is.null(sample)) { sample <- "all" }
 annotsv <- data %>% 
     filter(!duplicated(AnnotSV_ID)) %>%
     select(AnnotSV_ID,SV_type,GnomAD_pLI,B_loss_source,B_gain_source) %>% 
-    mutate(novel_annotsv = ifelse(is.na(GnomAD_pLI) && 
-        B_loss_source=="" && 
-        B_gain_source=="",
-        TRUE, FALSE)) %>%
+    mutate(novel_annotsv = ifelse(
+        GnomAD_pLI %in% c("",NA) & 
+        B_loss_source %in% c("",NA) & 
+        B_gain_source %in% c("",NA),
+        TRUE, FALSE)
+        ) %>%
     group_by(novel_annotsv,SV_type) %>%
     count(novel_annotsv, SV_type, name = "Count") %>% 
     select(var=SV_type,count=Count,novel_annotsv=novel_annotsv) %>%
     mutate(interval = interval,
         sample = sample,
         original_file_name = original_file_name) %>%
-    fwrite(sprintf("%s.%s.annotsv.counted", interval, sample), col.names=T, sep="\t")
+    fwrite(sprintf("%s.%s.annotsv.counted", interval, sample), col.names=FALSE, sep="\t")
