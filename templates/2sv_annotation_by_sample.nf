@@ -66,7 +66,8 @@ process separateVCF {
  """
        bcftools view ${vcf} ${chr}:${start}-${stop} |
        bcftools view --exclude 'POS<${start}' |
-       bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+       bcftools view --exclude 'POS>${stop}' |
+       bcftools view -c1 -Oz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
        
        variantsPresent=1
@@ -95,37 +96,30 @@ process separateVCF_by_samples {
 }
 separated_by_segment_and_sample = separated_by_segment_and_sample.filter { it[6] == "1" }.map { tuple(it[0..5]) }
 
+
 // add segment channel sameple element and concatanate with segments_samples channel
 separated_by_segment_plus_separated_by_sample = separated_by_segment.map { tuple(it[0..4],"all").flatten() }.mix(separated_by_segment_and_sample)
 
 // Customise manipulation steps
-process manipulate_segment_by_interval_and_sample_vep {
+process manipulate_segment_by_interval_and_sample_annotsv {
  //publishDir params.publishDir
  //cpus 1
- 
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(sample) from separated_by_segment_plus_separated_by_sample
 
  output:
- set val(order), val(intervalname), val(input), file("${intervalname}.${sample}.vep.counted") into segments_ready_for_collection
+ set val(order), val(intervalname), val(input), file("${intervalname}.${sample}.annotsv.counted") into segments_ready_for_collection
 
  script:
  vcf_name = vcf.name
  """
- mkdir vcf_file
- cp ${vcf} vcf_file/
- singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
-    --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
-    --af_gnomade --variant_class --biotype --check_existing --symbol --compress_output bgzip \
-    --custom /home/raimondsre/.vep/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNDN \
-    --canonical \
-    -i vcf_file/${vcf_name} \
-    -o ${remExt(vcf.name)}.vep.vcf.gz
- # VCF to txt
- # If annotated column is added (e.g. ClinVar_CLNDN), you have to add corresponding column to countVEPfeatures.R file line 21!
- bcftools +split-vep -d -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %ClinVar_CLNDN\\n' ${remExt(vcf.name)}.vep.vcf.gz > ${remExt(vcf.name)}.vep
+ export ANNOTSV=${params.annotsvDir}
+ ${params.annotsvDir} -SVinputFile ${vcf} \
+                -outputFile ${intervalname}.${input}.ac1.annotsv \
+                -genomeBuild GRCh38 \
+                -overlap 95
  # Count features
- Rscript ${projectDir}/countVEPfeatures.R --input ${remExt(vcf.name)}.vep --interval ${intervalname} --sample ${sample} --original_file_name ${input}
+ Rscript ${projectDir}/countANNOTSVfeatures.R --input ${intervalname}.${input}.ac1.annotsv --interval ${intervalname} --sample ${sample} --original_file_name ${input}
  """
 }
 
@@ -143,12 +137,12 @@ process concatanate_segments_by_interval {
  //publishDir params.publishDir, mode: 'move', overwrite: true
  //cpus 16
  input:
- set val(order), val(intervalname), val(input), file(vep_all) from segments_ready_for_collection_collected 
+ set val(order), val(intervalname), val(input), file(annotsv_all) from segments_ready_for_collection_collected 
  output:
- set val(input), file("${input}.${intervalname}.vep.counted") into concatanate_segments_whole
+ set val(input), file("${input}.${intervalname}.annotsv.counted") into concatanate_segments_whole
  script:
  """
- cat ${vep_all.join(' ')} > ${input}.${intervalname}.vep.counted
+ cat ${annotsv_all.join(' ')} > ${input}.${intervalname}.annotsv.counted
  """
 }
 
@@ -157,11 +151,11 @@ process concatanate_segments {
  publishDir params.publishDir, mode: 'move', overwrite: true
  //cpus 16
  input:
- set val(input), file(vep_all) from concatanate_segments_whole 
+ set val(input), file(annotsv_all) from concatanate_segments_whole 
  output:
- set file("${input}.by_segment_and_sample.vep.counted")
+ set file("${input}.by_segment_and_sample.annotsv.counted")
  script:
  """
- cat ${vep_all.join(' ')} > ${input}.by_segment_and_sample.vep.counted
+ cat ${annotsv_all.join(' ')} > ${input}.by_segment_and_sample.annotsv.counted
  """
 }
