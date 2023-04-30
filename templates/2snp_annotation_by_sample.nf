@@ -130,18 +130,32 @@ segments_ready_for_collection_collected = segments_ready_for_collection
  //flattens whole channel and then remakes sets by 4 elements (if input sets were 5 elements, number should be changed)
  .flatten().buffer ( size: 4 )
  //squishes all elements into one set, collects. For each set variable [2] there will be one channel element.
- .groupTuple(by:[2])
+ .groupTuple(by:[1,2])
 
 // Concatanate segments
-process concatanate_segments {
- publishDir params.publishDir, mode: 'move', overwrite: true
+process concatanate_segments_by_interval {
+ //publishDir params.publishDir, mode: 'move', overwrite: true
  //cpus 16
  input:
  set val(order), val(intervalname), val(input), file(vep_all) from segments_ready_for_collection_collected 
  output:
+ set val(input), file("${input}.${intervalname}.vep.counted") into concatanate_segments_whole
+ script:
+ """
+ cat ${vep_all.join(' ')} > ${input}.${intervalname}.vep.counted
+ """
+}
+
+concatanate_segments_whole = concatanate_segments_whole.groupTuple(by:[0])
+process concatanate_segments {
+ publishDir params.publishDir, mode: 'move', overwrite: true
+ //cpus 16
+ input:
+ set val(input), file(vep_all) from concatanate_segments_whole 
+ output:
  set file("${input}.by_segment_and_sample.vep.counted")
  script:
  """
- cat ${vep_all.join(' ')} > ${input}.vep.counted
+ cat ${vep_all.join(' ')} > ${input}.by_segment_and_sample.vep.counted
  """
 }
