@@ -73,15 +73,31 @@ process separateVCF {
        if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
-separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map {it - it[5]}
+separated_by_segment = separated_by_segment.filter { it[5] == "1" }.map { tuple(it[0..4]) }
+// Separate segment into samples
+( separated_by_segment, separated_by_segment_split_samples ) = separated_by_segment.into(2)
+separated_by_segment_split_samples = separated_by_segment_split_samples.combine(samples_ch1)
+process separateVCF_by_samples {
+ input:
+ set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_split_samples
 
+ output:
+ set val(order), val(intervalname), val(input), file("${input}.${intervalname}.${sample}.vcf.gz"), file("${input}.${intervalname}.${sample}.vcf.gz.tbi"), val(sample) into separated_by_segment_and_sample
+ script:
+ """
+ bcftools view ${vcf} -s ${sample} -Oz -o ${input}.${intervalname}.${sample}.vcf.gz
+ bcftools index -t ${input}.${intervalname}.${sample}.vcf.gz
+ """
+}
+// add segment channel sameple element and concatanate with segments_samples channel
+separated_by_segment_plus_separated_by_sample = separated_by_segment.map { tuple(it[0..4],"all") }.mix(separated_by_segment_and_sample)
 // Customise manipulation steps
 process manipulate_segment_vep {
- publishDir params.publishDir
+ //publishDir params.publishDir
  //cpus 1
-
+ 
  input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
+ set val(order), val(intervalname), val(input), file(vcf), file(idx), val(sample) from separated_by_segment_plus_separated_by_sample
 
  output:
  set val(order), val(intervalname), val(input), file("${intervalname}.all.vep.counted"), file("${remExt(vcf.name)}.vep") into segments_ready_for_collection
@@ -100,42 +116,13 @@ process manipulate_segment_vep {
     -o ${remExt(vcf.name)}.vep.vcf.gz
  # VCF to txt
  # If annotated column is added (e.g. PHENO), you have to add corresponding column to countVEPfeatures.R file line 21!
- bcftools +split-vep -d -f '%CHROM:%POS:%REF:%ALT %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %ClinVar_CLNDN\n' \
+ bcftools +split-vep -d -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %ClinVar_CLNDN\n' \
     ${remExt(vcf.name)}.vep.vcf.gz > ${remExt(vcf.name)}.vep
  # Count features
- Rscript ${projectDir}/countVEPfeatures.R --input ${remExt(vcf.name)}.vep --interval ${intervalname} --sample all --original_file_name ${input}
+ Rscript ${projectDir}/countVEPfeatures.R --input ${remExt(vcf.name)}.vep --interval ${intervalname} --sample ${sample} --original_file_name ${input}
  """
 }
 
-// Separate segment into samples
-( separated_by_segment, separated_by_segment_split_samples ) = separated_by_segment.into(2)
-separated_by_segment_split_samples = separated_by_segment_split_samples.combine(samples_ch1)
-process separateVCF_by_samples {
- input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_split_samples
-
- output:
- set val(order), val(intervalname), val(input), file("${input}.${intervalname}.${sample}.vcf.gz"), file("${input}.${intervalname}.${sample}.vcf.gz.tbi"), val(order_samp), val(sample) into separated_by_segment_and_sample
- script:
- """
- bcftools view ${vcf} -s ${sample} -Oz -o ${input}.${intervalname}.${sample}.vcf.gz
- bcftools index -t ${input}.${intervalname}.${sample}.vcf.gz
- """
-}
-process manipulate_segment_samples {
- //publishDir = params.publishDir
- 
- input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_and_sample
-
- output:
- set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi"), val(order_samp), val(sample) into segments_sample_ready_for_collection
-
- """
- bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
- bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
- """
-}
 // Arrange segments and group by input file name
 segments_ready_for_collection_collected = segments_ready_for_collection
  //sorts by the first variable [0]
