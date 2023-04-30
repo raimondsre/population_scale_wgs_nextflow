@@ -120,7 +120,7 @@ process manipulate_segment_by_interval_and_sample_annotsv {
                 -genomeBuild GRCh38 \
                 -overlap 95
  # Count features
- Rscript ${projectDir}/countANNOTSVfeatures.R --input ${intervalname}.${input}.ac1.annotsv --interval ${intervalname} --sample ${sample} --original_file_name ${input}
+ Rscript ${projectDir}/countANNOTSVfeatures.R --input ${intervalname}.${input}.ac1.annotsv.tsv --interval ${intervalname} --sample ${sample} --original_file_name ${input}
  """
 }
 
