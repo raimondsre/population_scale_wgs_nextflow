@@ -19,8 +19,8 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- //.filter({it[1].contains('chr1')})
- //.filter({it[2].contains('240000001')})
+ .filter({it[1].contains('chr1')})
+ .filter({it[2].contains('240000001')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
@@ -77,7 +77,7 @@ process separateVCF {
 }
 //separated_by_segment.subscribe { println it}
 
-separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map {it - it[5]}
+separated_by_segment = separated_by_segment.filter { it[5] == "1"  }
 
 separated_by_segment.subscribe {println it}
 
