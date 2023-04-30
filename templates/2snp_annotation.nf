@@ -46,12 +46,12 @@ def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 
 // Make single channel for intervals and vcf file
 vcfIntervals = intervals1.combine(vcf)
-//samples_ch1.subscribe { println it }
+vcfIntervals.subscribe { println it }
  
 //###
 //### Analysis
 //###
-
+/*
 // Separate VCF into fragments, has to be before separating by sample
 process separateVCF {
  //publishDir params.publishDir
@@ -78,7 +78,7 @@ separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map {it - i
 
 separated_by_segment.subscribe {println it}
 
-/*
+
 // Customise manipulation steps
 process manipulate_segment_vep {
  publishDir params.publishDir
