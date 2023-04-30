@@ -19,7 +19,7 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- //.filter({it[1].contains('chrM')})
+ .filter({it[1].contains('chrM')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
@@ -77,7 +77,7 @@ separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map {it - i
 
 separated_by_segment.subscribe {println it}
 
-/*
+
 // Customise manipulation steps
 process manipulate_segment_vep {
  publishDir params.publishDir
