@@ -75,9 +75,6 @@ process separateVCF {
 }
 separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map {it - it[5]}
 
-separated_by_segment.subscribe {println it}
-
-/*
 // Customise manipulation steps
 process manipulate_segment_vep {
  publishDir params.publishDir
@@ -103,13 +100,42 @@ process manipulate_segment_vep {
     -o ${remExt(vcf.name)}.vep.vcf.gz
  # VCF to txt
  # If annotated column is added (e.g. PHENO), you have to add corresponding column to countVEPfeatures.R file line 21!
- bcftools +split-vep -d -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %ClinVar_CLNDN\n' \
+ bcftools +split-vep -d -f '%CHROM:%POS:%REF:%ALT %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %ClinVar_CLNDN\n' \
     ${remExt(vcf.name)}.vep.vcf.gz > ${remExt(vcf.name)}.vep
  # Count features
  Rscript ${projectDir}/countVEPfeatures.R --input ${remExt(vcf.name)}.vep --interval ${intervalname} --sample all --original_file_name ${input}
  """
 }
 
+// Separate segment into samples
+( separated_by_segment, separated_by_segment_split_samples ) = separated_by_segment.into(2)
+separated_by_segment_split_samples = separated_by_segment_split_samples.combine(samples_ch1)
+process separateVCF_by_samples {
+ input:
+ set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_split_samples
+
+ output:
+ set val(order), val(intervalname), val(input), file("${input}.${intervalname}.${sample}.vcf.gz"), file("${input}.${intervalname}.${sample}.vcf.gz.tbi"), val(order_samp), val(sample) into separated_by_segment_and_sample
+ script:
+ """
+ bcftools view ${vcf} -s ${sample} -Oz -o ${input}.${intervalname}.${sample}.vcf.gz
+ bcftools index -t ${input}.${intervalname}.${sample}.vcf.gz
+ """
+}
+process manipulate_segment_samples {
+ //publishDir = params.publishDir
+ 
+ input:
+ set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_and_sample
+
+ output:
+ set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi"), val(order_samp), val(sample) into segments_sample_ready_for_collection
+
+ """
+ bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
+ bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
+ """
+}
 // Arrange segments and group by input file name
 segments_ready_for_collection_collected = segments_ready_for_collection
  //sorts by the first variable [0]
@@ -132,4 +158,3 @@ process concatanate_segments {
  cat ${vep_all.join(' ')} > ${input}.vep.counted
  """
 }
-*/
