@@ -19,8 +19,7 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- .filter({it[1].contains('chr1')})
- .filter({it[2].contains('240000001')})
+ //.filter({it[1].contains('chrM')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
@@ -65,26 +64,21 @@ process separateVCF {
  script:
  input = remExt(vcf.name) 
  """
-       # bcftools view ${vcf} ${chr}:${start}-${stop} |
-       # bcftools view --exclude 'POS<${start}' |
-       # bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
-       # bcftools index -t ${input}.${intervalname}.vcf.gz
-       touch ${input}.${intervalname}.vcf.gz
-       touch ${input}.${intervalname}.vcf.gz.tbi
+       bcftools view ${vcf} ${chr}:${start}-${stop} |
+       bcftools view --exclude 'POS<${start}' |
+       bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+       bcftools index -t ${input}.${intervalname}.vcf.gz
+       
        variantsPresent=1
-       # if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
+       if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
-//separated_by_segment.subscribe { println it}
-
 separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map { tuple(it[0..4]) }
 
-separated_by_segment.subscribe {println it}
 
-/*
 // Customise manipulation steps
 process manipulate_segment_vep {
- publishDir params.publishDir
+ //publishDir params.publishDir
  //cpus 1
 
  input:
@@ -136,4 +130,3 @@ process concatanate_segments {
  cat ${vep_all.join(' ')} > ${input}.vep.counted
  """
 }
-*/
