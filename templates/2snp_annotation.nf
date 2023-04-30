@@ -75,6 +75,8 @@ process separateVCF {
        # if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
+separated_by_segment.subscribe { println it}
+/*
 separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map {it - it[5]}
 
 separated_by_segment.subscribe {println it}
