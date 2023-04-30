@@ -101,7 +101,7 @@ process manipulate_segment_vep {
  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(sample) from separated_by_segment_plus_separated_by_sample
 
  output:
- set val(order), val(intervalname), val(input), file("${intervalname}.all.vep.counted"), file("${remExt(vcf.name)}.vep") into segments_ready_for_collection
+ set val(order), val(intervalname), val(input), file("${intervalname}.${sample}.vep.counted") into segments_ready_for_collection
 
  script:
  vcf_name = vcf.name
