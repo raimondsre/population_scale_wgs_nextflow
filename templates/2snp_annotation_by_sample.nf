@@ -91,6 +91,9 @@ process separateVCF_by_samples {
 }
 // add segment channel sameple element and concatanate with segments_samples channel
 separated_by_segment_plus_separated_by_sample = separated_by_segment.map { tuple(it[0..4],"all") }.mix(separated_by_segment_and_sample)
+
+separated_by_segment_plus_separated_by_sample.subscribe {println it}
+/*
 // Customise manipulation steps
 process manipulate_segment_vep {
  //publishDir params.publishDir
@@ -145,3 +148,4 @@ process concatanate_segments {
  cat ${vep_all.join(' ')} > ${input}.vep.counted
  """
 }
+*/
