@@ -95,7 +95,7 @@ process manipulate_segment_vep {
  singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline --canonical \
     --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
     --af_gnomade --variant_class --biotype --check_existing --symbol --compress_output bgzip \
-    --plugin ClinVar \
+    ----custom /home/raimondsre/.vep/clinvar.vcf.gz,ClinVar,CLNDN \
     -i vcf_file/${vcf_name} \
     -o ${remExt(vcf.name)}.vep.vcf.gz
  # VCF to txt
