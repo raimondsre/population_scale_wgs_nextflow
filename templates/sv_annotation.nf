@@ -128,6 +128,7 @@ process annotsv_sv_annotate_segments_by_sample {
  //set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi"), val(order_samp), val(sample) into segments_sample_ready_for_collection
 
  """
+ chmod ${params.annotsvDir}
   # Variant annotation
  bcftools view -c1 ${vcf} | bcftools sort -Oz -o ${input}.${intervalname}.${sample}.ac1.vcf.gz
  ${params.annotsvDir} -SVinputFile ${input}.${intervalname}.${sample}.ac1.vcf.gz \
@@ -138,8 +139,6 @@ process annotsv_sv_annotate_segments_by_sample {
     Rscript annotsv_annotated_variant_counting.R ${intervalname} ${input}
  """
 }
-
-
 
 //###
 //### Merging
