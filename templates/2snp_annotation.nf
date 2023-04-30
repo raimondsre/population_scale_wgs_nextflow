@@ -19,7 +19,7 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- .filter({it[1].contains('chrM')})
+ //.filter({it[1].contains('chrM')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
@@ -92,10 +92,11 @@ process manipulate_segment_vep {
  """
  mkdir vcf_file
  cp ${vcf} vcf_file/
- singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline --canonical \
+ singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
     --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
     --af_gnomade --variant_class --biotype --check_existing --symbol --compress_output bgzip \
     --custom /home/raimondsre/.vep/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNDN \
+    --canonical \
     -i vcf_file/${vcf_name} \
     -o ${remExt(vcf.name)}.vep.vcf.gz
  # VCF to txt
