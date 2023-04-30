@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 // main_bySegmentOnly.nf
 params.publishDir = './results'
-params.annotsvDir = '/home_beegfs/raimondsre/programmas/AnnotSV/bin/AnnotSV'
+params.annotsvDir = '/home_beegfs/raimondsre/programmas/AnnotSV'
 
 params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './intervals50mil'
