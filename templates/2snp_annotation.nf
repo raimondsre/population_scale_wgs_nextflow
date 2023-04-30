@@ -95,12 +95,12 @@ process manipulate_segment_vep {
  singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline --canonical \
     --dir_cache /home/raimondsre/.vep --species homo_sapiens --vcf --assembly GRCh38 \
     --af_gnomade --variant_class --biotype --check_existing --symbol --compress_output bgzip \
-    --custom /home/raimondsre/.vep/clinvar.vcf.gz,ClinVar,CLNDN \
+    --custom /home/raimondsre/.vep/clinvar.vcf.gz,ClinVar,vcf,exact,0,CLNDN \
     -i vcf_file/${vcf_name} \
     -o ${remExt(vcf.name)}.vep.vcf.gz
  # VCF to txt
  # If annotated column is added (e.g. PHENO), you have to add corresponding column to countVEPfeatures.R file line 21!
- bcftools +split-vep -d -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %CLNDN\n' \
+ bcftools +split-vep -d -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %ClinVar_CLNDN\n' \
     ${remExt(vcf.name)}.vep.vcf.gz > ${remExt(vcf.name)}.vep
  # Count features
  Rscript ${projectDir}/countVEPfeatures.R --input ${remExt(vcf.name)}.vep --interval ${intervalname} --sample all --original_file_name ${input}
