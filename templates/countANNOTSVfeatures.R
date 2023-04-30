@@ -19,8 +19,8 @@ if (is.null(sample)) { sample <- "all" }
 annotsv <- data %>% 
     filter(!duplicated(AnnotSV_ID)) %>%
     select(AnnotSV_ID,SV_type,GnomAD_pLI,B_loss_source,B_gain_source) %>% 
-    mutate(novel_annotsv = ifelse(is.na(GnomAD_pLI) & 
-        B_loss_source=="" & 
+    mutate(novel_annotsv = ifelse(is.na(GnomAD_pLI) && 
+        B_loss_source=="" && 
         B_gain_source=="",
         TRUE, FALSE)) %>%
     group_by(novel_annotsv,SV_type) %>%
