@@ -125,9 +125,9 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vep_all) from segments_ready_for_collection_collected 
  output:
- set file("${input}.vep.counted")
+ set file("${input}.all.vep.counted")
  script:
  """
- cat ${vep_all.join(' ')} > ${input}.vep.counted
+ cat ${vep_all.join(' ')} > ${input}.all.vep.counted
  """
 }

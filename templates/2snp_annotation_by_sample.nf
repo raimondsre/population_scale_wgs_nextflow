@@ -98,7 +98,7 @@ process separateVCF_by_samples {
 separated_by_segment_and_sample = separated_by_segment_and_sample.filter { it[6] == "1" }.map { tuple(it[0..5]) }
 
 // add segment channel sameple element and concatanate with segments_samples channel
-separated_by_segment_plus_separated_by_sample = separated_by_segment.map { tuple(it[0..4],"all").flatten() }.mix(separated_by_segment_and_sample)
+//separated_by_segment_and_sample = separated_by_segment.map { tuple(it[0..4],"all").flatten() }.mix(separated_by_segment_and_sample)
 
 // Customise manipulation steps
 process manipulate_segment_by_interval_and_sample_vep {
@@ -106,7 +106,7 @@ process manipulate_segment_by_interval_and_sample_vep {
  //cpus 1
  
  input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx), val(sample) from separated_by_segment_plus_separated_by_sample
+ set val(order), val(intervalname), val(input), file(vcf), file(idx), val(sample) from separated_by_segment_and_sample
 
  output:
  set val(order), val(intervalname), val(input), file("${intervalname}.${sample}.vep.counted") into segments_ready_for_collection
@@ -163,9 +163,9 @@ process concatanate_segments {
  input:
  set val(input), file(vep_all) from concatanate_segments_whole 
  output:
- set file("${input}.by_segment_and_sample.vep.counted")
+ set file("${input}.by_sample.vep.counted")
  script:
  """
- cat ${vep_all.join(' ')} > ${input}.by_segment_and_sample.vep.counted
+ cat ${vep_all.join(' ')} > ${input}.by_sample.vep.counted
  """
 }
