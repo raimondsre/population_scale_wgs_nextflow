@@ -32,13 +32,13 @@ vep <- data %>%
 # Count occurance of each unique feature
 total <- rbind(
     # Existing
-    vep %>% filter(!duplicated(paste(snpID,var_type))) %>% count(var_type, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=1),
-    vep %>% filter(!duplicated(paste(snpID,clinical))) %>% count(clinical, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=1),
-    vep %>% filter(!duplicated(paste(snpID,position))) %>% count(position, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=1),
+    vep %>% filter(!duplicated(paste(snpID,var_type))) %>% count(var_type, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=FALSE),
+    vep %>% filter(!duplicated(paste(snpID,clinical))) %>% count(clinical, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=FALSE),
+    vep %>% filter(!duplicated(paste(snpID,position))) %>% count(position, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=FALSE),
     # Novel
-    vep[vep$novel,] %>% filter(!duplicated(paste(snpID,var_type))) %>% count(var_type, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=0),
-    vep[vep$novel,] %>% filter(!duplicated(paste(snpID,clinical))) %>% count(clinical, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=0),
-    vep[vep$novel,] %>% filter(!duplicated(paste(snpID,position))) %>% count(position, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=0)
+    vep[vep$novel,] %>% filter(!duplicated(paste(snpID,var_type))) %>% count(var_type, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=TRUE),
+    vep[vep$novel,] %>% filter(!duplicated(paste(snpID,clinical))) %>% count(clinical, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=TRUE),
+    vep[vep$novel,] %>% filter(!duplicated(paste(snpID,position))) %>% count(position, name = "Count") %>% setNames(c("var","count")) %>% mutate(novel_vep=TRUE)
 )
 # Add interval and sample
 total <- total %>% mutate(interval = interval, sample = sample, original_file_name = original_file_name)
