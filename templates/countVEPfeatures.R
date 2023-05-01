@@ -14,7 +14,11 @@ if (!is.null(input_file)) {
 } else {stop('VEP annotated input file not specified')}
 if (is.null(interval)) { interval <- "all" } 
 if (is.null(sample)) { sample <- "all" }  
-
+# If annotated file empty, write empty file and stop
+if (length(data) == 0) {
+    file.create(sprintf("%s.%s.vep.counted", interval, sample))
+    stop('VEP annotated input file empty')
+}
 
 # Separate into individual features
 vep <- data %>% 
