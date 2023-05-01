@@ -19,8 +19,8 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- //.filter({it[1].contains('chrY')})
- //.filter({it[2].contains('25000001')}) //for zero vep file issue
+ .filter({it[1].contains('chrM')})
+ //.filter({it[2].contains('150000001')}) //for zero vep file issue
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
@@ -39,6 +39,7 @@ samples_ch
  .map {value ->
         counter2 += 1
         [counter2, value].flatten()}
+ .filter({it[1].contains('55635')})
  .into { samples_ch1; samples_ch2}
 
 // Define function to remove .vcf.gz extension
