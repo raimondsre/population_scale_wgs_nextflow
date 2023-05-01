@@ -67,7 +67,7 @@ vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel = vcfIntervals_toBeImpute
 
 // Separate VCF into fragments (has to be before separating by sample)
 process separateVCF {
- 
+ publishDir = params.publishDir
  input:
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel
  
@@ -83,7 +83,7 @@ process separateVCF {
        bcftools index -t ${input}.${intervalname}.vcf.gz
  """
 }
-
+/*
 process phasing {
  input:
  tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
@@ -242,3 +242,4 @@ process concatanate_segments {
  bcftools concat --naive -f vcfFiles.txt -Oz -o merged.imputed.vcf.gz
  """
 }
+*/
