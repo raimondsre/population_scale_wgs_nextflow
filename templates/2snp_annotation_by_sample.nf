@@ -126,7 +126,11 @@ process manipulate_segment_by_interval_and_sample_vep {
  # If annotated column is added (e.g. ClinVar_CLNDN), you have to add corresponding column to countVEPfeatures.R file line 21!
  bcftools +split-vep -d -f '%ID %VARIANT_CLASS %CLIN_SIG %Consequence %Existing_variation %gnomADe_AF %ClinVar_CLNDN\\n' ${remExt(vcf.name)}.vep.vcf.gz > ${remExt(vcf.name)}.vep
  # Count features
- Rscript ${projectDir}/countVEPfeatures.R --input ${remExt(vcf.name)}.vep --interval ${intervalname} --sample ${sample} --original_file_name ${input}
+ if [ 'wc -l ${remExt(vcf.name)}.vep' -eq 0 ]
+ then 
+ touch ${intervalname}.${sample}.vep.counted
+ else Rscript ${projectDir}/countVEPfeatures.R --input ${remExt(vcf.name)}.vep --interval ${intervalname} --sample ${sample} --original_file_name ${input}
+ fi
  """
 }
 
