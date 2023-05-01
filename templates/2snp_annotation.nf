@@ -120,7 +120,7 @@ segments_ready_for_collection_collected = segments_ready_for_collection
 
 // Concatanate segments
 process concatanate_segments {
- publishDir params.publishDir, mode: 'move', overwrite: true
+ publishDir params.publishDir, mode: 'move', overwrite: true 
  //cpus 16
  input:
  set val(order), val(intervalname), val(input), file(vep_all) from segments_ready_for_collection_collected 
