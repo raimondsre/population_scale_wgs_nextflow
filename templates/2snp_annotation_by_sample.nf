@@ -114,8 +114,8 @@ process manipulate_segment_by_interval_and_sample_vep {
  script:
  vcf_name = vcf.name
  """
- uname -a | awk '{print $2}'
- 
+ uname -a | awk '{print \$2}'
+
  mkdir vcf_file
  cp ${vcf} vcf_file/
  singularity run /home_beegfs/raimondsre/programmas/vep.sif vep --offline \
