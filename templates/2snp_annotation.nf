@@ -19,7 +19,8 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- .filter({it[3].contains('chr4_80000001_90000000')})
+ .filter({it[1].contains('chr4')})
+ .filter({it[2].contains('80000001')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
