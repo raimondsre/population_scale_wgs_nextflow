@@ -106,7 +106,7 @@ process manipulate_segment_by_interval_and_sample_annotsv {
  //publishDir params.publishDir
  //cpus 1
  input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx), val(sample) from separated_by_segment_plus_separated_by_sample
+ set val(order), val(intervalname), val(input), file(vcf), file(idx), val(sample) from separated_by_segment
 
  output:
  set val(order), val(intervalname), val(input), file("${intervalname}.${sample}.annotsv.counted") into segments_ready_for_collection
