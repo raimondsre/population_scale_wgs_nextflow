@@ -86,7 +86,7 @@ process separateVCF {
 
 process phasing {
  input:
- tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from vcfIntervals_toBeImputed_and_separated_by_segment_toBeImputed_and_toBeUsedAsImputationPaneltoBeUsedAsImputationPanel
+ tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
  
  output:
  set val(order), val(intervalname), val(input), file("${input}.${intervalname}.phased.vcf.gz"), file("${input}.${intervalname}.phased.vcf.gz.tbi") into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
