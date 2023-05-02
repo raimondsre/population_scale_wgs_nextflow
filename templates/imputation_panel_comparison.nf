@@ -248,4 +248,4 @@ process concatanate_segments {
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  """
 }
-a.subscribe {println}
+a.subscribe {println it}
