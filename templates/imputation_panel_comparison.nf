@@ -165,7 +165,7 @@ process manipulate_segment_imputation {
  output = "${input[0]}.${input[1]}.${intervalname}"
  """
  # Imputation
- touch ${output}.INFO.vcf.gz
+ touch ${chr}:${start}-${stop}.${output}.INFO.vcf.gz
  touch ${output}.INFO.vcf.gz.tbi
 
  """
