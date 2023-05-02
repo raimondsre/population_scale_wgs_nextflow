@@ -197,4 +197,3 @@ process concatanate_segments {
  bcftools concat --naive -f vcfFiles.txt -Oz -o merged.vcf.gz
  """
 }
-*/
