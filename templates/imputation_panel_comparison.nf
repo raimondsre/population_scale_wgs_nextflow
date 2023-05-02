@@ -28,7 +28,7 @@ Channel
  .map { value ->
         counter += 1
         [counter, value].flatten()}
- .filter({it[1].contains('chr18')})
+ .filter({it[1].contains('chr22')})
  //.filter({it[2].contains('80000001')}) //select the shortest interval of ch18
  .into { intervals1; intervals2 }
 // Samples in input VCF
