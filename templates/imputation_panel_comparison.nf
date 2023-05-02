@@ -141,8 +141,8 @@ process bref_imp_panel {
 //}
 
 // Combine toBeImputed and ImputationPanel channels
-toBeImputed = toBeImputed.map {tuple (it,0)}.flatten()
-imputationPanel_bref = imputationPanel_bref.map {tuple (it,1)}.flatten()
+toBeImputed = toBeImputed.map {tuple (it,0)}.flatten().buffer (size: 6)
+imputationPanel_bref = imputationPanel_bref.map {tuple (it,1)}.flatten().buffer (size: 6)
 
 imputation_ch = toBeImputed
        .mix(imputation_ch)
