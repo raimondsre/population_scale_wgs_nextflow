@@ -141,7 +141,7 @@ process bref_imp_panel {
 //  bcftools index -t ${input}.${intervalname}.${sample}.vcf.gz
 //  """
 //}
-
+/*
 // Combine toBeImputed and ImputationPanel channels
 imputation_ch = toBeImputed
        .mix(imputationPanel_bref)
