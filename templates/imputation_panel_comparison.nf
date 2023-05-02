@@ -241,7 +241,7 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
  output:
- set val (output), val (vcf_all[0].name), val (intervalname[0]) into a
+ set val(output), val(vcf_all[0].name), val(intervalname[0]) into a
  script:
  output = "${vcf_all[0].name}" - "${intervalname[0]}."
  """
