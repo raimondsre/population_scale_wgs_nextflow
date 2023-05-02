@@ -90,7 +90,7 @@ process phasing {
  tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
  
  output:
- set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.phased.vcf.gz"), file("${remExt(vcf.name)}.phased.vcf.gz.tbi") into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
+ set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.phased.vcf.gz") into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
 
  script:
  chr = intervalname.split('_')[0]
@@ -143,6 +143,7 @@ process bref_imp_panel {
 
 imputation_ch = toBeImputed
        .mix(imputationPanel_bref)
+       .groupTuple(by:[0,1])
 
 /*
 // Customise manipulation steps
