@@ -144,7 +144,7 @@ imputation_ch = toBeImputed
        .mix(imputationPanel_bref)
        .groupTuple(by:[0,1])
 imputation_ch.subscribe { println it }
-/*
+
 // Customise manipulation steps
 process manipulate_segment_imputation {
  publishDir = params.publishDir
@@ -164,7 +164,7 @@ process manipulate_segment_imputation {
  # Imputation
  java -Xss5m -Xmx64g -jar ${params.refDir}/beagle.27Jan18.7e1.jar \
           gt=${vcf[0]} \
-          ref=${vcf[1]} \ 
+          ref=${vcf[1]} \
           map=${params.refDir}/imputation/Imputation/dockers/reference-data-full/reference-data/map/beagle_${chr}_b38.map \
           out=${output} \
           chrom=${chr}:${start}-${stop} \
