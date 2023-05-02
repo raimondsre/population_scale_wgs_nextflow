@@ -32,8 +32,8 @@ Channel
  .into { intervals1; intervals2 }
 // Samples in first and second input VCF
 samples_from_first_and_second_concordance_file = vcf_first_extractSamples.combine(vcf_second_extractSamples)
-samples_from_first_and_second_concordance_file.subscribe {println it}
-/*
+//samples_from_first_and_second_concordance_file.subscribe {println it}
+
 process extract_vcf_samples {
  input:
  tuple file(vcf1), file(idx1), file(vcf2), file(idx2) from samples_from_first_and_second_concordance_file
@@ -46,6 +46,9 @@ process extract_vcf_samples {
  Rscript "library(data.table); library(dplyr); fwrite(overlap(fread(samples1))\$V1;(fread(samples2))\$V1,"samples_overlap",col.names=F)"
  """
 }
+samples_ch.subscribe {println it}
+
+/*
 counter2 = 0
 samples_ch
  .splitText() {it.replaceFirst(/\n/,'')}
