@@ -67,7 +67,7 @@ vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel = vcfIntervals_toBeImpute
 
 // Separate VCF into fragments (has to be before separating by sample)
 process separateVCF {
- publishDir = params.publishDir
+ //publishDir = params.publishDir
  input:
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel
  
@@ -96,13 +96,13 @@ process phasing {
  chr = intervalname.split('_')[0]
  """
  # Phasing
- #${params.refDir}/Eagle_v2.4.1/eagle \
- #         --vcf ${vcf} \
- #         --chrom  ${chr} \
- #         --geneticMapFile ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map \
- #         --numThreads=10 \
- #         --Kpbwt=20000 \
- #         --outPrefix ${remExt(vcf.name)}.phased
+ ${params.refDir}/Eagle_v2.4.1/eagle \
+          --vcf ${vcf} \
+          --chrom  ${chr} \
+          --geneticMapFile ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map \
+          --numThreads=10 \
+          --Kpbwt=20000 \
+          --outPrefix ${remExt(vcf.name)}.phased
  #bcftools index -t ${remExt(vcf.name)}.phased.vcf.gz
  touch ${remExt(vcf.name)}.phased.vcf.gz 
  touch ${remExt(vcf.name)}.phased.vcf.gz.tbi
@@ -165,16 +165,7 @@ process manipulate_segment_imputation {
  output = "${input[0]}.${input[1]}.${intervalname}"
  """
  # Imputation
- touch ${chr}:${start}-${stop}.${output}.INFO.vcf.gz
- touch ${output}.INFO.vcf.gz.tbi
-
- """
-}
-
-segments_ready_for_collection_imputed.subscribe { println it }
-
-/*
-java -Xss5m -Xmx64g -jar ${params.refDir}/beagle.27Jan18.7e1.jar \
+ java -Xss5m -Xmx64g -jar ${params.refDir}/beagle.27Jan18.7e1.jar \
           gt=${vcf[0]} \
           ref=${vcf[1]} \ 
           map=${refDir}/imputation/Imputation/dockers/reference-data-full/reference-data/map/beagle_${chr}_b38.map \
@@ -193,6 +184,9 @@ java -Xss5m -Xmx64g -jar ${params.refDir}/beagle.27Jan18.7e1.jar \
  bcftools +impute-info -Oz -o ${output}.INFO.vcf.gz
  bcftools index -t ${output}.INFO.vcf.gz
 
+ """
+}
+/*
 // process manipulate_segment_samples {
 //  publishDir = params.publishDir
  
