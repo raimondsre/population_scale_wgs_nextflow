@@ -103,15 +103,15 @@ process phasing {
  #         --Kpbwt=20000 \
  #         --outPrefix ${remExt(vcf.name)}.phased
  #bcftools index -t ${remExt(vcf.name)}.phased.vcf.gz
- touch ${remExt(vcf.name)}.phased.vcf.gz
+ touch ${remExt(vcf.name)}.phased.vcf.gz 
  touch ${remExt(vcf.name)}.phased.vcf.gz.tbi
  """
 }
-//separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.subscribe {println it}
-separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.choice( queue1, queue2 ) { it[2] = "LatviaGSA384_Oct2020_219.reffix.nonRefFilt.rehead" ? 0 : 1 }
-// separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.choice(toBeImpute, imputationPanel) { it[2] = remPath(remExt(params.toBeImputed)) ? 0 : 1 }
-// toBeImpute.subscribe {println it}
-// imputationPanel.subscribe {println it}
+toBeImputed = Channel.create()
+imputationPanel = Channel.create()
+separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.choice(toBeImputed, imputationPanel) { it[2] = remPath(remExt(params.toBeImputed)) ? 0 : 1 }
+toBeImputed.subscribe {println it}
+imputationPanel.subscribe {println it}
 /*
 process bref_imp_panel {
        input:
