@@ -70,7 +70,7 @@ vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second)
 //###
 //### Analysis
 //###
-
+/*
 // Separate VCF into fragments (has to be before separating by sample)
 process separateVCF {
  
