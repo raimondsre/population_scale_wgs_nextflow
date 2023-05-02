@@ -185,7 +185,6 @@ process manipulate_segment_imputation {
  bcftools index -t ${output}.INFO.vcf.gz
  """
 }
-/*
 // process manipulate_segment_samples {
 //  publishDir = params.publishDir
  
