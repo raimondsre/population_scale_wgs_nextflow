@@ -32,7 +32,7 @@ Channel
  .into { intervals1; intervals2 }
 // Samples in first and second input VCF
 samples_from_first_and_second_concordance_file = vcf_first_extractSamples.combine(vcf_second_extractSamples)
-samples_from_first_and_second_concordance_file.subscrbe {println it}
+samples_from_first_and_second_concordance_file.subscribe {println it}
 /*
 process extract_vcf_samples {
  input:
