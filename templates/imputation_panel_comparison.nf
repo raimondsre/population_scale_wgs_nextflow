@@ -226,7 +226,7 @@ process manipulate_segment_imputation {
 segments_sample_ready_for_collection_collected = segments_ready_for_collection_imputed
  .toSortedList({ a,b -> a[0] <=> b[0] })
  .flatten().buffer ( size: 5 )
- .groupTuple(by:[1])
+ .groupTuple(by:[0,1,2])
  
 // Arrange segments and group by input file name
 //segments_ready_for_collection_collected = segments_ready_for_collection
@@ -241,7 +241,7 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
  output:
- set val(output), val(vcf_all[0].name), val(intervalname[0]) into a
+ set intervalname into a
  script:
  output = "${vcf_all[0].name}" - "${intervalname[0]}."
  """
