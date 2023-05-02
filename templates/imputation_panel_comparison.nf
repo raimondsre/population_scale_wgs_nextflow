@@ -103,9 +103,7 @@ process phasing {
           --numThreads=10 \
           --Kpbwt=20000 \
           --outPrefix ${remExt(vcf.name)}.phased
- #bcftools index -t ${remExt(vcf.name)}.phased.vcf.gz
- touch ${remExt(vcf.name)}.phased.vcf.gz 
- touch ${remExt(vcf.name)}.phased.vcf.gz.tbi
+ bcftools index -t ${remExt(vcf.name)}.phased.vcf.gz
  """
 }
 toBeImputed = Channel.create()
