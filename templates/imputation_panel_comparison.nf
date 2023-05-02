@@ -107,13 +107,12 @@ process phasing {
  touch ${remExt(vcf.name)}.phased.vcf.gz.tbi
  """
 }
-separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.subscribe {println it}
-/*
+//separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.subscribe {println it}
 separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
        .choice(toBeImputed, imputationPanel) { it[2] == remPath(remExt(params.toBeImputed)) ? 0 : 1 }
 toBeImputed.subscribe {println it}
 imputationPanel.subscribe {println it}
-
+/*
 process bref_imp_panel {
        input:
        tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from imputationPanel
