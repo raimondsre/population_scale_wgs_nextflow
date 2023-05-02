@@ -94,6 +94,7 @@ process separateVCF {
 separated_by_segment_first_and_second_getOverlapID = separated_by_segment_first_and_second_getOverlapID
        .groupTuple(by:[0,1])
 separated_by_segment_first_and_second.subscribe { println it}
+/*
 process extract_overlap_snp {
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx) 
