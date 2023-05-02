@@ -86,7 +86,7 @@ process separateVCF {
        bcftools view ${vcf} ${chr}:${start}-${stop} |
        bcftools view --exclude 'POS<${start}' |
        bcftools view --exclude 'POS>${stop}' |
-       bcftools view -v snps -m2 -Oz -o ${input}.${intervalname}.vcf.gz
+       bcftools view -v snps -m2 -c3 -Oz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
  """
 }
@@ -107,6 +107,9 @@ process extract_overlap_snp {
        bcftools query -f '%ID\n' ${first} > first.id
        bcftools query -f '%ID\n' ${sec} > sec.id
        comm -12 <(sort first.id) <(sort sec.id) > variants_overlap.${intervalname}
+
+       bcftools filter -i 'ID=@variants_overlap.${intervalname}' ${input[0]} -Oz -o ${input[0]}.${intervalname}.vcf.gz
+       bcftools filter -i 'ID=@variants_overlap.${intervalname}' ${input[1]} -Oz -o ${input[1]}.${intervalname}.vcf.gz
        """
 }
 
