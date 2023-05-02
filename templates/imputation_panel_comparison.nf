@@ -140,9 +140,9 @@ process bref_imp_panel {
 //}
 
 // Combine toBeImputed and ImputationPanel channels
-
+imputationPanel_bref = imputationPanel_bref.map { it, "equaliser_element"}.flatten
 imputation_ch = toBeImputed
-       .mix(imputationPanel_bref.map { it, "equaliser_element"}.flatten)
+       .mix(imputationPanel_bref)
        .groupTuple(by:[0,1])
 
 /*
