@@ -90,7 +90,7 @@ process separateVCF {
  """
 }
 (separated_by_segment_first_and_second, separated_by_segment_first_and_second_getOverlapID) = separated_by_segment_first_and_second.into(2)
-
+/*
 separated_by_segment_first_and_second_getOverlapID = separated_by_segment_first_and_second_getOverlapID
        .groupTuple(by:[0,1])
 separated_by_segment_first_and_second.subscribe { println it}
