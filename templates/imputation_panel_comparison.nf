@@ -158,7 +158,7 @@ process manipulate_segment_imputation {
  chr = intervalname.split('_')[0]
  start = intervalname.split('_')[1]
  stop = intervalname.split('_')[2]
- output = "${input[0]}.${input[1]}.${intervalname}"
+ output = "${input[0]}.imputed_with.${input[1]}.${intervalname}"
  """
  # Imputation
  java -Xss5m -Xmx64g -jar ${params.refDir}/beagle.27Jan18.7e1.jar \
@@ -179,10 +179,9 @@ process manipulate_segment_imputation {
  bcftools +fill-tags ${output}.vcf.gz -- -t AF,AC |
  bcftools +impute-info -Oz -o ${output}.INFO.vcf.gz
  bcftools index -t ${output}.INFO.vcf.gz
-
  """
 }
-/*
+
 // process manipulate_segment_samples {
 //  publishDir = params.publishDir
  
@@ -223,7 +222,7 @@ process manipulate_segment_imputation {
 segments_sample_ready_for_collection_collected = segments_ready_for_collection_imputed
  .toSortedList({ a,b -> a[0] <=> b[0] })
  .flatten().buffer ( size: 5 )
- .groupTuple(by:[2])
+ .groupTuple(by:[1])
 //segments_sample_ready_for_collection_collected.subscribe {println it}
  
 // Arrange segments and group by input file name
@@ -239,11 +238,11 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
  output:
- file ("merged.imputed.vcf.gz")
+ file ("${output}.vcf.gz")
  script:
+ output = "${vcf_all[0].name}" - "${intervalname[0]}."
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
- bcftools concat --naive -f vcfFiles.txt -Oz -o merged.imputed.vcf.gz
+ bcftools concat --naive -f vcfFiles.txt -Oz -o ${output}
  """
 }
-*/
