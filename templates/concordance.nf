@@ -43,7 +43,7 @@ process extract_vcf_samples {
  """
  bcftools query -l ${vcf1} > samples1
  bcftools query -l ${vcf2} > samples2
- Rscript -e "library(data.table); library(dplyr); fwrite(intersect(fread('samples1',h=F)$V1, fread('samples2',h=F)$V1) %>% as.data.frame,'samples_overlap',col.names=F)"
+ Rscript -e "library(data.table); library(dplyr); fwrite(intersect(fread('samples1',h=F)\$V1, fread('samples2',h=F)\$V1) %>% as.data.frame,'samples_overlap',col.names=F)"
  """
 }
 samples_ch.subscribe {println it}
