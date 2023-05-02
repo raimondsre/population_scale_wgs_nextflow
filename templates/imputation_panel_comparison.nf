@@ -242,11 +242,10 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
  output:
- set file ("${output}.vcf.gz"), file ("vcfFiles.txt")
+ set file ("vcfFiles.txt")
  script:
  output = "${vcf_all[0].name}" - "${intervalname[0]}."
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
- bcftools concat --naive -f vcfFiles.txt -Oz -o ${output}
  """
 }
