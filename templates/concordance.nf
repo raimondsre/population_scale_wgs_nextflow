@@ -70,7 +70,6 @@ vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second)
 //###
 //### Analysis
 //###
-
 process separateVCF {
  //publishDir params.publishDir
 
@@ -88,6 +87,25 @@ process separateVCF {
        bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
  """
+}
+/*
+// Separate VCF into fragments (has to be before separating by sample)
+process separateVCF {
+ 
+       input:
+       tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_first_and_second
+       
+       output:
+       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment_first_and_second
+
+       script:
+       input = remExt(vcf.name) 
+       """
+              bcftools view ${vcf} ${chr}:${start}-${stop} |
+              bcftools view --exclude 'POS<${start}' |
+              bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+              bcftools index -t ${input}.${intervalname}.vcf.gz
+       """
 }
 {separated_by_segment_first_and_second; separated_by_segment_first_and_second_getOverlapID} = separated_by_segment_first_and_second.into(2)
 /*
