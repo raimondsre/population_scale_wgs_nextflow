@@ -246,6 +246,6 @@ process concatanate_segments {
  output = "${vcf_all[0].name}" - "${intervalname[0]}."
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
- bcftools concat --naive -f vcfFiles.txt -Oz -o ${output}
+ echo "${output}" > test
  """
 }
