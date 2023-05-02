@@ -79,7 +79,7 @@ process separateVCF {
        
        output:
        set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") 
-              into {separated_by_segment_first_and_second; separated_by_segment_first_and_second_getOverlapID}
+              into separated_by_segment_first_and_second
 
        script:
        input = remExt(vcf.name) 
@@ -91,6 +91,7 @@ process separateVCF {
               bcftools index -t ${input}.${intervalname}.vcf.gz
        """
 }
+{separated_by_segment_first_and_second; separated_by_segment_first_and_second_getOverlapID} = separated_by_segment_first_and_second.into(2)
 
 separated_by_segment_first_and_second_getOverlapID = separated_by_segment_first_and_second_getOverlapID
        .groupTuple(by:[0,1])
