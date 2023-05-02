@@ -110,7 +110,7 @@ process phasing {
 }
 toBeImputed = Channel.create()
 imputationPanel = Channel.create()
-separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.choice(toBeImputed, imputationPanel) { it[2] = remPath(remExt(params.toBeImputed)) ? 0 : 1 }
+separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.choice(toBeImputed, imputationPanel) { it[2] == remPath(remExt(params.toBeImputed)) ? 0 : 1 }
 toBeImputed.subscribe {println it}
 imputationPanel.subscribe {println it}
 /*
