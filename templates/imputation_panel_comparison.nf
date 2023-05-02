@@ -16,7 +16,7 @@ Channel
  .into { vcf_toBeImputed; vcf_toBeImputed_extractSamples }
 // Input file to be used as imputation panel
 Channel
- .fromPath(params.toBeImputed)
+ .fromPath(params.imputationPanel1)
  .map { tuple(it, it+".tbi") }
  .into { vcf_imputation_panel }
 // Intervals
@@ -59,8 +59,7 @@ vcfIntervals_toBeImputed = intervals1.combine(vcf_toBeImputed)
 vcfIntervals_toBeUsedAsImputationPanel = intervals2.combine(vcf_imputation_panel)
 // Concatanate to-be-separated channels into a single channel
 vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel = vcfIntervals_toBeImputed.mix(vcfIntervals_toBeUsedAsImputationPanel)
-//samples_ch1.subscribe { println it }
- 
+
 //###
 //### Analysis
 //###
@@ -79,34 +78,42 @@ process separateVCF {
  """
        bcftools view ${vcf} ${chr}:${start}-${stop} |
        bcftools view --exclude 'POS<${start}' |
-       bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+       bcftools view --exclude 'POS>${stop}' |
+       bcftools view -c1 -Oz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
  """
 }
-/*
+
 process phasing {
  input:
  tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
  
  output:
- set val(order), val(intervalname), val(input), file("${input}.${intervalname}.phased.vcf.gz"), file("${input}.${intervalname}.phased.vcf.gz.tbi") into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
+ set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.phased.vcf.gz"), file("${remExt(vcf.name)}.phased.vcf.gz.tbi") into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
 
  script:
- inputVCF = remExt(vcf.name) 
- chr = ${intervalname.splitText('_').extract([0])}
+ chr = intervalname.split('_')[0]
  """
  # Phasing
- ${params.refDir}/Eagle_v2.4.1/eagle \
-          --vcf ${inputVCF}.${intervalname}.vcf.gz \
-          --chrom  ${chr} \
-          --geneticMapFile ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map \
-          --numThreads=10 \
-          --Kpbwt=20000 \
-          --outPrefix ${inputVCF}.${intervalname}.phased
+ #${params.refDir}/Eagle_v2.4.1/eagle \
+ #         --vcf ${vcf} \
+ #         --chrom  ${chr} \
+ #         --geneticMapFile ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map \
+ #         --numThreads=10 \
+ #         --Kpbwt=20000 \
+ #         --outPrefix ${remExt(vcf.name)}.phased
+ #bcftools index -t ${remExt(vcf.name)}.phased.vcf.gz
+ touch ${remExt(vcf.name)}.phased.vcf.gz
+ touch ${remExt(vcf.name)}.phased.vcf.gz.tbi
  """
 }
+separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.subscribe {println it}
+/*
 separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
-       .choice(toBeImputed, imputationPanel) { a -> a[2] == remExt(params.toBeImputed.name) ? 0 : 1 }
+       .choice(toBeImputed, imputationPanel) { it[2] == remPath(remExt(params.toBeImputed)) ? 0 : 1 }
+toBeImputed.subscribe {println it}
+imputationPanel.subscribe {println it}
+
 process bref_imp_panel {
        input:
        tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from imputationPanel
