@@ -245,5 +245,6 @@ process concatanate_segments {
  script:
  output = "${vcf_all[0].name}" - "${intervalname[0]}."
  """
+ echo "${vcf_all.join('\n')}" > vcfFiles.txt
  """
 }
