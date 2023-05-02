@@ -38,7 +38,7 @@ process extract_vcf_samples {
  input:
  tuple file(vcf1), file(idx1), file(vcf2), file(idx2) from samples_from_first_and_second_concordance_file
  output:
- file 'samples_overlap' into samples_ch mode flatten
+ file '*' into samples_ch mode flatten
  script:
  """
  bcftools query -l ${vcf1} > samples1
