@@ -143,8 +143,8 @@ process bref_imp_panel {
 imputation_ch = toBeImputed
        .mix(imputationPanel_bref)
        .groupTuple(by:[0,1])
-//imputation_ch.subscribe { println it }
-
+imputation_ch.subscribe { println it }
+/*
 // Customise manipulation steps
 process manipulate_segment_imputation {
  publishDir = params.publishDir
