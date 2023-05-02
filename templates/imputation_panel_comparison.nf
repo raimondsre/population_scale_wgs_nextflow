@@ -165,7 +165,7 @@ process manipulate_segment_imputation {
  java -Xss5m -Xmx64g -jar ${params.refDir}/beagle.27Jan18.7e1.jar \
           gt=${vcf[0]} \
           ref=${vcf[1]} \ 
-          map=${refDir}/imputation/Imputation/dockers/reference-data-full/reference-data/map/beagle_${chr}_b38.map \
+          map=${params.refDir}/imputation/Imputation/dockers/reference-data-full/reference-data/map/beagle_${chr}_b38.map \
           out=${output} \
           chrom=${chr}:${start}-${stop} \
           window=500000 \
