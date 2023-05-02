@@ -145,7 +145,8 @@ toBeImputed = toBeImputed.map {tuple (it,0)}.flatten()
 imputationPanel_bref = imputationPanel_bref.map {tuple (it,1)}.flatten()
 imputation_ch = toBeImputed
        .mix(imputation_ch)
-       .toSortedList({ a,b -> a[6] <=> b[6] })
+       .toSortedList({ a,b -> a[5] <=> b[5] })
+       .map { tuple(it[0..4]).flatten() }
        .flatten().buffer ( size: 5 )
        .groupTuple(by:[0,1])
 
