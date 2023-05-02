@@ -70,7 +70,6 @@ vcfIntervals_first_and_second.subscribe { println it }
 //###
 //### Analysis
 //###
-/*
 process separateVCF {
  //publishDir params.publishDir
 
