@@ -42,27 +42,20 @@ separated_by_segment_split_samples = vcf
  .map { tuple(1, "all_intervals", it[0], it[1]) }
  .combine(samples_ch1)
 
-separated_by_segment_split_samples.subscribe {println it}
-/*
 process separateVCF_by_samples {
  input:
  set val(order), val(intervalname), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_split_samples
 
  output:
- set val(order), val(intervalname), val(input), file("${input}.${intervalname}.${sample}.vcf.gz"), file("${input}.${intervalname}.${sample}.vcf.gz.tbi"), val(sample), env(variantsPresent) into separated_by_segment_and_sample
+ set val(order), val(intervalname), val(input), file("${input}.${intervalname}.${sample}.vcf.gz"), file("${input}.${intervalname}.${sample}.vcf.gz.tbi"), val(sample) into separated_by_segment_and_sample
  script:
  input = remExt(vcf.name)
  """
  bcftools view ${vcf} -s ${sample} |
  bcftools view -c1 -Oz -o ${input}.${intervalname}.${sample}.vcf.gz
  bcftools index -t ${input}.${intervalname}.${sample}.vcf.gz
-
- variantsPresent=1
- if [ `bcftools view ${input}.${intervalname}.${sample}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
-separated_by_segment_and_sample = separated_by_segment_and_sample.filter { it[6] == "1" }.map { tuple(it[0..5]) }
-
 
 // add segment channel sameple element and concatanate with segments_samples channel
 //separated_by_segment_and_sample = separated_by_segment.map { tuple(it[0..4],"all").flatten() }.mix(separated_by_segment_and_sample)
@@ -123,10 +116,9 @@ process concatanate_segments {
  input:
  set val(input), file(annotsv_all) from concatanate_segments_whole 
  output:
- set file("${input}.by_sample.annotsv.counted")
+ set file("${input}.countedwosegments.by_sample.annotsv.counted")
  script:
  """
- cat ${annotsv_all.join(' ')} > ${input}.by_sample.annotsv.counted
+ cat ${annotsv_all.join(' ')} > ${input}.countedwosegments.by_sample.annotsv.counted
  """
 }
-*/
