@@ -146,11 +146,12 @@ imputationPanel_bref = imputationPanel_bref.map {tuple (it,1)}.flatten().buffer 
 
 imputation_ch = toBeImputed
        .mix(imputationPanel_bref)
+       .toSortedList({ a,b -> a[5] <=> b[5] })
 imputation_ch.subscribe {println it}
 
        /*
-       .toSortedList({ a,b -> a[5] <=> b[5] })
        .map { tuple(it[0..4]) }
+imputation_ch.subscribe {println it}
 
        /*
        .flatten().buffer ( size: 5 )
