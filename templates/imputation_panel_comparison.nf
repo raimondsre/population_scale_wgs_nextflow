@@ -120,8 +120,7 @@ process bref_imp_panel {
        
        script:
        """
-       # java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}
-       touch ${remExt(vcf.name)}.bref
+       java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}
        """
 }
 // Separate segment into samples
