@@ -116,11 +116,12 @@ process bref_imp_panel {
        tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from imputationPanel
        
        output:
-       set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.bref") into imputationPanel_bref
+       set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.bref"), file("equaliser_element") into imputationPanel_bref
        
        script:
        """
        java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}
+       touch equaliser_element
        """
 }
 // Separate segment into samples
@@ -140,7 +141,6 @@ process bref_imp_panel {
 //}
 
 // Combine toBeImputed and ImputationPanel channels
-imputationPanel_bref = imputationPanel_bref.map { tuple (it, "equaliser_element")}.flatten()
 imputation_ch = toBeImputed
        .mix(imputationPanel_bref)
        .groupTuple(by:[0,1])
