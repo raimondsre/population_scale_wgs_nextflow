@@ -59,9 +59,9 @@ def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 def remExtBref(String fileName) {return fileName.replaceFirst(/\.bref$/,'')}
 
 // Make single channel for intervals and vcf file to be imputed
-vcfIntervals_first = intervals1.combine(vcf_first_extractSamples)
+vcfIntervals_first = intervals1.combine(vcf_first)
 // Make single channel for intervals and vcf file to be used as imputation panel
-vcfIntervals_second = intervals2.combine(vcf_second_extractSamples)
+vcfIntervals_second = intervals2.combine(vcf_second)
 
 vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second)
 
