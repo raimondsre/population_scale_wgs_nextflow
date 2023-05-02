@@ -141,15 +141,16 @@ process bref_imp_panel {
 //}
 
 // Combine toBeImputed and ImputationPanel channels
-toBeImputed = toBeImputed.map {tuple (it,0)}.flatten()
-imputationPanel_bref = imputationPanel_bref.map {tuple (it,1)}.flatten()
+toBeImputed = toBeImputed.map {tuple (it,0)}.flatten().buffer (size: 6)
+imputationPanel_bref = imputationPanel_bref.map {tuple (it,1)}.flatten().buffer (size: 6)
 
 imputation_ch = toBeImputed
        .mix(imputationPanel_bref)
        .toSortedList({ a,b -> a[5] <=> b[5] })
        .map { tuple(it[0..4]) }
 imputation_ch.subscribe {println it}
-/*
+
+       /*
        .flatten().buffer ( size: 5 )
        .groupTuple(by:[0,1])
 
