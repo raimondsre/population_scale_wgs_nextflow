@@ -50,6 +50,7 @@ samples_ch
         [counter2, value].flatten()}
  .into { samples_ch1; samples_ch2}
 // Define function to remove .vcf.gz extension
+def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 def remExtBref(String fileName) {return fileName.replaceFirst(/\.bref$/,'')}
 
