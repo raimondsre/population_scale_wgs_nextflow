@@ -97,8 +97,7 @@ separated_by_segment_first_and_second_getOverlapID.subscribe { println it}
 
 process extract_overlap_snp {
        input:
-       set val(order), val(intervalname), val(input), file(vcf), file(idx) 
-              from separated_by_segment_first_and_second_getOverlapID
+       set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second_getOverlapID
        output:
        tuple val(order), val(intervalname), file("variants_overlap.${intervalname}") into overlap_variants
        script:
