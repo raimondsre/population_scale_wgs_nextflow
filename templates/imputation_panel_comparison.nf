@@ -146,8 +146,8 @@ process bref_imp_panel {
 imputation_ch = toBeImputed
        .mix(imputationPanel_bref)
        .groupTuple(by:[0,1])
-imputation_ch.subscribe { println it }
-/*
+//imputation_ch.subscribe { println it }
+
 // Customise manipulation steps
 process manipulate_segment_imputation {
  publishDir = params.publishDir
@@ -156,21 +156,29 @@ process manipulate_segment_imputation {
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from imputation_ch
 
  output:
- set val(order), val(intervalname), val(input), file("${toBeImputed}.${impPanel}.${intervalname}.INFO.vcf.gz"), file("${toBeImputed}.${impPanel}.${intervalname}.INFO.vcf.gz.tbi") into segments_ready_for_collection_imputed
+ set val(order), val(intervalname), val(input), file("${output}.INFO.vcf.gz"), file("${output}.INFO.vcf.gz.tbi") into segments_ready_for_collection_imputed
 
  script:
- chr = ${intervalname.splitText('_').extract([0])}
- start = ${intervalname.splitText('_').extract([1])}
- stop = ${intervalname.splitText('_').extract([2])}
- toBeImputed = ${remExt(vcf[0])}
- impPanel = ${remExtBref(vcf[1])}
+ chr = intervalname.split('_')[0]
+ start = intervalname.split('_')[1]
+ stop = intervalname.split('_')[2]
+ output = "${input[0]}.${input[1]}.${intervalname}"
  """
  # Imputation
- java -Xss5m -Xmx64g -jar ${params.refDir}/beagle.27Jan18.7e1.jar \
-          gt=${toBeImputed}.vcf.gz \
-          ref=${impPanel}.bref \ 
+ touch ${output}.INFO.vcf.gz
+ touch ${output}.INFO.vcf.gz.tbi
+
+ """
+}
+
+segments_ready_for_collection_imputed.subscribe { println it }
+
+/*
+java -Xss5m -Xmx64g -jar ${params.refDir}/beagle.27Jan18.7e1.jar \
+          gt=${vcf[0]} \
+          ref=${vcf[1]} \ 
           map=${refDir}/imputation/Imputation/dockers/reference-data-full/reference-data/map/beagle_${chr}_b38.map \
-          out=${toBeImputed}.${impPanel}.${intervalname} \
+          out=${output} \
           chrom=${chr}:${start}-${stop} \
           window=500000 \
           nthreads=4 \
@@ -180,12 +188,10 @@ process manipulate_segment_imputation {
           impute=true \
           seed=-99999
  # Add impute2 like INFO score
- bcftools index -t ${toBeImputed}.${impPanel}.${intervalname}.vcf.gz
- bcftools +fill-tags ${toBeImputed}.${impPanel}.${intervalname}.vcf.gz -- -t AF,AC |
- bcftools +impute-info -Oz -o ${toBeImputed}.${impPanel}.${intervalname}.INFO.vcf.gz
- bcftools index -t ${toBeImputed}.${impPanel}.${intervalname}.INFO.vcf.gz
- """
-}
+ bcftools index -t ${output}.vcf.gz
+ bcftools +fill-tags ${output}.vcf.gz -- -t AF,AC |
+ bcftools +impute-info -Oz -o ${output}.INFO.vcf.gz
+ bcftools index -t ${output}.INFO.vcf.gz
 
 // process manipulate_segment_samples {
 //  publishDir = params.publishDir
