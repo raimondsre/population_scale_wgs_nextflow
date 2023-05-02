@@ -150,7 +150,7 @@ imputation_ch = toBeImputed.map {tuple (it,0)}
 
 // Customise manipulation steps
 process manipulate_segment_imputation {
- publishDir = params.publishDir
+ //publishDir = params.publishDir
  
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from imputation_ch
