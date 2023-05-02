@@ -65,11 +65,30 @@ vcfIntervals_second = intervals2.combine(vcf_second)
 
 vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second)
 
-//samples_ch1.subscribe { println it }
+vcfIntervals_first_and_second.subscribe { println it }
  
 //###
 //### Analysis
 //###
+/*
+process separateVCF {
+ //publishDir params.publishDir
+
+ input:
+ tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals
+ 
+ output:
+ set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment
+
+ script:
+ input = remExt(vcf.name) 
+ """
+       bcftools view ${vcf} ${chr}:${start}-${stop} |
+       bcftools view --exclude 'POS<${start}' |
+       bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+       bcftools index -t ${input}.${intervalname}.vcf.gz
+ """
+}
 /*
 // Separate VCF into fragments (has to be before separating by sample)
 process separateVCF {
