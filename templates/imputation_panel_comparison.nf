@@ -109,8 +109,8 @@ process phasing {
 }
 //separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.subscribe {println it}
 separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
-       .choice(toBeImputed, imputationPanel) { it[2] = remPath(remExt(params.toBeImputed)) ? 0 : 1 }
-toBeImputed.subscribe {println it}
+       .choice(toBeImputedd, imputationPanel) { it[2] = remPath(remExt(params.toBeImputed)) ? 0 : 1 }
+toBeImputedd.subscribe {println it}
 imputationPanel.subscribe {println it}
 /*
 process bref_imp_panel {
