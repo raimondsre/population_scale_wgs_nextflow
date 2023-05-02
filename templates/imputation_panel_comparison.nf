@@ -141,12 +141,13 @@ process bref_imp_panel {
 //  bcftools index -t ${input}.${intervalname}.${sample}.vcf.gz
 //  """
 //}
-/*
+
 // Combine toBeImputed and ImputationPanel channels
 imputation_ch = toBeImputed
        .mix(imputationPanel_bref)
        .groupTuple(by:[0,1])
-
+imputation_ch.subscribe { println it }
+/*
 // Customise manipulation steps
 process manipulate_segment_imputation {
  publishDir = params.publishDir
