@@ -110,20 +110,20 @@ process phasing {
 }
 toBeImputed = Channel.create()
 imputationPanel = Channel.create()
-separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.choice(toBeImputed, imputationPanel) { it[2] == remPath(params.toBeImputed) ? 0 : 1 }
-toBeImputed.subscribe {println it}
-imputationPanel.subscribe {println it}
-/*
+separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
+       .choice(toBeImputed, imputationPanel) { it[2] == remPath(params.toBeImputed) ? 0 : 1 }
+
 process bref_imp_panel {
        input:
        tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from imputationPanel
        
        output:
-       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.phased.bref") into imputationPanel_bref
+       set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.bref") into imputationPanel_bref
        
        script:
        """
-       java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}
+       # java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}
+       touch ${remExt(vcf.name)}.bref
        """
 }
 // Separate segment into samples
