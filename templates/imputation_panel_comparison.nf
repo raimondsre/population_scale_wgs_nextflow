@@ -29,7 +29,7 @@ Channel
         counter += 1
         [counter, value].flatten()}
  .filter({it[1].contains('chr18')})
- .filter({it[2].contains('80000001')}) //select the shortest interval of ch18
+ //.filter({it[2].contains('80000001')}) //select the shortest interval of ch18
  .into { intervals1; intervals2 }
 // Samples in input VCF
 process extract_vcf_samples {
@@ -246,4 +246,3 @@ process concatanate_segments {
  bcftools concat --naive -f vcfFiles.txt -Oz -o ${output}
  """
 }
-*/
