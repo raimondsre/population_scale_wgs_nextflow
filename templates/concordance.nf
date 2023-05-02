@@ -100,8 +100,8 @@ process extract_overlap_snp {
        output:
        tuple val(order), val(intervalname), file("variants_overlap.${intervalname}") into overlap_variants
        script:
-       first = remExt(vcf[0])
-       sec = remExt(vcf[1])
+       first = vcf[0]
+       sec = vcf[1]
        """
        bcftools query -f '%ID\n' ${first} > first.id
        bcftools query -f '%ID\n' ${sec} > sec.id
