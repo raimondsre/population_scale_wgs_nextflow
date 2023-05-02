@@ -140,7 +140,7 @@ process bref_imp_panel {
 //}
 
 // Combine toBeImputed and ImputationPanel channels
-imputationPanel_bref.subscribe {println it}
+toBeImputed.subscribe {println it}
 /*
 imputation_ch = toBeImputed
        .mix(imputationPanel_bref)
