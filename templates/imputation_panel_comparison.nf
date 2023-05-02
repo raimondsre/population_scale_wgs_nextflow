@@ -50,7 +50,7 @@ samples_ch
         [counter2, value].flatten()}
  .into { samples_ch1; samples_ch2}
 // Define function to remove .vcf.gz extension
-def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
+def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst(/\.vcf\.gz$/,'')}
 def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 def remExtBref(String fileName) {return fileName.replaceFirst(/\.bref$/,'')}
 
@@ -110,7 +110,7 @@ process phasing {
 }
 toBeImputed = Channel.create()
 imputationPanel = Channel.create()
-separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.choice(toBeImputed, imputationPanel) { it[2] == remPath(remExt(params.toBeImputed)) ? 0 : 1 }
+separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.choice(toBeImputed, imputationPanel) { it[2] == remPath(params.toBeImputed) ? 0 : 1 }
 toBeImputed.subscribe {println it}
 imputationPanel.subscribe {println it}
 /*
