@@ -226,7 +226,7 @@ process manipulate_segment_imputation {
 segments_sample_ready_for_collection_collected = segments_ready_for_collection_imputed
  .toSortedList({ a,b -> a[0] <=> b[0] })
  .flatten().buffer ( size: 5 )
- .groupTuple(by:[0,1,2])
+ .groupTuple(by:[2])
  
 // Arrange segments and group by input file name
 //segments_ready_for_collection_collected = segments_ready_for_collection
@@ -241,11 +241,11 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
  output:
- set intervalname into a
+ file output
  script:
  output = "${vcf_all[0].name}" - "${intervalname[0]}."
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
+ bcftools concat --naive -f vcfFiles.txt -Oz -o ${output}
  """
 }
-a.subscribe {println it}
