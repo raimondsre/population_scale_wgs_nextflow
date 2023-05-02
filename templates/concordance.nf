@@ -65,7 +65,7 @@ vcfIntervals_second = intervals2.combine(vcf_second)
 
 vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second)
 
-vcfIntervals_first_and_second.subscribe { println it }
+//vcfIntervals_first_and_second.subscribe { println it }
  
 //###
 //### Analysis
@@ -74,7 +74,7 @@ process separateVCF {
  //publishDir params.publishDir
 
  input:
- tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals
+ tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_first_and_second
  
  output:
  set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment
