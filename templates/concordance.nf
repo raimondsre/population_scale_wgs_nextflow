@@ -85,7 +85,6 @@ process separateVCF {
        input = remExt(vcf.name) 
        """
               bcftools view ${vcf} ${chr}:${start}-${stop} |
-              bcftools view -S ${samples} |
               bcftools view --exclude 'POS<${start}' |
               bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
               bcftools index -t ${input}.${intervalname}.vcf.gz
