@@ -34,7 +34,7 @@ Channel
 samples_from_first_and_second_concordance_file = vcf_first_extractSamples.combine(vcf_second_extractSamples)
 //samples_from_first_and_second_concordance_file.subscribe {println it}
 
-process extract_vcf_samples {
+process extract_overlapping_vcf_samples {
  input:
  tuple file(vcf1), file(idx1), file(vcf2), file(idx2) from samples_from_first_and_second_concordance_file
  output:
@@ -46,9 +46,7 @@ process extract_vcf_samples {
  comm -12 <(sort samples1) <(sort samples2) > samples_overlap 
  """
 }
-samples_ch.subscribe {println it}
 
-/*
 counter2 = 0
 samples_ch
  .splitText() {it.replaceFirst(/\n/,'')}
@@ -94,25 +92,24 @@ process separateVCF {
        """
 }
 
+separated_by_segment_first_and_second_getOverlapID = separated_by_segment_first_and_second_getOverlapID
+       .groupTuple(by:[0,1])
 process extract_overlap_snp {
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx) 
-              from separated_by_segment_first_and_second_getOverlapID.
-                     groupTuple(by:[0,1])
-
+              from separated_by_segment_first_and_second_getOverlapID
        output:
-       tuple val(order), file("overlap.id") into overlap_variants
+       tuple val(order), val(intervalname), file("variants_overlap.${intervalname}") into overlap_variants
        script:
-       first = ${remExt(vcf[0])}
-       sec = ${remExt(vcf[1])}
+       first = remExt(vcf[0])
+       sec = remExt(vcf[1])
        """
        bcftools query -f '%ID\n' ${first} > first.id
        bcftools query -f '%ID\n' ${sec} > sec.id
-
-       Rscript "library(data.table); library(dplyr); fwrite(fread('first.id') %>% filter(V1 %in% fread('sec.id')\$V1),"overlap.id")"
+       comm -12 <(sort first.id) <(sort sec.id) > variants_overlap.${intervalname}
        """
 }
-
+/*
 separated_by_segment_first_and_second_withOverlapID = 
        separated_by_segment_first_and_second
               .join(overlap_variants)
