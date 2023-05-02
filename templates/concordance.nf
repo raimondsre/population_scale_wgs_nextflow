@@ -70,6 +70,7 @@ vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second)
 //###
 //### Analysis
 //###
+
 process separateVCF {
  //publishDir params.publishDir
 
@@ -89,7 +90,7 @@ process separateVCF {
  """
 }
 
-(separated_by_segment_first_and_second; separated_by_segment_first_and_second_getOverlapID) = separated_by_segment_first_and_second.into(2)
+(separated_by_segment_first_and_second, separated_by_segment_first_and_second_getOverlapID) = separated_by_segment_first_and_second.into(2)
 /*
 separated_by_segment_first_and_second_getOverlapID = separated_by_segment_first_and_second_getOverlapID
        .groupTuple(by:[0,1])
