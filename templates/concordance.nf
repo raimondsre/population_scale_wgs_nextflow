@@ -140,6 +140,7 @@ segments_ready_for_concordance = segments_ready_for_concordance
 
 
 process manipulate_segment_concordance {
+       conda = '/home/raimondsre/.conda/envs/parallel'
        publishDir = params.publishDir
        
        input:
