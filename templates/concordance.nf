@@ -117,7 +117,7 @@ separated_by_segment_first_and_second_withOverlapID =
 
 // Customise manipulation steps
 process manipulate_segment_filtering_overalp_variants {
-       publishDir = params.publishDir
+       //publishDir = params.publishDir
        
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx), file(overlap_variants) from separated_by_segment_first_and_second_withOverlapID
@@ -132,6 +132,7 @@ process manipulate_segment_filtering_overalp_variants {
 }
 segments_ready_for_concordance = segments_ready_for_concordance
        .map { tuple(it[0..2], it[2] == remPath(params.firstVCF) ? 0 : 1).flatten() }
+       .toSortedList({ a,b -> a[3] <=> b[3] })
        .groupTuple(by:[0,1])
 
 process manipulate_segment_concordance {
@@ -141,11 +142,11 @@ process manipulate_segment_concordance {
        set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance
 
        output:
-       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.overlapOnly.vcf") into segments_ready_for_concordance
+       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.overlapOnly.vcf") into segment_concordance
 
        script:
        """
-       SnpSift concordance -v $first.forConcordance.vcf $sec.forConcordance.vcf > concordance_wgs_vs_imputed_with_${array}.txt
+       SnpSift concordance -v ${vcf[0]} ${vcf[1]} > concordance_${input[0]}_vs_${input[1]}.txt
        """
 }
 // process manipulate_segment_samples {
@@ -162,7 +163,7 @@ process manipulate_segment_concordance {
 //  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
 //  """
 //}
-
+/*
 //###
 //### Merging
 //###
@@ -212,3 +213,4 @@ process concatanate_segments {
  bcftools concat --naive -f vcfFiles.txt -Oz -o merged.vcf.gz
  """
 }
+*/
