@@ -147,7 +147,8 @@ process manipulate_segment_concordance {
        set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance
 
        output:
-       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.overlapOnly.vcf") into segment_concordance
+       file "*"
+       //set val(order), val(intervalname), val(input), file("${input}.${intervalname}.overlapOnly.vcf") into segment_concordance
 
        script:
        """
