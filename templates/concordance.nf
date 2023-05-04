@@ -181,3 +181,4 @@ process concatanate_segments {
  cat ${txt_all.join(' ')} | grep -v "sample" | sed '/^\$/d' | awk 'OFS"\t"' >> ${output}
  """
 }
+*/
