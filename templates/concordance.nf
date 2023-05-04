@@ -95,7 +95,7 @@ process separateVCF {
 separated_by_segment_first_and_second_getOverlapID = separated_by_segment_first_and_second_getOverlapID
        .groupTuple(by:[0,1])
 
-process extract_overlap_snp {
+process finding_overlap_variants {
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second_getOverlapID
        output:
@@ -107,30 +107,28 @@ process extract_overlap_snp {
        bcftools query -f '%ID\n' ${first} > first.id
        bcftools query -f '%ID\n' ${sec} > sec.id
        comm -12 <(sort first.id) <(sort sec.id) > variants_overlap.${intervalname}
-
-       bcftools filter -i 'ID=@variants_overlap.${intervalname}' ${input[0]} -Oz -o ${input[0]}.${intervalname}.vcf.gz
-       bcftools filter -i 'ID=@variants_overlap.${intervalname}' ${input[1]} -Oz -o ${input[1]}.${intervalname}.vcf.gz
        """
 }
 
 separated_by_segment_first_and_second_withOverlapID = 
        separated_by_segment_first_and_second
-              .join(overlap_variants)
+              .join(overlap_variants, by: [0,1])
 
 // Customise manipulation steps
-process manipulate_segment_ {
+process manipulate_segment_filtering_overalp_variants {
        publishDir = params.publishDir
        
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx), file(overlap_variants) from separated_by_segment_first_and_second_withOverlapID
 
        output:
-       //set val(order), val(intervalname), val(input), file("${input}.notMerged.imputed_with_${impPanel}.INFOscore.${intervalname}.vcf.gz") into segments_ready_for_collection_imputed
+       set val(order), val(intervalname), val(input), file("${input}.notMerged.imputed_with_${impPanel}.INFOscore.${intervalname}.vcf.gz") into segments_ready_for_collection_imputed
 
        script:
        """
-       bcftools filter -i 'ID=@overlap.id'
-               SnpSift concordance -v $first.forConcordance.vcf $sec.forConcordance.vcf > concordance_wgs_vs_imputed_with_${array}.txt
+       bcftools filter -i 'ID=@${overlap_variants}' ${vcf} -Oz -o ${input}.${intervalname}.overlapOnly.vcf.gz
+       
+       SnpSift concordance -v $first.forConcordance.vcf $sec.forConcordance.vcf > concordance_wgs_vs_imputed_with_${array}.txt
   
        """
 }
