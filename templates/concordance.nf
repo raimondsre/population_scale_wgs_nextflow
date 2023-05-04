@@ -137,9 +137,8 @@ segments_ready_for_concordance = segments_ready_for_concordance
        .toSortedList({ a,b -> a[4] <=> b[4] })
        .flatten().buffer ( size: 5 )
        .groupTuple(by:[0,1])
-segments_ready_for_concordance.subscribe {println it}
 
-/*
+
 process manipulate_segment_concordance {
        publishDir = params.publishDir
        
