@@ -118,7 +118,7 @@ separated_by_segment_first_and_second_withOverlapID =
 
 // Customise manipulation steps
 process manipulate_segment_filtering_overalp_variants {
-       publishDir = params.publishDir
+       //publishDir = params.publishDir
        
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx), file(overlap_variants) from separated_by_segment_first_and_second_withOverlapID
@@ -141,7 +141,7 @@ segments_ready_for_concordance = segments_ready_for_concordance
 
 process manipulate_segment_concordance {
        conda = '/home/raimondsre/.conda/envs/parallel'
-       //publishDir = params.publishDir
+       publishDir = params.publishDir
        
        input:
        set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance
@@ -150,7 +150,7 @@ process manipulate_segment_concordance {
 file "*"
        script:
        """
-       SnpSift concordance -v ${vcf[0]} ${vcf[1]} > concordance_${input[0]}_vs_${input[1]}.${intervalname}.txt
+       SnpSift concordance -v ${vcf[0]} ${vcf[1]} 
        """
 }
 /*
