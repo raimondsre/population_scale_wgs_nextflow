@@ -28,8 +28,8 @@ Channel
  .map { value ->
         counter += 1
         [counter, value].flatten()}
- .filter({it[1].contains('chr18')})
- .filter({it[2].contains('80000001')}) //select the shortest interval of ch18
+ //.filter({it[1].contains('chr18')})
+ //.filter({it[2].contains('80000001')}) //select the shortest interval of ch18
  .into { intervals1; intervals2 }
 // Samples in input VCF
 process extract_vcf_samples {
@@ -122,6 +122,8 @@ process phasing {
  bcftools index -t ${remExt(vcf.name)}.phased.vcf.gz
  """
 }
+
+// Separate phased channel into one for bref
 toBeImputed = Channel.create()
 imputationPanel = Channel.create()
 separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
