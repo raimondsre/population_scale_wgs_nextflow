@@ -130,16 +130,17 @@ process manipulate_segment_filtering_overalp_variants {
        bcftools filter -i 'ID=@${overlap_variants}' ${vcf} -Ov -o ${input}.${intervalname}.overlapOnly.vcf
        """
 }
-segments_ready_for_concordance = segments_ready_for_concordance
+segments_ready_for_concordance_a = segments_ready_for_concordance
        .map { tuple(it[0..2], it[2] == remPath(params.firstVCF) ? 0 : 1).flatten() }
        .toSortedList({ a,b -> a[3] <=> b[3] })
        .groupTuple(by:[0,1])
-/*
+
+
 process manipulate_segment_concordance {
        publishDir = params.publishDir
        
        input:
-       set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance
+       set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance_a
 
        output:
        set val(order), val(intervalname), val(input), file("${input}.${intervalname}.overlapOnly.vcf") into segment_concordance
