@@ -55,6 +55,7 @@ samples_ch
         [counter2, value].flatten()}
  .into { samples_ch1; samples_ch2}
 // Define function to remove .vcf.gz extension
+def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst(/\.vcf\.gz$/,'')}
 def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 def remExtBref(String fileName) {return fileName.replaceFirst(/\.bref$/,'')}
 
@@ -122,17 +123,31 @@ process manipulate_segment_filtering_overalp_variants {
        set val(order), val(intervalname), val(input), file(vcf), file(idx), file(overlap_variants) from separated_by_segment_first_and_second_withOverlapID
 
        output:
-       set val(order), val(intervalname), val(input), file("${input}.notMerged.imputed_with_${impPanel}.INFOscore.${intervalname}.vcf.gz") into segments_ready_for_collection_imputed
+       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.overlapOnly.vcf") into segments_ready_for_concordance
 
        script:
        """
-       bcftools filter -i 'ID=@${overlap_variants}' ${vcf} -Oz -o ${input}.${intervalname}.overlapOnly.vcf.gz
-       
-       SnpSift concordance -v $first.forConcordance.vcf $sec.forConcordance.vcf > concordance_wgs_vs_imputed_with_${array}.txt
-  
+       bcftools filter -i 'ID=@${overlap_variants}' ${vcf} -Ov -o ${input}.${intervalname}.overlapOnly.vcf
        """
 }
+segments_ready_for_concordance = segments_ready_for_concordance
+       .map { tuple(it[0..2], it[2] == remPath(params.firstVCF) ? 0 : 1).flatten() }
+       .groupByTyple(by:[0,1])
 
+process manipulate_segment_concordance {
+       publishDir = params.publishDir
+       
+       input:
+       set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance
+
+       output:
+       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.overlapOnly.vcf") into segments_ready_for_concordance
+
+       script:
+       """
+       SnpSift concordance -v $first.forConcordance.vcf $sec.forConcordance.vcf > concordance_wgs_vs_imputed_with_${array}.txt
+       """
+}
 // process manipulate_segment_samples {
 //  publishDir = params.publishDir
  

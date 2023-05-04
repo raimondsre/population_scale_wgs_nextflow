@@ -176,7 +176,7 @@ imputation_ch = toBeImputed.map {tuple (it,0)}
 process manipulate_segment_imputation {
  //publishDir = params.publishDir
  cpus 4
- 
+
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from imputation_ch
 
@@ -272,5 +272,6 @@ process concatanate_segments {
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  bcftools concat --naive -f vcfFiles.txt -Oz -o ${output}
+ 
  """
 }
