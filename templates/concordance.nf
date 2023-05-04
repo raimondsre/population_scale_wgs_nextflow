@@ -141,62 +141,24 @@ segments_ready_for_concordance = segments_ready_for_concordance
 
 process manipulate_segment_concordance {
        conda = '/home/raimondsre/.conda/envs/parallel'
-       publishDir = params.publishDir
+       //publishDir = params.publishDir
        
        input:
        set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance
 
        output:
-       file "*"
-       //set val(order), val(intervalname), val(input), file("${input}.${intervalname}.overlapOnly.vcf") into segment_concordance
+       set val(order), val(intervalname), file("concordance_${input[0]}_vs_${input[1]}.${intervalname}.txt") into segments_ready_for_collection
 
        script:
        """
-       SnpSift concordance -v ${vcf[0]} ${vcf[1]} > concordance_${input[0]}_vs_${input[1]}.txt
+       SnpSift concordance -v ${vcf[0]} ${vcf[1]} > concordance_${input[0]}_vs_${input[1]}.${intervalname}.txt
        """
 }
-// process manipulate_segment_samples {
-//  publishDir = params.publishDir
- 
-//  input:
-//  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_and_sample
 
-//  output:
-//  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi"), val(order_samp), val(sample) into segments_sample_ready_for_collection
-
-//  """
-//  bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
-//  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
-//  """
-//}
-/*
-//###
-//### Merging
-//###
-segments_sample_ready_for_collection_collected = segments_sample_ready_for_collection
- .toSortedList({ a,b -> a[5] <=> b[5] })
- .flatten().buffer( size: 7 )
- .groupTuple(by:[0,1,2]) 
-// Merge samples
-process merge_samples {
- input:
- set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all), val(order_samp), val(sample_all) from segments_sample_ready_for_collection_collected
- output:
- set val(order), val(intervalname), val(input), file("merged.${intervalname}.vcf.gz"), file("merged.${intervalname}.vcf.gz.tbi"), val(order_samp), val(sample_all) into segments_sample_ready_for_collection_merged
-
- script:
- """
- bcftools merge ${vcf_all.join(' ')} -Oz -o merged.${intervalname}.vcf.gz
- bcftools index -t merged.${intervalname}.vcf.gz
- """
-}
-//segments_sample_ready_for_collection_merged.subscribe {println it}
-
-segments_sample_ready_for_collection_collected = segments_sample_ready_for_collection_merged
- .map { tuple(it[0],it[1],it[2],it[3],it[4]) }
+segments_ready_for_collection_collected = segments_ready_for_collection
  .toSortedList({ a,b -> a[0] <=> b[0] })
- .flatten().buffer ( size: 5 )
- .groupTuple(by:[2])
+ .flatten().buffer ( size: 3 )
+ .groupTuple(by:[0,1])
 //segments_sample_ready_for_collection_collected.subscribe {println it}
  
 // Arrange segments and group by input file name
@@ -210,13 +172,13 @@ process concatanate_segments {
  publishDir = params.publishDir
 
  input:
- set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
+ set val(order), val(intervalname), val(txt_all) from segments_ready_for_collection_collected 
  output:
- file ("merged.vcf.gz")
+ file output
  script:
+ output = "${vcf_all[0].name}" - "${intervalname[0]}."
  """
- echo "${vcf_all.join('\n')}" > vcfFiles.txt
- bcftools concat --naive -f vcfFiles.txt -Oz -o merged.vcf.gz
+ echo -e "sample\tV2\tV3\tV4\tMISSING_ENTRY_test1/MISSING_ENTRY_test2\tMISSING_ENTRY_test1/MISSING_GT_test2\tMISSING_ENTRY_test1/REF\tMISSING_ENTRY_test1/ALT_1\tMISSING_ENTRY_test1/ALT_2\tMISSING_GT_test1/MISSING_ENTRY_test2\tMISSING_GT_test1/MISSING_GT_test2\tMISSING_GT_test1/REF\tMISSING_GT_test1/ALT_1\tMISSING_GT_test1/ALT_2\tREF/MISSING_ENTRY_test2\tREF/MISSING_GT_test2\tREF/REF\tREF/ALT_1\tREF/ALT_2\tALT_1/MISSING_ENTRY_test2\tALT_1/MISSING_GT_test2\tALT_1/REF\tALT_1/ALT_1\tALT_1/ALT_2\tALT_2/MISSING_ENTRY_test2\tALT_2/MISSING_GT_test2\tALT_2/REF\tALT_2/ALT_1\tALT_2/ALT_2\tERROR\tV31" > ${output}
+ cat ${txt_all.join(' ')} | grep -v "sample" | sed '/^$/d' | awk 'OFS"\t"' >> ${output}
  """
 }
-*/
