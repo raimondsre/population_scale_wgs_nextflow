@@ -92,7 +92,7 @@ process separateVCF {
 separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
        .filter { it[5] == "1" }
        .groupTuple(by:0)
-       .filter { it[2].size() == 2 } //only of both passed
+       .filter { it[2].size() == 2 } //only if both passed
        .multiMap { 
               ch_one: tuple (it[0], it[1][0], it[2][0], it[3][0], it[4][0])
               ch_two: tuple (it[0], it[1][1], it[2][1], it[3][1], it[4][1])
@@ -102,6 +102,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
        to_mix.ch_one.mix(to_mix.ch_two)
 
 process phasing {
+ //cpus 8 //8 necessary, but optimal value is 2
  input:
  tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
  
@@ -111,6 +112,7 @@ process phasing {
  script:
  chr = intervalname.split('_')[0]
  """
+ uname -a | awk '{print \$2}'
  # Phasing
  ${params.refDir}/Eagle_v2.4.1/eagle \
           --vcf ${vcf} \
