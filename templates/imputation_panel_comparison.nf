@@ -97,7 +97,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
               ch_one: tuple (it[0], it[1][0], it[2][0], it[3][0], it[4][0])
               ch_two: tuple (it[0], it[1][1], it[2][1], it[3][1], it[4][1])
               }     
-       into { to_mix }
+       .into { to_mix }
 separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
        to_mix.ch_one.mix(to_mix.ch_two)
 
