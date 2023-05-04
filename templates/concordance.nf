@@ -138,7 +138,7 @@ segments_ready_for_concordance = segments_ready_for_concordance
        .groupTuple(by:[0,1])
        segments_ready_for_concordance.subscribe {println it}
 
-
+/*
 process manipulate_segment_concordance {
        publishDir = params.publishDir
        
