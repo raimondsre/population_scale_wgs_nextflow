@@ -116,7 +116,7 @@ separated_by_segment_first_and_second_withOverlapID =
        .join(overlap_variants, remainder: true)
               
 separated_by_segment_first_and_second.subscribe {println it}
-
+/*
 // Customise manipulation steps
 process manipulate_segment_filtering_overalp_variants {
        //publishDir = params.publishDir
