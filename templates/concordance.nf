@@ -124,7 +124,7 @@ process manipulate_segment_filtering_overalp_variants {
        set val(order), val(intervalname), val(input), file(vcf), file(idx), file(overlap_variants) from separated_by_segment_first_and_second_withOverlapID
 
        output:
-       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.overlapOnly.vcf") into segments_ready_for_concordance
+       set val(order), val(intervalname), val(input), file("${input}_${intervalname}.overlapOnly.vcf") into segments_ready_for_concordance
 
        script:
        """
