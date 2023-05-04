@@ -100,7 +100,7 @@ process finding_overlap_variants {
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second_getOverlapID
        output:
-       tuple val(order), val(intervalname), file("variants_overlap.${intervalname}") into overlap_variants
+       tuple val(order), file("variants_overlap.${intervalname}") into overlap_variants
        script:
        first = vcf[0]
        sec = vcf[1]
@@ -113,7 +113,7 @@ process finding_overlap_variants {
 
 separated_by_segment_first_and_second_withOverlapID = 
        separated_by_segment_first_and_second
-       .join(overlap_variants, remainder: true)
+       .cross(overlap_variants)
               
 separated_by_segment_first_and_second_withOverlapID.subscribe {println it}
 /*
