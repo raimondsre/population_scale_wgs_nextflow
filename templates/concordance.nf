@@ -118,7 +118,7 @@ separated_by_segment_first_and_second_withOverlapID =
 
 // Customise manipulation steps
 process manipulate_segment_filtering_overalp_variants {
-       //publishDir = params.publishDir
+       publishDir = params.publishDir
        
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx), file(overlap_variants) from separated_by_segment_first_and_second_withOverlapID
