@@ -124,11 +124,11 @@ process manipulate_segment_filtering_overalp_variants {
        set val(order), val(intervalname), val(input), file(vcf), file(idx), file(overlap_variants) from separated_by_segment_first_and_second_withOverlapID
 
        output:
-       set val(order), val(intervalname), val(input), file("${input}_${intervalname}.overlapOnly.vcf") into segments_ready_for_concordance
+       set val(order), val(intervalname), val(input), file("${input}_${intervalname}.vcf") into segments_ready_for_concordance
 
        script:
        """
-       bcftools filter -i 'ID=@${overlap_variants}' ${vcf} -Ov -o ${input}_${intervalname}.overlapOnly.vcf
+       bcftools filter -i 'ID=@${overlap_variants}' ${vcf} -Ov -o ${input}_${intervalname}.vcf
        """
 }
 
@@ -147,7 +147,7 @@ process manipulate_segment_concordance {
        set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance
 
        output:
-       set val(order), val(intervalname), file("concordance_${vcf[0]}_${vcf[1]}.by_sample.txt") into segments_ready_for_collection
+       set val(order), val(intervalname), file("concordance_${vcf[0].name}_${vcf[1].name}.by_sample.txt") into segments_ready_for_collection
 
        script:
        """
