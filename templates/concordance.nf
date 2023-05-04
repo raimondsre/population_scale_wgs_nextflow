@@ -133,12 +133,12 @@ process manipulate_segment_filtering_overalp_variants {
 }
 
 segments_ready_for_concordance = segments_ready_for_concordance
-       .map { tuple(it[0..2], it[2] == remPath(params.firstVCF) ? 0 : 1).flatten() }
-       segments_ready_for_concordance.subscribe {println it}
-/*
+       .map { tuple(it, it[2] == remPath(params.firstVCF) ? 0 : 1).flatten() }
        .toSortedList({ a,b -> a[3] <=> b[3] })
        .groupTuple(by:[0,1])
-/*
+       segments_ready_for_concordance.subscribe {println it}
+
+
 process manipulate_segment_concordance {
        publishDir = params.publishDir
        
