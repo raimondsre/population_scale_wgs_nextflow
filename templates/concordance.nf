@@ -115,9 +115,7 @@ separated_by_segment_first_and_second_withOverlapID =
        separated_by_segment_first_and_second
        .cross(overlap_variants)
        .map {a,b -> tuple(a,b[1]).flatten()}
-              
-separated_by_segment_first_and_second_withOverlapID.subscribe {println it}
-/*
+
 // Customise manipulation steps
 process manipulate_segment_filtering_overalp_variants {
        //publishDir = params.publishDir
@@ -139,7 +137,7 @@ segments_ready_for_concordance = segments_ready_for_concordance
        .toSortedList({ a,b -> a[3] <=> b[3] })
        .groupTuple(by:[0,1])
 
-/*
+
 process manipulate_segment_concordance {
        publishDir = params.publishDir
        
