@@ -72,7 +72,7 @@ process separateVCF {
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel
  
  output:
- set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
+ set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi"), val(variantsPresent) into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
 
  script:
  input = remExt(vcf.name) 
@@ -82,8 +82,24 @@ process separateVCF {
        bcftools view --exclude 'POS>${stop}' |
        bcftools view -c1 -Oz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
+
+       variantsPresent=1
+       if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
+
+// Select toBeImputed - impPanel segment pairs only, if both have at least 1 variant after filtering
+separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
+       .filter { it[5] == "1" }
+       .groupTuple(by:0)
+       .filter { it[2].size() == 2 } //only of both passed
+       .multiMap { 
+              ch_one: tuple (it[0], it[1][0], it[2][0], it[3][0], it[4][0])
+              ch_two: tuple (it[0], it[1][1], it[2][1], it[3][1], it[4][1])
+              }     
+       into { to_mix }
+separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
+       to_mix.ch_one.mix(to_mix.ch_two)
 
 process phasing {
  input:
