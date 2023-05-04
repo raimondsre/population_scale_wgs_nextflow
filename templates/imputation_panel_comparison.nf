@@ -97,13 +97,13 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
               ch_one: tuple (it[0], it[1][0], it[2][0], it[3][0], it[4][0])
               ch_two: tuple (it[0], it[1][1], it[2][1], it[3][1], it[4][1])
               }     
-       .into { to_mix }
-test =
+       .set { to_mix }
+separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
        to_mix.ch_one.mix(to_mix.ch_two)
 
 process phasing {
  input:
- tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from test
+ tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
  
  output:
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.phased.vcf.gz"), file("${remExt(vcf.name)}.phased.vcf.gz.tbi") into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
