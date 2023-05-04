@@ -115,7 +115,6 @@ separated_by_segment_first_and_second_withOverlapID =
        overlap_variants
        .cross(separated_by_segment_first_and_second)
        .map {tuple(it[1],it[0][1]).flatten()}
-separated_by_segment_first_and_second_withOverlapID.subscribe {println it}
 
 // Customise manipulation steps
 process manipulate_segment_filtering_overalp_variants {
