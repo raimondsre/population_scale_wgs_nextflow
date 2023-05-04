@@ -110,7 +110,7 @@ process finding_overlap_variants {
        comm -12 <(sort first.id) <(sort sec.id) > variants_overlap.${intervalname}
        """
 }
-separated_by_segment_first_and_second_withOverlapID.subscribe {println it}
+separated_by_segment_first_and_second.subscribe {println it}
 /*
 separated_by_segment_first_and_second_withOverlapID = 
        separated_by_segment_first_and_second
