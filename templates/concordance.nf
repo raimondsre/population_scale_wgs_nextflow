@@ -147,7 +147,7 @@ process manipulate_segment_concordance {
        set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance
 
        output:
-       set val(order), val(intervalname), file("concordance_${input[0]}_vs_${input[1]}.${intervalname}.txt") into segments_ready_for_collection
+       set val(order), val(intervalname), file("concordance_${input[0]}_vs_${input[1]}.${intervalname}.by_sample.txt") into segments_ready_for_collection
 
        script:
        """
