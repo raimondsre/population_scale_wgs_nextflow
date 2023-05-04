@@ -176,7 +176,7 @@ process concatanate_segments {
  output:
  file output
  script:
- output = "${txt_all[0].name}" - "${intervalname[0]}."
+ output = "${txt_all[0].name}" - "${intervalname}."
  """
  echo -e "sample\tV2\tV3\tV4\tMISSING_ENTRY_test1/MISSING_ENTRY_test2\tMISSING_ENTRY_test1/MISSING_GT_test2\tMISSING_ENTRY_test1/REF\tMISSING_ENTRY_test1/ALT_1\tMISSING_ENTRY_test1/ALT_2\tMISSING_GT_test1/MISSING_ENTRY_test2\tMISSING_GT_test1/MISSING_GT_test2\tMISSING_GT_test1/REF\tMISSING_GT_test1/ALT_1\tMISSING_GT_test1/ALT_2\tREF/MISSING_ENTRY_test2\tREF/MISSING_GT_test2\tREF/REF\tREF/ALT_1\tREF/ALT_2\tALT_1/MISSING_ENTRY_test2\tALT_1/MISSING_GT_test2\tALT_1/REF\tALT_1/ALT_1\tALT_1/ALT_2\tALT_2/MISSING_ENTRY_test2\tALT_2/MISSING_GT_test2\tALT_2/REF\tALT_2/ALT_1\tALT_2/ALT_2\tERROR\tV31" > ${output}
  cat ${txt_all.join(' ')} | grep -v "sample" | sed '/^\$/d' | awk 'OFS"\t"' >> ${output}
