@@ -147,14 +147,13 @@ process manipulate_segment_concordance {
        set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance
 
        output:
-       set val(order), val(intervalname), file("concordance_${input[0]}_vs_${input[1]}.${intervalname}.by_sample.txt") into segments_ready_for_collection
-
+file "*"
        script:
        """
        SnpSift concordance -v ${vcf[0]} ${vcf[1]} > concordance_${input[0]}_vs_${input[1]}.${intervalname}.txt
        """
 }
-
+/*
 segments_ready_for_collection_collected = segments_ready_for_collection
  .toSortedList({ a,b -> a[0] <=> b[0] })
  .flatten().buffer ( size: 3 )
