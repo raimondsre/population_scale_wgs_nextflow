@@ -114,7 +114,7 @@ process finding_overlap_variants {
 separated_by_segment_first_and_second_withOverlapID = 
        separated_by_segment_first_and_second
        .cross(overlap_variants)
-       .map {a,b -> tuple(a,b[1]).flatten()}
+       .map {tuple(it[0],b[1][1]).flatten()}
 
 // Customise manipulation steps
 process manipulate_segment_filtering_overalp_variants {
