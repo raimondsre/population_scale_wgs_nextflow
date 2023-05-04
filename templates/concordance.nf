@@ -132,7 +132,7 @@ process manipulate_segment_filtering_overalp_variants {
 }
 segments_ready_for_concordance = segments_ready_for_concordance
        .map { tuple(it[0..2], it[2] == remPath(params.firstVCF) ? 0 : 1).flatten() }
-       .groupByTuple(by:[0,1])
+       .groupTuple(by:[0,1])
 
 process manipulate_segment_concordance {
        publishDir = params.publishDir
