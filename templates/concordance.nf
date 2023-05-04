@@ -135,7 +135,7 @@ process manipulate_segment_filtering_overalp_variants {
 segments_ready_for_concordance = segments_ready_for_concordance
        .map { tuple(it, it[2] == remPath(params.firstVCF) ? 0 : 1).flatten() }
        .toSortedList({ a,b -> a[4] <=> b[4] })
-       .buffer ( size: 1 )
+       .flatten().buffer ( size: 5 )
        .groupTuple(by:[0,1])
 segments_ready_for_concordance.subscribe {println it}
 
