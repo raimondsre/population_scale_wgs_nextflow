@@ -114,7 +114,9 @@ process finding_overlap_variants {
 separated_by_segment_first_and_second_withOverlapID = 
        separated_by_segment_first_and_second
               .join(overlap_variants, by: [0,1])
-
+       separated_by_segment_first_and_second
+separated_by_segment_first_and_second_withOverlapID.subscribe {println it}
+/*
 // Customise manipulation steps
 process manipulate_segment_filtering_overalp_variants {
        //publishDir = params.publishDir
@@ -133,9 +135,6 @@ process manipulate_segment_filtering_overalp_variants {
 
 segments_ready_for_concordance = segments_ready_for_concordance
        .map { tuple(it[0..2], it[2] == remPath(params.firstVCF) ? 0 : 1).flatten() }
-
-segments_ready_for_concordance.subscribe {println it}
-/*
        .toSortedList({ a,b -> a[3] <=> b[3] })
        .groupTuple(by:[0,1])
 
