@@ -129,7 +129,9 @@ process manipulate_segment_ {
 
        script:
        """
-       bcftools filter -i 'ID=@overlap.id'  
+       bcftools filter -i 'ID=@overlap.id'
+               SnpSift concordance -v $first.forConcordance.vcf $sec.forConcordance.vcf > concordance_wgs_vs_imputed_with_${array}.txt
+  
        """
 }
 
