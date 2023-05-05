@@ -28,9 +28,12 @@ Channel
  .map { value ->
         counter += 1
         [counter, value].flatten()}
+ .filter {it[1] != ["chrX",'chrY','chrM']}
  //.filter({it[1].contains('chr18')})
  //.filter({it[2].contains('80000001')}) //select the shortest interval of ch18
  .into { intervals1; intervals2 }
+ intervals1.subscribe {println it}
+ /*
 // Samples in input VCF
 process extract_vcf_samples {
  input:
@@ -275,3 +278,4 @@ process concatanate_segments {
  
  """
 }
+*/
