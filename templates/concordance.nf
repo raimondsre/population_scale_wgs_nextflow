@@ -101,7 +101,7 @@ process finding_overlap_variants {
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second_getOverlapID
        output:
-       tuple val(order), file("variants_overlap.${intervalname}") into overlap_variants
+       tuple val(order), file("variants_overlap.${intervalname}"), env(variantsPresent) into overlap_variants
        script:
        first = vcf[0]
        sec = vcf[1]
@@ -109,12 +109,16 @@ process finding_overlap_variants {
        bcftools query -f '%ID\n' ${first} > first.id
        bcftools query -f '%ID\n' ${sec} > sec.id
        comm -12 <(sort first.id) <(sort sec.id) > variants_overlap.${intervalname}
+       
+       variantsPresent=1
+       if [ `wc -l variants_overlap.${intervalname}` -eq 0 ]; then variantsPresent=0; fi
        """
 }
 
 separated_by_segment_first_and_second_withOverlapID = 
        overlap_variants
        .cross(separated_by_segment_first_and_second)
+       .filter { it[0][2] == "1" }
        .map {tuple(it[1],it[0][1]).flatten()}
 
 // Customise manipulation steps
