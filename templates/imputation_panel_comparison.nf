@@ -106,7 +106,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
 
 process phasing {
  //cpus 8 //8 necessary, but optimal value is 2
- cpus 4
+ cpus 6
  label 'Phasing'
  tag "${intervalname}"
 
