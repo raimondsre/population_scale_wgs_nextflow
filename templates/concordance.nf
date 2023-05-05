@@ -111,7 +111,7 @@ process finding_overlap_variants {
        comm -12 <(sort first.id) <(sort sec.id) > variants_overlap.${intervalname}
        
        variantsPresent=1
-       if [ `wc -l variants_overlap.${intervalname}` -eq 0 ]; then variantsPresent=0; fi
+       if [ `cat variants_overlap.${intervalname} | wc -l` -eq 0 ]; then variantsPresent=0; fi
        """
 }
 
