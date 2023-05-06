@@ -140,10 +140,11 @@ process phasing {
 // Separate phased channel into one for bref
 toBeImputed = Channel.create()
 imputationPanel = Channel.create()
-separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
+separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.subscribe {println it}
+/*
        .choice(toBeImputed, imputationPanel) { it[2] == remPath(params.toBeImputed) ? 0 : 1 }
 
-imputationPanel.subscribe {println it}
+
 /*
 process bref_imp_panel {
        label 'bref'
