@@ -108,7 +108,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
        to_mix.ch_one.mix(to_mix.ch_two)
 
 process phasing {
- publishDir params.phasedDir, mode: 'move'
+ publishDir params.phasedDir, mode: 'copy'
 
  //cpus 8 //8 necessary, but optimal value is 2
  cpus params.cpus
@@ -140,11 +140,10 @@ process phasing {
 // Separate phased channel into one for bref
 toBeImputed = Channel.create()
 imputationPanel = Channel.create()
-separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased.subscribe {println it}
-/*
+separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
        .choice(toBeImputed, imputationPanel) { it[2] == remPath(params.toBeImputed) ? 0 : 1 }
 
-
+imputationPanel.subscribe {println it}
 /*
 process bref_imp_panel {
        label 'bref'
