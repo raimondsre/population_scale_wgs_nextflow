@@ -174,7 +174,7 @@ segments_ready_for_collection_collected = segments_ready_for_collection
 
 // Concatanate segments
 process concatanate_segments {
- publishDir = params.publishDir
+ publishDir params.publishDir, mode: 'move', overwrite: true
 
  input:
  set val(order), val(intervalname), val(txt_all) from segments_ready_for_collection_collected 

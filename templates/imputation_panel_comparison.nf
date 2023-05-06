@@ -2,7 +2,8 @@
 // Testin
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
-params.cpus = 30
+params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased'
+params.cpus = 8
 
 params.toBeImputed = './'
 params.imputationPanel1 = './'
@@ -31,7 +32,7 @@ Channel
         [counter, value].flatten()}
  .filter { !(it[1] in ['chrX','chrY','chrM']) }
  //.filter({it[1].contains('chr22')})
- .filter({it[4].contains('chr22_50000001_50818468')}) //select the shortest interval of ch18
+ //.filter({it[4].contains('chr22_50000001_50818468')}) //select the shortest interval of ch18
  .into { intervals1; intervals2 }
  
 // Samples in input VCF
@@ -107,6 +108,8 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
        to_mix.ch_one.mix(to_mix.ch_two)
 
 process phasing {
+ publishDir = params.phasedDir, mode: 'move'
+
  //cpus 8 //8 necessary, but optimal value is 2
  cpus params.cpus
  label 'Phasing'
@@ -225,7 +228,7 @@ segments_sample_ready_for_collection_collected = segments_ready_for_collection_i
  
 // Concatanate segments
 process concatanate_segments {
- publishDir = params.publishDir
+ publishDir params.publishDir, mode: 'move', overwrite: true
 
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
