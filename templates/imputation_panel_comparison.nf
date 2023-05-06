@@ -29,8 +29,8 @@ Channel
         counter += 1
         [counter, value].flatten()}
  .filter { !(it[1] in ['chrX','chrY','chrM']) }
- //.filter({it[1].contains('chr18')})
- .filter({it[4].contains('chr21_5000001_10000000')}) //select the shortest interval of ch18
+ .filter({it[1].contains('chrM')})
+ //.filter({it[4].contains('chr21_5000001_10000000')}) //select the shortest interval of ch18
  .into { intervals1; intervals2 }
  
 // Samples in input VCF
