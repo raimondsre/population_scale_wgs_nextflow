@@ -3,7 +3,7 @@
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased'
-params.cpus = 6
+params.cpus = 8
 
 params.toBeImputed = './'
 params.imputationPanel1 = './'
@@ -84,7 +84,8 @@ process separateVCF {
        bcftools view ${vcf} ${chr}:${start}-${stop} |
        bcftools view --exclude 'POS<${start}' |
        bcftools view --exclude 'POS>${stop}' |
-       bcftools view -c1 -Oz -o ${input}.${intervalname}.vcf.gz
+       bcftools norm --remove-duplicates |
+       bcftools view -c3 -Oz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
 
        variantsPresent=1
