@@ -3,7 +3,7 @@
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased'
-params.cpus = 32
+params.cpus = 6
 
 params.toBeImputed = './'
 params.imputationPanel1 = './'
