@@ -3,7 +3,7 @@
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased'
-params.cpus = 8
+params.cpus = 32
 
 params.toBeImputed = './'
 params.imputationPanel1 = './'
@@ -31,7 +31,7 @@ Channel
         counter += 1
         [counter, value].flatten()}
  .filter { !(it[1] in ['chrX','chrY','chrM']) }
- //.filter({it[1].contains('chr22')})
+ .filter({it[1].contains('chr22')})
  //.filter({it[4].contains('chr22_50000001_50818468')}) //select the shortest interval of ch18
  .into { intervals1; intervals2 }
  
@@ -113,7 +113,7 @@ process phasing {
  //cpus 8 //8 necessary, but optimal value is 2
  cpus params.cpus
  label 'Phasing'
- tag "${intervalname}"
+ tag "${intervalname}.${input}"
 
  input:
  tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
@@ -144,6 +144,9 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
        .choice(toBeImputed, imputationPanel) { it[2] == remPath(params.toBeImputed) ? 0 : 1 }
 
 process bref_imp_panel {
+       label 'bref'
+       tag "${intervalname}.${input}"
+
        input:
        tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from imputationPanel
        
@@ -156,21 +159,6 @@ process bref_imp_panel {
        touch equaliser_element
        """
 }
-// Separate segment into samples
-// ( separated_by_segment, separated_by_segment_split_samples ) = separated_by_segment.into(2)
-// separated_by_segment_split_samples = separated_by_segment_split_samples.combine(samples_ch1)
-// process separateVCF_by_samples {
-//  input:
-//  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_split_samples
-
-//  output:
-//  set val(order), val(intervalname), val(input), file("${input}.${intervalname}.${sample}.vcf.gz"), file("${input}.${intervalname}.${sample}.vcf.gz.tbi"), val(order_samp), val(sample) into separated_by_segment_and_sample_toBeImputed
-//  script:
-//  """
-//  bcftools view ${vcf} -s ${sample} -Oz -o ${input}.${intervalname}.${sample}.vcf.gz
-//  bcftools index -t ${input}.${intervalname}.${sample}.vcf.gz
-//  """
-//}
 
 // Combine toBeImputed and ImputationPanel channels
 imputation_ch = toBeImputed.map {tuple (it,0)}
