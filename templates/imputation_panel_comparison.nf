@@ -30,7 +30,7 @@ Channel
         [counter, value].flatten()}
  .filter { !(it[1] in ['chrX','chrY','chrM']) }
  //.filter({it[1].contains('chr18')})
- //.filter({it[2].contains('80000001')}) //select the shortest interval of ch18
+ .filter({it[4].contains('chr21_5000001_10000000')}) //select the shortest interval of ch18
  .into { intervals1; intervals2 }
  
 // Samples in input VCF
@@ -213,54 +213,12 @@ process manipulate_segment_imputation {
  bcftools index -t ${output}.INFO.vcf.gz
  """
 }
-// process manipulate_segment_samples {
-//  publishDir = params.publishDir
- 
-//  input:
-//  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_and_sample
-
-//  output:
-//  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi"), val(order_samp), val(sample) into segments_sample_ready_for_collection
-
-//  """
-//  bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
-//  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
-//  """
-//}
-
-//###
-//### Merging
-//###
-// segments_sample_ready_for_collection_collected = segments_sample_ready_for_collection
-//  .toSortedList({ a,b -> a[5] <=> b[5] })
-//  .flatten().buffer( size: 7 )
-//  .groupTuple(by:[0,1,2]) 
-// // Merge samples
-// process merge_samples {
-//  input:
-//  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all), val(order_samp), val(sample_all) from segments_sample_ready_for_collection_collected
-//  output:
-//   set val(order), val(intervalname), val(input), file("merged.${intervalname}.vcf.gz"), file("merged.${intervalname}.vcf.gz.tbi"), val(order_samp), val(sample_all) into segments_sample_ready_for_collection_merged
-
-//  script:
-//  """
-//  bcftools merge ${vcf_all.join(' ')} -Oz -o merged.${intervalname}.vcf.gz
-//  bcftools index -t merged.${intervalname}.vcf.gz
-//  """
-// }
-//segments_sample_ready_for_collection_merged.subscribe {println it}
 
 segments_sample_ready_for_collection_collected = segments_ready_for_collection_imputed
  .toSortedList({ a,b -> a[0] <=> b[0] })
  .flatten().buffer ( size: 5 )
  .groupTuple(by:[2])
  
-// Arrange segments and group by input file name
-//segments_ready_for_collection_collected = segments_ready_for_collection
-// .toSortedList({ a,b -> a[0] <=> b[0] })
-// .flatten().buffer ( size: 5 )
-// .groupTuple(by:[2])
-
 // Concatanate segments
 process concatanate_segments {
  publishDir = params.publishDir
