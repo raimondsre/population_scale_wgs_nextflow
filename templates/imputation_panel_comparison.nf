@@ -108,7 +108,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
        to_mix.ch_one.mix(to_mix.ch_two)
 
 process phasing {
- publishDir = params.phasedDir, mode: 'move'
+ publishDir params.phasedDir, mode: 'move'
 
  //cpus 8 //8 necessary, but optimal value is 2
  cpus params.cpus
