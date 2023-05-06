@@ -2,6 +2,7 @@
 // Testin
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
+params.cpus = 30
 
 params.toBeImputed = './'
 params.imputationPanel1 = './'
@@ -107,7 +108,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
 
 process phasing {
  //cpus 8 //8 necessary, but optimal value is 2
- cpus 6
+ cpus params.cpus
  label 'Phasing'
  tag "${intervalname}"
 
@@ -126,7 +127,7 @@ process phasing {
           --vcf ${vcf} \
           --chrom  ${chr} \
           --geneticMapFile ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map \
-          --numThreads=10 \
+          --numThreads=${params.cpus} \
           --Kpbwt=20000 \
           --outPrefix ${remExt(vcf.name)}.phased
  bcftools index -t ${remExt(vcf.name)}.phased.vcf.gz
@@ -179,7 +180,7 @@ imputation_ch = toBeImputed.map {tuple (it,0)}
 // Customise manipulation steps
 process manipulate_segment_imputation {
  //publishDir = params.publishDir
- cpus 6
+ cpus params.cpus
 
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from imputation_ch
@@ -193,6 +194,7 @@ process manipulate_segment_imputation {
  stop = intervalname.split('_')[2]
  output = "${input[0]}.imputed_with.${input[1]}.${intervalname}"
  input = input[0] // for easier reproducibility
+ cp = 30
  """
  # Imputation
  java -Xss5m -Xmx64g -jar ${params.refDir}/beagle.27Jan18.7e1.jar \
@@ -202,7 +204,7 @@ process manipulate_segment_imputation {
           out=${output} \
           chrom=${chr}:${start}-${stop} \
           window=500000 \
-          nthreads=4 \
+          nthreads=${params.cpus} \
           niterations=10 \
           gprobs=true \
           ne=20000 \
