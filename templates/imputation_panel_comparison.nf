@@ -29,8 +29,8 @@ Channel
         counter += 1
         [counter, value].flatten()}
  .filter { !(it[1] in ['chrX','chrY','chrM']) }
- .filter({it[1].contains('chr22')})
- //.filter({it[4].contains('chr21_5000001_10000000')}) //select the shortest interval of ch18
+ //.filter({it[1].contains('chr22')})
+ .filter({it[4].contains('chr22_50000001_50818468')}) //select the shortest interval of ch18
  .into { intervals1; intervals2 }
  
 // Samples in input VCF
@@ -87,7 +87,6 @@ process separateVCF {
 
        variantsPresent=1
        if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
-       
        # Check wether genetic map file contains variants in segment
        if [ `awk '\$2 >= 5000001 && \$2 <= 10000000 {print \$0}' ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
