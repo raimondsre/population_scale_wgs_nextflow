@@ -88,7 +88,7 @@ process separateVCF {
        variantsPresent=1
        if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
        # Check wether genetic map file contains variants in segment
-       if [ `awk '\$2 >= 5000001 && \$2 <= 10000000 {print \$0}' ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map | wc -l` -eq 0 ]; then variantsPresent=0; fi
+       if [ `awk '\$2 >= ${start} && \$2 <= ${stop} {print \$0}' ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
 
