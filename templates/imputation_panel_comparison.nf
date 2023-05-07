@@ -32,7 +32,7 @@ Channel
         [counter, value].flatten()}
  .filter { !(it[1] in ['chrX','chrY','chrM']) }
  //.filter({it[1].contains('chr22')})
- //.filter({it[4].contains('chr14_107000001_107043718')}) //select the shortest interval of ch18
+ .filter({it[4].contains('chr4_190000001_190214555')}) // Imputation problematic with the following segments: chr9_40000001_45000000,
  .into { intervals1; intervals2 }
  
 // Samples in input VCF
