@@ -20,7 +20,7 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- //.filter({it[1].contains('chrY')})
+ .filter({it[4].contains('chr4_190000001_190214555')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
@@ -84,7 +84,7 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
- bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} | 
+ bcftools view -S ${params.samplesToKepep} --force-samples ${vcf} | 
  bcftools norm --multiallelics - |
  bcftools view -c3 |
  bcftools +setGT -- -t a -n u |
