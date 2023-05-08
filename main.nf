@@ -22,7 +22,7 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- //.filter({it[1].contains('chrY')})
+ .filter({it[1].contains('chrM')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
@@ -110,7 +110,7 @@ process concatanate_segments {
  set file(outputVCF), file(outputVCFtbi)
 
  script:
- outputVCF = ${params.outputName}+".vcf.gz"
+ outputVCF = params.outputName+".vcf.gz"
  outputVCFtbi = outputVCF+".tbi"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
