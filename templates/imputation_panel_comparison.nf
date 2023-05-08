@@ -205,7 +205,6 @@ process manipulate_segment_imputation {
  # Add impute2 like INFO score
  bcftools index -t ${output}.vcf.gz
  bcftools +fill-tags ${output}.vcf.gz -- -t AF,AC |
- bcftools view -c1 |
  bcftools +impute-info -Oz -o ${output}.INFO.vcf.gz
  bcftools index -t ${output}.INFO.vcf.gz
  """
