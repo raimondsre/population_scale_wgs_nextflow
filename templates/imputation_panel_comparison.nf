@@ -258,18 +258,17 @@ counted_segments_ready_for_collection = counted_segments_ready_for_collection
 process count_by_info_score_collected {
        publishDir params.publishDir, mode: 'copy', overwrite: true
        input:
-       set val(intervalname), file(counted_all) from counted_segments_ready_for_collection
+       set val(name), file(counted_all) from counted_segments_ready_for_collection
 
        output:
        file output_full
 
        script:
-       output_full = "${counted_all[0]}" - "${intervalname[0]}"
+       output_full = ${name}+".counted.txt"
        """       
 
        echo -e 'AF_GROUP\tsnv\tINFO_GROUP\tcount\tinterval\tsource' > ${output_full}
        cat ${counted_all.join(' ')} >> ${output_full}
-       echo "${output_full},${counted_all[0]},${intervalname[0]}" >> ${output_full}
        """
 }
 
