@@ -265,7 +265,7 @@ process count_by_info_score_collected {
        file output_full
 
        script:
-       output_full = "${output_counted[0]}" - "${intervalname[0]}"
+       output_full = "${counted_all[0]}" - "${intervalname[0]}"
        """       
        echo -e 'AF_GROUP\tsnv\tINFO_GROUP\tcount\tinterval\tsource' > ${output_full}
        cat ${counted_all.join(' ')} >> ${output_full}
