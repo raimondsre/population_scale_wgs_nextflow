@@ -239,11 +239,12 @@ process count_by_info_score {
        set val(order), val(intervalname), val(input), file(vcf), file(idx) from segments_ready_for_collection_imputed_for_info_counting
 
        output:
-       set val(intervalname), file(output_counted) into counted_segments_ready_for_collection
+       set val(name), file(output_counted) into counted_segments_ready_for_collection
 
        script:
        output_full = remExt(vcf.name)+".txt"
        output_counted = remExt(vcf.name)+".counted.txt"
+       name = "${remExt(vcf.name)}" - "${intervalname}"
        """
        echo -e 'CHR\tSNP\tREF\tALT\tAF\tINFO\tAC' > ${output_full}
        
@@ -252,10 +253,8 @@ process count_by_info_score {
        """
 }
 counted_segments_ready_for_collection = counted_segments_ready_for_collection
-       .collect()
-       counted_segments_ready_for_collection.subscribe {println it}
-/*
-       .transpose()
+       .groupTuple()
+counted_segments_ready_for_collection.subscribe {println it}
 /*
 process count_by_info_score_collected {
        publishDir params.publishDir, mode: 'copy', overwrite: true
