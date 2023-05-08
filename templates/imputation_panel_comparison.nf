@@ -245,8 +245,15 @@ process count_by_info_score {
        output = remExt(vcf.name)+".INFO_group.txt"
        """
        echo -e 'CHR\tSNP\tREF\tALT\tAF\tINFO\tAC\tAF_GROUP' > ${output}
-
        
+       bcftools query -f \
+          '%CHROM\t%CHROM\\_%POS\\_%REF\\_%ALT\t%REF\t%ALT\t%INFO/AF\t%INFO/INFO\t%INFO/AC\n' ${vcf} | \
+          awk -v OFS="\t" \
+          '{if (\$5>=0.05 && \$5<=0.95) \$8=1; \
+            else if((\$5>=0.005 && \$5<0.05) || \
+            (\$5<=0.995 && \$5>0.95)) \$8=2; else \$8=3} \
+            { print \$1, \$2, \$3, \$4, \$5, \$6, \$7, \$8 }' \
+          >> ${output}
        """
 }
 /*
