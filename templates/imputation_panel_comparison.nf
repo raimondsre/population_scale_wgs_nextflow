@@ -244,7 +244,7 @@ process count_by_info_score {
        script:
        output_full = remExt(vcf.name)+".txt"
        output_counted = remExt(vcf.name)+".counted.txt"
-       name = "${remExt(vcf.name)}" - "${intervalname}"
+       name = "${remExt(vcf.name)}" - ".${intervalname}.INFO"
        """
        echo -e 'CHR\tSNP\tREF\tALT\tAF\tINFO\tAC' > ${output_full}
        
@@ -254,8 +254,7 @@ process count_by_info_score {
 }
 counted_segments_ready_for_collection = counted_segments_ready_for_collection
        .groupTuple()
-counted_segments_ready_for_collection.subscribe {println it}
-/*
+
 process count_by_info_score_collected {
        publishDir params.publishDir, mode: 'copy', overwrite: true
        input:
