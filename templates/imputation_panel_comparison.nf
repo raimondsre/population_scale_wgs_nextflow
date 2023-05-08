@@ -209,7 +209,7 @@ process manipulate_segment_imputation {
  bcftools index -t ${output}.INFO.vcf.gz
  """
 }
-{segments_ready_for_collection_imputed; segments_ready_for_collection_imputed_for_info_counting} = segments_ready_for_collection_imputed
+//{segments_ready_for_collection_imputed; segments_ready_for_collection_imputed_for_info_counting} = segments_ready_for_collection_imputed
 segments_sample_ready_for_collection_collected = segments_ready_for_collection_imputed
  .toSortedList({ a,b -> a[0] <=> b[0] })
  .flatten().buffer ( size: 5 )
