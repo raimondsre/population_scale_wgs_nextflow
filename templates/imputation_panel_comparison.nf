@@ -253,8 +253,9 @@ process count_by_info_score {
 }
 counted_segments_ready_for_collection = counted_segments_ready_for_collection
        .collect()
+       counted_segments_ready_for_collection.subscribe {println it}
+/*
        .transpose()
-counted_segments_ready_for_collection.subscribe {println it}
 /*
 process count_by_info_score_collected {
        publishDir params.publishDir, mode: 'copy', overwrite: true
