@@ -31,7 +31,7 @@ Channel
         counter += 1
         [counter, value].flatten()}
  .filter { !(it[1] in ['chrX','chrY','chrM']) }
- //.filter({it[1].contains('chr22')})
+ .filter({it[1].contains('chrM')})
  //.filter({it[4].contains('chr4_190000001_190214555')}) // Imputation problematic with the following segments: chr9_40000001_45000000,
  .into { intervals1; intervals2 }
  
