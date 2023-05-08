@@ -231,7 +231,7 @@ process concatanate_segments {
  
  """
 }
-/*
+
 // Counting variant number by info score
 process count_by_info_score {
        //publishDir params.publishDir, mode: 'copy', overwrite: true
@@ -247,7 +247,7 @@ process count_by_info_score {
        """
        echo -e 'CHR\tSNP\tREF\tALT\tAF\tINFO\tAC' > ${output_full}
        
-       bcftools query -f '%CHROM\t%CHROM\\_%POS\\_%REF\\_%ALT\t%REF\t%ALT\t%INFO/AF\t%INFO/INFO\t%INFO/AC\n' ${vcf} > ${output_full}
+       bcftools query -f '%CHROM\t%CHROM\\_%POS\\_%REF\\_%ALT\t%REF\t%ALT\t%INFO/AF\t%INFO/INFO\t%INFO/AC\n' ${vcf} >> ${output_full}
        Rscript ${projectDir}/count_info_imputation.R --input ${output_full} --interval ${intervalname} --original_file_name ${remExt(vcf.name)}
        """
 }
@@ -256,7 +256,7 @@ counted_segments_ready_for_collection = counted_segments_ready_for_collection
        .transpose()
 //counted_segments_ready_for_collection.subscribe {println it}
 
-process count_by_info_score {
+process count_by_info_score_collected {
        publishDir params.publishDir, mode: 'copy', overwrite: true
        input:
        set val(intervalname), file(counted_all) from counted_segments_ready_for_collection
