@@ -218,7 +218,7 @@ segments_sample_ready_for_collection_collected = segments_ready_for_collection_i
  
 // Concatanate segments
 process concatanate_segments {
- publishDir params.publishDir, mode: 'move', overwrite: true
+ publishDir params.publishDir, mode: 'copy', overwrite: true
 
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
@@ -234,7 +234,7 @@ process concatanate_segments {
 }
 
 process count_by_info_score {
-       publishDir params.publishDir, mode: 'move', overwrite: true
+       publishDir params.publishDir, mode: 'copy', overwrite: true
        input:
        file vcf from count_by_info_score
 
