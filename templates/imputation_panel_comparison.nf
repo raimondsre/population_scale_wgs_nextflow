@@ -209,7 +209,7 @@ process manipulate_segment_imputation {
  bcftools index -t ${output}.INFO.vcf.gz
  """
 }
-//{segments_ready_for_collection_imputed; segments_ready_for_collection_imputed_for_info_counting} = segments_ready_for_collection_imputed
+{segments_ready_for_collection_imputed; segments_ready_for_collection_imputed_for_info_counting} = segments_ready_for_collection_imputed.into(2)
 segments_sample_ready_for_collection_collected = segments_ready_for_collection_imputed
  .toSortedList({ a,b -> a[0] <=> b[0] })
  .flatten().buffer ( size: 5 )
@@ -231,7 +231,7 @@ process concatanate_segments {
  
  """
 }
-/*
+
 // Counting variant number by info score
 process count_by_info_score {
        //publishDir params.publishDir, mode: 'copy', overwrite: true
@@ -254,8 +254,8 @@ process count_by_info_score {
 counted_segments_ready_for_collection = counted_segments_ready_for_collection
        .collect()
        .transpose()
-counted_segments_ready_for_collection.subscribe {println it}
-/*
+//counted_segments_ready_for_collection.subscribe {println it}
+
 process count_by_info_score {
        publishDir params.publishDir, mode: 'copy', overwrite: true
        input:
