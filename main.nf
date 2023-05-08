@@ -22,7 +22,7 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- .filter({it[1].contains('chrM')})
+ //.filter({it[1].contains('chrM')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
@@ -87,9 +87,7 @@ process manipulate_segment {
 
  """
  bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} | 
- bcftools norm --multiallelics - |
- bcftools view -c3 |
- bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
+ bcftools view -c3 -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
