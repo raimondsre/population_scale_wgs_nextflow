@@ -216,6 +216,8 @@ segments_sample_ready_for_collection_collected = segments_ready_for_collection_i
  .flatten().buffer ( size: 5 )
  .groupTuple(by:[2])
  
+ segments_sample_ready_for_collection_collected.subscribe {println}
+ /*
 // Concatanate segments
 process concatanate_segments {
  publishDir params.publishDir, mode: 'copy', overwrite: true
