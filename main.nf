@@ -5,6 +5,8 @@ params.publishDir = './results'
 params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
 params.samplesToKeep = './keep.samples'
+params.outputName = remExt(params.inputVCF.name)+'.filtered'
+
 // Define channels for intervals and initial .vcf.gz file
 // Input file
 Channel
@@ -108,7 +110,7 @@ process concatanate_segments {
  set file(outputVCF), file(outputVCFtbi)
 
  script:
- outputVCF = input+".ChrPos.539samples.splitMultiall.c3.vcf.gz"
+ outputVCF = ${params.outputName}+".vcf.gz"
  outputVCFtbi = outputVCF+".tbi"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
