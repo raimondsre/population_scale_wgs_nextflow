@@ -264,7 +264,7 @@ process count_by_info_score_collected {
        file output_full
 
        script:
-       output_full = ${name}+".counted.txt"
+       output_full = name+".counted.txt"
        """       
 
        echo -e 'AF_GROUP\tsnv\tINFO_GROUP\tcount\tinterval\tsource' > ${output_full}
