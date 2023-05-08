@@ -223,7 +223,7 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
  output:
- file "*"
+ file output into count_by_info_score
  script:
  output = "${vcf_all[0].name}" - "${intervalname[0]}."
  """
@@ -231,6 +231,30 @@ process concatanate_segments {
  bcftools concat -f vcfFiles.txt -Oz -o ${output}
  
  """
+}
+
+process count_by_info_score {
+       publishDir params.publishDir, mode: 'move', overwrite: true
+       input:
+       file vcf from count_by_info_score
+
+       output:
+       file output
+
+       script:
+       output = remExt(vcf.name) 
+       """
+       echo -e 'CHR\tSNP\tREF\tALT\tAF\tINFO\tAC\tAF_GROUP' > ${input}_INFO_group.txt
+       bcftools query -f \
+          '%CHROM\t%CHROM\_%POS\_%REF\_%ALT\t%REF\t%ALT\t%INFO/AF\t%INFO/INFO\t%INFO/AC\n' \
+          ${vcf} | \
+          awk -v OFS="\t" \
+          '{if (\$5>=0.05 && \$5<=0.95) \$8=1; \
+            else if((\$5>=0.005 && \$5<0.05) || \
+            (\$5<=0.995 && \$5>0.95)) \$8=2; else \$8=3} \
+            { print \$1, \$2, \$3, \$4, \$5, \$6, \$7, \$8 }' \
+          >> ${input}_INFO_group.txt
+       """
 }
 /*
 */
