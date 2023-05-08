@@ -5,7 +5,7 @@ params.publishDir = './results'
 params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
 params.samplesToKeep = './keep.samples'
-params.outputName = remExt(params.inputVCF.name)+'.filtered'
+params.outputName = remExt(${params.inputVCF}.name)+'.filtered'
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file
