@@ -245,6 +245,7 @@ process count_by_info_score {
        output = remExt(vcf.name)+".INFO_group.txt"
        """
        echo -e 'CHR\tSNP\tREF\tALT\tAF\tINFO\tAC\tAF_GROUP' > ${output}
+       
        bcftools query -f \
           '%CHROM\t%CHROM\_%POS\_%REF\_%ALT\t%REF\t%ALT\t%INFO/AF\t%INFO/INFO\t%INFO/AC\n' \
           ${vcf} | \
