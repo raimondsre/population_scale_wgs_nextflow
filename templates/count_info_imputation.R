@@ -15,10 +15,13 @@ if (is.null(interval)) { interval <- "all" }
 
 # count variants in specific INFO groups
 data <- data %>% 
-mutate(AF_GROUP = ifelse(AF > 0.05 & AF < 0.95, 1, ifelse(AF < 0.005 | AF > 0.995, 3, 2))) %>%
+mutate(AF_GROUP = ifelse(AF >= 0.05 & AF <= 0.95, "Common_variants", ifelse(AF < 0.005 | AF > 0.995, "Rare_variants", "Low_frequency_variants"))) %>%
 mutate(snv = ifelse(nchar(REF) == 1 & nchar(ALT) == 1,TRUE,FALSE)) %>%
-mutate(INFO_GROUP = ifelse())
+mutate(INFO_GROUP = ifelse(INFO >= 0.8, "high_confidence", ifelse(INFO > 0.4 & INFO < 0.8, "low_confidence", "Below0_4_confidence"))) %>%
+group_by(AF_GROUP, snv, INFO_GROUP) %>%
+summarise(count = n())
+
 
 # Add interval and sample
-total <- total %>% mutate(interval = interval, sample = sample, original_file_name = original_file_name)
-fwrite(total, sprintf("%s.%s.vep.counted", interval, sample),col.names=FALSE, sep="\t")
+total <- data %>% mutate(interval = interval, original_file_name = original_file_name)
+fwrite(total, sprintf("%s.counted.txt", original_file_name),col.names=FALSE, sep="\t")

@@ -187,7 +187,6 @@ process manipulate_segment_imputation {
  stop = intervalname.split('_')[2]
  output = "${input[0]}.imputed_with.${input[1]}.${intervalname}"
  input = input[0] // for easier reproducibility
- cp = 30
  """
  # Imputation
  java -Xss5m -Xmx64g -jar ${params.refDir}/beagle.27Jan18.7e1.jar \
@@ -206,11 +205,12 @@ process manipulate_segment_imputation {
  # Add impute2 like INFO score
  bcftools index -t ${output}.vcf.gz
  bcftools +fill-tags ${output}.vcf.gz -- -t AF,AC |
+ bcftools view -c1 |
  bcftools +impute-info -Oz -o ${output}.INFO.vcf.gz
  bcftools index -t ${output}.INFO.vcf.gz
  """
 }
-
+{segments_ready_for_collection_imputed; segments_ready_for_collection_imputed_for_info_counting} = segments_ready_for_collection_imputed
 segments_sample_ready_for_collection_collected = segments_ready_for_collection_imputed
  .toSortedList({ a,b -> a[0] <=> b[0] })
  .flatten().buffer ( size: 5 )
@@ -223,7 +223,7 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
  output:
- file output into count_by_info_score
+ file output 
  script:
  output = "${vcf_all[0].name}" - "${intervalname[0]}."
  """
@@ -233,28 +233,43 @@ process concatanate_segments {
  """
 }
 
+// Counting variant number by info score
+process count_by_info_score {
+       //publishDir params.publishDir, mode: 'copy', overwrite: true
+       input:
+       set val(order), val(intervalname), val(input), file(vcf), file(idx) from segments_ready_for_collection_imputed_for_info_counting
+
+       output:
+       set val(intervalname), file(output_counted) into counted_segments_ready_for_collection
+
+       script:
+       output_full = remExt(vcf.name)+".txt"
+       output_counted = remExt(vcf.name)+".counted.txt"
+       """
+       echo -e 'CHR\tSNP\tREF\tALT\tAF\tINFO\tAC' > ${output_full}
+       
+       bcftools query -f '%CHROM\t%CHROM\\_%POS\\_%REF\\_%ALT\t%REF\t%ALT\t%INFO/AF\t%INFO/INFO\t%INFO/AC\n' ${vcf} > ${output_full}
+       Rscript ${projectDir}/count_info_imputation.R --input ${output_full} --interval ${intervalname} --original_file_name ${remExt(vcf.name)}
+       """
+}
+counted_segments_ready_for_collection = counted_segments_ready_for_collection
+       .collect()
+       .transpose()
+
 process count_by_info_score {
        publishDir params.publishDir, mode: 'copy', overwrite: true
        input:
-       file vcf from count_by_info_score
+       set val(intervalname), file(counted_all) from counted_segments_ready_for_collection
 
        output:
-       file output
+       file output_full
 
        script:
-       output = remExt(vcf.name)+".INFO_group.txt"
-       """
-       echo -e 'CHR\tSNP\tREF\tALT\tAF\tINFO\tAC\tAF_GROUP' > ${output}
-       
-       bcftools query -f \
-          '%CHROM\t%CHROM\\_%POS\\_%REF\\_%ALT\t%REF\t%ALT\t%INFO/AF\t%INFO/INFO\t%INFO/AC\n' ${vcf} | \
-          awk -v OFS="\t" \
-          '{if (\$5>=0.05 && \$5<=0.95) \$8=1; \
-            else if((\$5>=0.005 && \$5<0.05) || \
-            (\$5<=0.995 && \$5>0.95)) \$8=2; else \$8=3} \
-            { print \$1, \$2, \$3, \$4, \$5, \$6, \$7, \$8 }' \
-          >> ${output}
+       output_full = "${output_counted[0]}" - "${intervalname[0]}"
+       """       
+       cat ${counted_all.join(' ')} > ${output_full}
        """
 }
+
 /*
 */
