@@ -130,11 +130,12 @@ process concatanate_segments {
  input:
  set val(order), val(name), file(vcf_all), file(idx_all) from merged_ch_concat 
  output:
- set file(${output}), file(${output}+".tbi")
+ set file(output_full), file(output_full+".tbi")
  script:
- output = name+".vcf.gz"
+ output_full = name+".vcf.gz"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
- bcftools concat -f vcfFiles.txt -Oz -o ${output}
+ bcftools concat -f vcfFiles.txt -Oz -o ${output_full}
+ bcftools index -t ${output_full}
  """
 }
