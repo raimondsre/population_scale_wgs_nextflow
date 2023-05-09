@@ -72,7 +72,7 @@ process separateVCF {
        bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.forRehead.vcf.gz
        bcftools query -l ${input}.${intervalname}.forRehead.vcf.gz > org_header
        awk '{print substr(\$1, 1, length(\$1)/2)}' org_header | cut -d '_' -f 2- | sed 's/^[^_]*_//' > new_header
-       bcftools reheader --samples new_header ${input}.${intervalname}.forRehead.vcf.gz -Oz -o ${input}.${intervalname}.vcf.gz
+       bcftools reheader --samples new_header ${input}.${intervalname}.forRehead.vcf.gz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
  """
 }
