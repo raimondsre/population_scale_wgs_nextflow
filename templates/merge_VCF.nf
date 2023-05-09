@@ -115,6 +115,7 @@ process merge_segments {
        """
 }
 
+
 merged_ch
        .filter { it[4] == "1" }
        .map { tuple(it[0..3]) }
@@ -123,6 +124,9 @@ merged_ch
        .groupTuple(by:1)
        .into {merged_ch_concat}
 
+merged_ch.subscribe {println it}
+
+/*
 // Concatanate segments
 process concatanate_segments {
  publishDir params.publishDir, mode: 'copy', overwrite: true
