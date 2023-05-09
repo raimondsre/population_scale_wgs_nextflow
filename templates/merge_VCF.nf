@@ -25,6 +25,7 @@ Channel
  .fromPath(params.intervalsBed)
  .splitCsv(header:false, sep:'\t',strip:true)
  .map { row -> tuple(row[0], row[1], row[2], row[0]+"_"+row[1]+"_"+row[2]) }
+ 
  .map { value ->
         counter += 1
         [counter, value].flatten()}
