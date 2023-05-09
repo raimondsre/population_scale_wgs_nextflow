@@ -60,8 +60,8 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst
 def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 def remExtBref(String fileName) {return fileName.replaceFirst(/\.bref$/,'')}
 params.outputName = remExt(params.firstVCF)+".merged_with."+remExt(params.secondVCF)
-println(params.outputName)
-/*
+
+
 // Make single channel for intervals and vcf file to be imputed
 vcfIntervals_first = intervals1.combine(vcf_first)
 // Make single channel for intervals and vcf file to be used as imputation panel
@@ -114,7 +114,9 @@ process merge_segments {
        if [ `bcftools view merged.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
        """
 }
+merged_ch.subscribe {println it}
 
+/*
 merged_ch
        .filter { it[4] == "1" }
        .map { tuple(it[0..3]) }
@@ -122,7 +124,6 @@ merged_ch
        .flatten().buffer ( size: 4 )
        .groupTuple(by:1)
        .into {merged_ch_concat}
-merged_ch_concat.subscribe {println it}
 /*
 // Concatanate segments
 process concatanate_segments {
