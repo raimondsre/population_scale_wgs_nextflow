@@ -17,7 +17,7 @@ if (is.null(interval)) { interval <- "all" }
 data <- data %>% 
 mutate(AF_GROUP = ifelse(AF >= 0.05 & AF <= 0.95, "Common_variants", ifelse(AF < 0.005 | AF > 0.995, "Rare_variants", "Low_frequency_variants"))) %>%
 mutate(snv = ifelse(nchar(REF) == 1 & nchar(ALT) == 1,TRUE,FALSE)) %>%
-mutate(INFO_GROUP = ifelse(INFO >= 0.8, "high_confidence", ifelse(INFO > 0.4 & INFO < 0.8, "low_confidence", "Below0_4_confidence"))) %>%
+mutate(INFO_GROUP = ifelse(INFO >= 0.8, "high_confidence", ifelse(INFO >= 0.4 & INFO < 0.8, "low_confidence", "Below0_4_confidence"))) %>%
 group_by(AF_GROUP, snv, INFO_GROUP) %>%
 summarise(count = n())
 
