@@ -122,7 +122,7 @@ merged_ch
        .flatten().buffer ( size: 4 )
        .groupTuple(by:1)
        .into {merged_ch_concat}
-/*
+
 // Concatanate segments
 process concatanate_segments {
  publishDir params.publishDir, mode: 'copy', overwrite: true
