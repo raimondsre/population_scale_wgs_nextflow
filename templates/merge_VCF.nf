@@ -75,7 +75,7 @@ vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second)
 //### Analysis
 //###
 
-process separateVCF {
+process separate_segments {
  //publishDir params.publishDir
 
  input:
@@ -94,12 +94,12 @@ process separateVCF {
  """
 }
 
-separated_by_segment_first_and_second_getOverlapID = separated_by_segment_first_and_second_getOverlapID
+separated_by_segment_first_and_second = separated_by_segment_first_and_second
        .groupTuple(by:[0,1])
 
-process finding_overlap_variants {
+process merge_segments {
        input:
-       set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second_getOverlapID
+       set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second
        output:
        tuple val(order), val(params.mergedName), file("merged.${intervalname}.vcf.gz"), file("merged.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into merged_ch
        script:
