@@ -124,7 +124,7 @@ merged_ch
        .groupTuple(by:1)
        .into {merged_ch_concat}
 
-merged_ch.subscribe {println it}
+merged_ch_concat.subscribe {println it}
 
 /*
 // Concatanate segments
