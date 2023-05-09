@@ -130,7 +130,7 @@ process concatanate_segments {
  input:
  set val(order), val(name), file(vcf_all), file(idx_all) from merged_ch_concat 
  output:
- set file(output), file(output+".tbi")
+ set file(${output}), file(${output}+".tbi")
  script:
  output = name+".vcf.gz"
  """
