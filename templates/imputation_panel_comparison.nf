@@ -131,8 +131,8 @@ process phasing {
  # Phasing
  # If phased segment already exists, take it. Otherwise phase anew
  if [ -e ${params.phasedDir}/${phased}.vcf.gz ]; then
-  cp ${params.phasedDir}/${phased}.vcf.gz ${phased}.vcf.gz; \
-  cp ${params.phasedDir}/${phased}.vcf.gz.tbi ${phased}vcf.gz.tbi
+  cp ${params.phasedDir}/${phased}.vcf.gz ${phased}.vcf.gz
+  cp ${params.phasedDir}/${phased}.vcf.gz.tbi ${phased}.vcf.gz.tbi
  else
   ${params.refDir}/Eagle_v2.4.1/eagle \
           --vcf ${vcf} \
@@ -140,7 +140,7 @@ process phasing {
           --geneticMapFile ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map \
           --numThreads=${params.cpus} \
           --Kpbwt=20000 \
-          --outPrefix ${phased}; \
+          --outPrefix ${phased}
   bcftools index -t ${phased}.vcf.gz
  fi
  """
@@ -166,10 +166,10 @@ process bref_imp_panel {
        script:
        """
        if [ -e ${params.phasedDir}/${remExt(vcf.name)}.bref ]; then
-        cp ${params.phasedDir}/${remExt(vcf.name)}.bref ${remExt(vcf.name)}.bref; \
+        cp ${params.phasedDir}/${remExt(vcf.name)}.bref ${remExt(vcf.name)}.bref
         touch equaliser_element
        else
-        java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}; \
+        java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}
         touch equaliser_element
        fi
        """
