@@ -2,7 +2,7 @@
 // Testin
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
-params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased'
+params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased' // Contains phased and bref corrected segments
 params.cpus = 8
 
 params.toBeImputed = './'
@@ -110,7 +110,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
        to_mix.ch_one.mix(to_mix.ch_two)
 
 process phasing {
- publishDir params.phasedDir, mode: 'copy'
+ publishDir params.phasedDir, mode: 'copy', overwrite: false
 
  //cpus 8 //8 necessary, but optimal value is 2
  cpus params.cpus
@@ -121,21 +121,28 @@ process phasing {
  tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
  
  output:
- set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.phased.vcf.gz"), file("${remExt(vcf.name)}.phased.vcf.gz.tbi") into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
+ set val(order), val(intervalname), val(input), file("${phased}.vcf.gz"), file("${phased}.vcf.gz.tbi") into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
 
  script:
  chr = intervalname.split('_')[0]
+ phased = remExt(vcf.name)+".phased"
  """
  uname -a | awk '{print \$2}'
  # Phasing
- ${params.refDir}/Eagle_v2.4.1/eagle \
+ # If phased segment already exists, take it. Otherwise phase anew
+ if [ -e ${params.phasedDir}/${phased}.vcf.gz ]; then
+  cp ${params.phasedDir}/${phased}.vcf.gz ${phased}.vcf.gz
+  cp ${params.phasedDir}/${phased}.vcf.gz.tbi ${phased}vcf.gz.tbi
+ else
+  ${params.refDir}/Eagle_v2.4.1/eagle \
           --vcf ${vcf} \
           --chrom  ${chr} \
           --geneticMapFile ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map \
           --numThreads=${params.cpus} \
           --Kpbwt=20000 \
-          --outPrefix ${remExt(vcf.name)}.phased
- bcftools index -t ${remExt(vcf.name)}.phased.vcf.gz
+          --outPrefix ${phased}
+  bcftools index -t ${phased}.vcf.gz
+ fi
  """
 }
 
@@ -146,6 +153,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
        .choice(toBeImputed, imputationPanel) { it[2] == remPath(params.toBeImputed) ? 0 : 1 }
 
 process bref_imp_panel {
+       publishDir params.phasedDir, mode: 'copy', overwrite: false
        label 'bref'
        tag "${intervalname}.${input}"
 
@@ -157,8 +165,13 @@ process bref_imp_panel {
        
        script:
        """
-       java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}
-       touch equaliser_element
+       if [ -e ${params.phasedDir}/${remExt(vcf.name)}.bref ]; then
+        cp ${params.phasedDir}/${remExt(vcf.name)}.bref ${remExt(vcf.name)}.bref
+        touch equaliser_element
+       else
+        java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}
+        touch equaliser_element
+       fi
        """
 }
 
