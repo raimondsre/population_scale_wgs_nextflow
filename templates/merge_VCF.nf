@@ -121,7 +121,7 @@ merged_ch
        .toSortedList({ a,b -> a[1] <=> b[1] })
        .flatten().buffer ( size: 4 )
        .groupTuple(by:1)
-       .into (merged_ch_concat)
+       .into {merged_ch_concat}
 
 // Concatanate segments
 process concatanate_segments {
