@@ -23,7 +23,7 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- .filter({it[1].contains('chr22')})
+ //.filter({it[1].contains('chr22')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
