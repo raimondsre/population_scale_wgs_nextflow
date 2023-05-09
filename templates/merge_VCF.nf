@@ -60,8 +60,8 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst
 def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 def remExtBref(String fileName) {return fileName.replaceFirst(/\.bref$/,'')}
 params.outputName = remExt(params.firstVCF)+".merged_with."+remExt(params.secondVCF)
-
-
+println(params.outputName)
+/*
 // Make single channel for intervals and vcf file to be imputed
 vcfIntervals_first = intervals1.combine(vcf_first)
 // Make single channel for intervals and vcf file to be used as imputation panel
