@@ -101,7 +101,7 @@ process merge_segments {
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second
        output:
-       tuple val(order), val(params.mergedName), file("merged.${intervalname}.vcf.gz"), file("merged.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into merged_ch
+       tuple val(order), val(params.outputName), file("merged.${intervalname}.vcf.gz"), file("merged.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into merged_ch
        script:
        first = vcf[0]
        sec = vcf[1]
@@ -114,9 +114,7 @@ process merge_segments {
        if [ `bcftools view merged.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
        """
 }
-merged_ch.subscribe {println it}
 
-/*
 merged_ch
        .filter { it[4] == "1" }
        .map { tuple(it[0..3]) }
