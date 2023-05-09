@@ -5,6 +5,7 @@ params.publishDir = './results'
 params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
 params.samplesToKeep = './keep.samples'
+params.correctNames = './'
 params.outputName = remExt(params.inputVCF)+'.filtered'
 
 // Define channels for intervals and initial .vcf.gz file
@@ -22,7 +23,7 @@ Channel
  .map {value ->
         counter += 1
         [counter, value].flatten()}
- .filter({it[1].contains('chr22')})
+ //.filter({it[1].contains('chr22')})
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
@@ -70,8 +71,6 @@ process separateVCF {
        bcftools view ${vcf} ${chr}:${start}-${stop} |
        bcftools view --exclude 'POS<${start}' |
        bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.forRehead.vcf.gz
-       bcftools query -l ${input}.${intervalname}.forRehead.vcf.gz > org_header
-       awk '{print substr(\$1, 1, length(\$1)/2)}' org_header | cut -d '_' -f 2- | sed 's/^[^_]*_//' > new_header
        bcftools reheader --samples new_header ${input}.${intervalname}.forRehead.vcf.gz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
  """
