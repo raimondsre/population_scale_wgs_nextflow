@@ -122,7 +122,8 @@ merged_ch
        .flatten().buffer ( size: 4 )
        .groupTuple(by:1)
        .into {merged_ch_concat}
-
+merged_ch_concat.subscribe {println it}
+/*
 // Concatanate segments
 process concatanate_segments {
  publishDir params.publishDir, mode: 'copy', overwrite: true
@@ -139,3 +140,5 @@ process concatanate_segments {
  bcftools index -t ${output_full}
  """
 }
+/*
+*/
