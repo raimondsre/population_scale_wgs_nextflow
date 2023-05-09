@@ -119,14 +119,11 @@ process merge_segments {
 merged_ch
        .filter { it[4] == "1" }
        .map { tuple(it[0..3]) }
-       .toSortedList({ a,b -> a[1] <=> b[1] })
+       .toSortedList({ a,b -> a[0] <=> b[0] })
        .flatten().buffer ( size: 4 )
        .groupTuple(by:1)
        .into {merged_ch_concat}
 
-merged_ch_concat.subscribe {println it}
-
-/*
 // Concatanate segments
 process concatanate_segments {
  publishDir params.publishDir, mode: 'copy', overwrite: true
