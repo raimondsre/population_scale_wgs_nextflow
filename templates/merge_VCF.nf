@@ -1,38 +1,53 @@
 #!/usr/bin/env nextflow
 // Testin
 params.publishDir = './results'
+params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 
-params.VCFfile = './merged.two.vcf.gz'
-params.intervalsBed = './hg38intervals50mil'
+params.firstVCF = './'
+params.secondVCF = './'
+//params.VCFfile = './merged.two.vcf.gz'
+//params.intervalsBed = './hg38chr25int5e6.bed'
 
 // Define channels for intervals and initial .vcf.gz file
-// Input file
+// Input file for corcondance - first
 Channel
- .fromPath(params.VCFfile)
+ .fromPath(params.firstVCF)
  .map { tuple(it, it+".tbi") }
- .into { vcf; vcf_extractSamples }
+ .into { vcf_first; vcf_first_extractSamples }
+// Input file for corcondance - second
+Channel
+ .fromPath(params.secondVCF)
+ .map { tuple(it, it+".tbi") }
+ .into { vcf_second; vcf_second_extractSamples }
 // Intervals
 counter = 0
 Channel
  .fromPath(params.intervalsBed)
  .splitCsv(header:false, sep:'\t',strip:true)
  .map { row -> tuple(row[0], row[1], row[2], row[0]+"_"+row[1]+"_"+row[2]) }
- .map {value ->
+ .map { value ->
         counter += 1
         [counter, value].flatten()}
- //.filter({it[1].contains('chrY')})
+ //.filter({it[1].contains('chr14')})
+ //.filter({it[4].contains('chr14_1_5000000')})
  .into { intervals1; intervals2 }
-// Samples in VCF
-process extract_vcf_samples {
+// Samples in first and second input VCF
+samples_from_first_and_second_merge_file = vcf_first_extractSamples.combine(vcf_second_extractSamples)
+//samples_from_first_and_second_merge_file.subscribe {println it}
+
+process extract_overlapping_vcf_samples {
  input:
- tuple file(vcf), file(idx) from vcf_extractSamples
+ tuple file(vcf1), file(idx1), file(vcf2), file(idx2) from samples_from_first_and_second_merge_file
  output:
- file 'samples' into samples_ch mode flatten
+ file 'samples_overlap' into samples_ch mode flatten
  script:
  """
- bcftools query -l ${vcf} > samples
+ bcftools query -l ${vcf1} > samples1
+ bcftools query -l ${vcf2} > samples2
+ comm -12 <(sort samples1) <(sort samples2) > samples_overlap 
  """
 }
+
 counter2 = 0
 samples_ch
  .splitText() {it.replaceFirst(/\n/,'')}
@@ -40,26 +55,34 @@ samples_ch
         counter2 += 1
         [counter2, value].flatten()}
  .into { samples_ch1; samples_ch2}
-
 // Define function to remove .vcf.gz extension
+def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst(/\.vcf\.gz$/,'')}
 def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
+def remExtBref(String fileName) {return fileName.replaceFirst(/\.bref$/,'')}
+params.outputName = remExt(params.firstVCF)+".merged_with."+remExt(params.secondVCF)
 
-// Make single channel for intervals and vcf file
-vcfIntervals = intervals1.combine(vcf)
-//samples_ch1.subscribe { println it }
+
+// Make single channel for intervals and vcf file to be imputed
+vcfIntervals_first = intervals1.combine(vcf_first)
+// Make single channel for intervals and vcf file to be used as imputation panel
+vcfIntervals_second = intervals2.combine(vcf_second)
+
+vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second)
+
+//vcfIntervals_first_and_second.subscribe { println it }
  
 //###
 //### Analysis
 //###
 
-// Separate VCF into fragments, has to be before separating by sample
 process separateVCF {
- publishDir params.publishDir
+ //publishDir params.publishDir
+
  input:
- tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals
+ tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_first_and_second
  
  output:
- set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment
+ set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment_first_and_second
 
  script:
  input = remExt(vcf.name) 
@@ -71,99 +94,47 @@ process separateVCF {
  """
 }
 
-// Separate segment into samples
-( separated_by_segment, separated_by_segment_split_samples ) = separated_by_segment.into(2)
-separated_by_segment_split_samples = separated_by_segment_split_samples.combine(samples_ch1)
-process separateVCF_by_samples {
- input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_split_samples
+separated_by_segment_first_and_second_getOverlapID = separated_by_segment_first_and_second_getOverlapID
+       .groupTuple(by:[0,1])
 
- output:
- set val(order), val(intervalname), val(input), file("${input}.${intervalname}.${sample}.vcf.gz"), file("${input}.${intervalname}.${sample}.vcf.gz.tbi"), val(order_samp), val(sample) into separated_by_segment_and_sample
- script:
- """
- bcftools view ${vcf} -s ${sample} -Oz -o ${input}.${intervalname}.${sample}.vcf.gz
- bcftools index -t ${input}.${intervalname}.${sample}.vcf.gz
- """
+process finding_overlap_variants {
+       input:
+       set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second_getOverlapID
+       output:
+       tuple val(order), val(params.mergedName), file("merged.${intervalname}.vcf.gz"), file("merged.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into merged_ch
+       script:
+       first = vcf[0]
+       sec = vcf[1]
+
+       """
+       bcftools merge ${first} ${sec} -Oz -o merged.${intervalname}.vcf.gz
+       bcftools index -t merged.${intervalname}.vcf.gz
+
+       variantsPresent=1
+       if [ `bcftools view merged.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
+       """
 }
 
-// Customise manipulation steps
-process manipulate_segment {
- //publishDir = params.publishDir
- 
- input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
-
- output:
- set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
-
- """
- bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
- bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
- """
-}
-
-process manipulate_segment_samples {
- //publishDir = params.publishDir
- 
- input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx), val(order_samp), val(sample) from separated_by_segment_and_sample
-
- output:
- set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi"), val(order_samp), val(sample) into segments_sample_ready_for_collection
-
- """
- bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
- bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
- """
-}
-
-//###
-//### Merging
-//###
-segments_sample_ready_for_collection_collected = segments_sample_ready_for_collection
- .toSortedList({ a,b -> a[5] <=> b[5] })
- .flatten().buffer( size: 7 )
- .groupTuple(by:[0,1,2]) 
-// Merge samples
-process merge_samples {
- input:
- set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all), val(order_samp), val(sample_all) from segments_sample_ready_for_collection_collected
- output:
-  set val(order), val(intervalname), val(input), file("merged.${intervalname}.vcf.gz"), file("merged.${intervalname}.vcf.gz.tbi"), val(order_samp), val(sample_all) into segments_sample_ready_for_collection_merged
-
- script:
- """
- bcftools merge ${vcf_all.join(' ')} -Oz -o merged.${intervalname}.vcf.gz
- bcftools index -t merged.${intervalname}.vcf.gz
- """
-}
-//segments_sample_ready_for_collection_merged.subscribe {println it}
-
-segments_sample_ready_for_collection_collected = segments_sample_ready_for_collection_merged
- .map { tuple(it[0],it[1],it[2],it[3],it[4]) }
- .toSortedList({ a,b -> a[0] <=> b[0] })
- .flatten().buffer ( size: 5 )
- .groupTuple(by:[2])
-//segments_sample_ready_for_collection_collected.subscribe {println it}
- 
-// Arrange segments and group by input file name
-//segments_ready_for_collection_collected = segments_ready_for_collection
-// .toSortedList({ a,b -> a[0] <=> b[0] })
-// .flatten().buffer ( size: 5 )
-// .groupTuple(by:[2])
+merged_ch
+       .filter { it[4] == "1" }
+       .map { tuple(it[0..3]) }
+       .toSortedList({ a,b -> a[1] <=> b[1] })
+       .flatten().buffer ( size: 4 )
+       .groupTuple(by:1)
+       .into (merged_ch_concat)
 
 // Concatanate segments
 process concatanate_segments {
- publishDir params.publishDir, mode: 'move', overwrite: true
+ publishDir params.publishDir, mode: 'copy', overwrite: true
 
  input:
- set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_sample_ready_for_collection_collected 
+ set val(order), val(name), file(vcf_all), file(idx_all) from merged_ch_concat 
  output:
- file ("merged.vcf.gz")
+ set file(output), file(output+".tbi")
  script:
+ output = name+".vcf.gz"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
- bcftools concat --naive -f vcfFiles.txt -Oz -o merged.vcf.gz
+ bcftools concat -f vcfFiles.txt -Oz -o ${output}
  """
 }
