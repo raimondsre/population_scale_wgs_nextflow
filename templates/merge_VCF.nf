@@ -96,6 +96,8 @@ process separate_segments {
 }
 
 separated_by_segment_first_and_second = separated_by_segment_first_and_second
+       .map { tuple(it, it[2] == remPath(params.firstVCF) ? 0 : 1).flatten() }
+       .toSortedList({ a,b -> a[4] <=> b[4] })
        .groupTuple(by:[0,1])
 
 process merge_segments {
