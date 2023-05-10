@@ -234,8 +234,7 @@ imputation_ch = toBeImputed.map {tuple (it,0)}
 
 // Customise manipulation steps
 process manipulate_segment_imputation {
- executor params.executor
- maxForks params.maxforks
+ executor 'sge'
  //publishDir = params.publishDir
  cpus params.cpus
 
