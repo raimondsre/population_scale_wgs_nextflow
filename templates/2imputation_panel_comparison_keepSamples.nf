@@ -6,11 +6,13 @@ params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased' // Contains phased and bref corrected segments
 params.cpus = 8
+params.executor = 'local'
 
 params.toBeImputed = './'
 params.imputationPanel1 = './'
 params.samplesToKeep = './keep.samples'
 params.subsetname = 'no_subset'
+
 //params.VCFfile = './merged.two.vcf.gz'
 //params.intervalsBed = './hg38chr25int5e6.bed'
 
@@ -75,6 +77,7 @@ vcfIntervals_toBeUsedAsImputationPanel = intervals2.combine(vcf_imputation_panel
 
 // Separate VCF into fragments (has to be before separating by sample)
 process separateVCF_imputation_panel {
+       executor params.executor
        publishDir params.phasedDir, mode: 'copy', overwrite: false
        //publishDir = params.publishDir
        input:
@@ -105,6 +108,7 @@ process separateVCF_imputation_panel {
        """
 }
 process separateVCF_to_be_imputed {
+       executor params.executor
        //publishDir params.phasedDir, mode: 'copy', overwrite: false
        //publishDir = params.publishDir
        input:
@@ -151,8 +155,9 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
        to_mix.ch_one.mix(to_mix.ch_two)
 
 process phasing {
- publishDir params.phasedDir, mode: 'copy', overwrite: false
+executor params.executor
 
+ publishDir params.phasedDir, mode: 'copy', overwrite: false
  //cpus 8 //8 necessary, but optimal value is 2
  cpus params.cpus
  label 'Phasing'
@@ -194,6 +199,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
        .choice(toBeImputed, imputationPanel) { it[2] == remPath(params.toBeImputed)+"."+params.subsetname  ? 0 : 1 }
 
 process bref_imp_panel {
+       executor params.executor
        publishDir params.phasedDir, mode: 'copy', overwrite: false
        label 'bref'
        tag "${intervalname}.${input}"
@@ -291,6 +297,7 @@ process concatanate_segments {
 */
 // Counting variant number by info score
 process count_by_info_score {
+       executor params.executor
        //publishDir params.publishDir, mode: 'copy', overwrite: true
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx) from segments_ready_for_collection_imputed_for_info_counting
@@ -313,6 +320,7 @@ counted_segments_ready_for_collection = counted_segments_ready_for_collection
        .groupTuple()
 
 process count_by_info_score_collected {
+       executor params.executor
        publishDir params.publishDir, mode: 'copy', overwrite: true
        input:
        set val(name), file(counted_all) from counted_segments_ready_for_collection
