@@ -97,11 +97,11 @@ process separate_segments {
 
 separated_by_segment_first_and_second = separated_by_segment_first_and_second
        .map { tuple(it, it[2] == remPath(params.firstVCF) ? 0 : 1).flatten() }
-       separated_by_segment_first_and_second.subscribe {println it}
-/*
-       .toSortedList({ a,b -> a[4] <=> b[4] })
+       .toSortedList({ a,b -> a[5] <=> b[5] })
        .flatten().buffer ( size: 5 )
        .groupTuple(by:[0,1])
+              separated_by_segment_first_and_second.subscribe {println it}
+
 /*
 process merge_segments {
        input:
