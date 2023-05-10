@@ -230,7 +230,7 @@ process manipulate_segment_imputation {
  cpus params.cpus
 
  input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx) from imputation_ch
+ set val(order), val(intervalname), val(input), file(vcf) from imputation_ch
 
  output:
  set val(order), val(intervalname), val(input), file("${output}.INFO.vcf.gz"), file("${output}.INFO.vcf.gz.tbi") into segments_ready_for_collection_imputed
