@@ -122,7 +122,7 @@ process separateVCF_to_be_imputed {
               bcftools norm --remove-duplicates |
               bcftools view -c3 -Oz -o ${input}.${intervalname}.vcf.gz
        if [ ${params.subsetname} != "no_subset" ]; then
-              bcftools view -S ${params.samplesToKeep} ${input}.${intervalname}.vcf.gz -Oz -o temp.vcf.gz
+              bcftools view -S ${params.samplesToKeep} --force-samples ${input}.${intervalname}.vcf.gz -Oz -o temp.vcf.gz
               mv temp.vcf.gz ${input}.${intervalname}.vcf.gz
        fi
        bcftools index -t ${input}.${intervalname}.vcf.gz
