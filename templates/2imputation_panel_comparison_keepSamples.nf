@@ -1,6 +1,41 @@
 #!/usr/bin/env nextflow
 
 // Imputation pipeline for variably select subsets of toBeImputed set
+// Here is an example script to launch imputation for multiple subsets of VCF file:
+// samples being two column, nominatind sample ID and groupl (e.g. country)
+//
+//                 samples=/home_beegfs/groups/bmc/references/phenotypes/aadr_european_10plus.samples
+//                 samplesDir=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/lv_genome_reference_20220722/imputation/imputing_different_european_populations
+                
+//                 cut -f2 $samples | sort | uniq | cat | while read in; do
+//                 country=$in
+//                 awk -v var=$country '$2 == var {print $1}' $samples > $samplesDir/samples.$country
+                
+//                 set=v54.1.p1_HO_public.hg38.normalised.${country}
+//                 toImpute=/home_beegfs/groups/bmc/references/populationVCF/original/aadr/v54.1.p1_HO_public.hg38.normalised.vcf.gz
+//                 panel=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/imp/20220722/NYpanel.vcf.gz
+//                 #panel_id=lvbmc_502
+//                 panel_id=1000G_2022
+                
+//                 refDir=/mnt/beegfs2/home/groups/bmc/genome_analysis_tmp/hs/ref
+//                 intervals=${refDir}/intervals5mil
+//                 config=${refDir}/configurations/nextflow_imputation_noClean.config
+//                 baseDir=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/lv_genome_reference_20220722
+//                 resultsDir=${baseDir}/imputation/imputing_different_european_populations
+//                 runID=${set}_set_${panel_id}_panel
+//                 workDir=${resultsDir}/${runID}; mkdir -p $workDir; cd $workDir
+//                 impPanel=${panel}
+//                 nextflow run raimondsre/population_scale_WGS_nextflow/templates/2imputation_panel_comparison_keepSamples.nf \
+//                 -r main -latest \
+//                 --toBeImputed ${toImpute} \
+//                 --imputationPanel1 ${impPanel} \
+//                 --publishDir ${resultsDir} \
+//                 --intervalsBed $intervals \
+//                 -c $config \
+//                 --subsetname ${country} \
+//                 --samplesToKeep $samplesDir/samples.${country}
+                
+//                 done
 
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
@@ -91,8 +126,8 @@ process separateVCF_imputation_panel {
        input = remExt(vcf.name) 
        """
        if [ -e ${params.phasedDir}/${input}.${intervalname}.vcf.gz ]; then
-              cp -P ${params.phasedDir}/${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
-              cp -P ${params.phasedDir}/${input}.${intervalname}.vcf.gz.tbi ${input}.${intervalname}.vcf.gz.tbi
+              ln -s ${params.phasedDir}/${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
+              ln -s ${params.phasedDir}/${input}.${intervalname}.vcf.gz.tbi ${input}.${intervalname}.vcf.gz.tbi
        else
               bcftools view ${vcf} ${chr}:${start}-${stop} |
               bcftools view --exclude 'POS<${start}' |
@@ -178,8 +213,8 @@ executor params.executor
  # Phasing
  # If phased segment already exists, take it. Otherwise phase anew
  if [ -e ${params.phasedDir}/${phased}.vcf.gz ]; then
-  cp -P ${params.phasedDir}/${phased}.vcf.gz ${phased}.vcf.gz
-  cp -P ${params.phasedDir}/${phased}.vcf.gz.tbi ${phased}.vcf.gz.tbi
+  ln -s ${params.phasedDir}/${phased}.vcf.gz ${phased}.vcf.gz
+  ln -s ${params.phasedDir}/${phased}.vcf.gz.tbi ${phased}.vcf.gz.tbi
  else
   ${params.refDir}/Eagle_v2.4.1/eagle \
           --vcf ${vcf} \
@@ -214,7 +249,7 @@ process bref_imp_panel {
        script:
        """
        if [ -e ${params.phasedDir}/${remExt(vcf.name)}.bref ]; then
-        cp -P ${params.phasedDir}/${remExt(vcf.name)}.bref ${remExt(vcf.name)}.bref
+        ln -s ${params.phasedDir}/${remExt(vcf.name)}.bref ${remExt(vcf.name)}.bref
         touch equaliser_element
        else
         java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}
