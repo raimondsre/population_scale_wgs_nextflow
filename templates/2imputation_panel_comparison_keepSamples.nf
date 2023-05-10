@@ -223,14 +223,15 @@ imputation_ch = toBeImputed.map {tuple (it,0)}
        .flatten().buffer (size: 6)
        .map { tuple(it[0..4]) }
        .groupTuple(by:[0,1])
-
+imputation_ch.subscribe {println it}
+/*
 // Customise manipulation steps
 process manipulate_segment_imputation {
  //publishDir = params.publishDir
  cpus params.cpus
 
  input:
- set val(order), val(intervalname), val(input), file(vcf) from imputation_ch
+ set val(order), val(intervalname), val(input), file(vcf), file(idx) from imputation_ch
 
  output:
  set val(order), val(intervalname), val(input), file("${output}.INFO.vcf.gz"), file("${output}.INFO.vcf.gz.tbi") into segments_ready_for_collection_imputed
@@ -288,6 +289,7 @@ process concatanate_segments {
  """
 }
 */
+/*
 // Counting variant number by info score
 process count_by_info_score {
        //publishDir params.publishDir, mode: 'copy', overwrite: true
