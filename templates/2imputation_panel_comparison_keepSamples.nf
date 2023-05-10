@@ -5,7 +5,8 @@
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased' // Contains phased and bref corrected segments
-params.cpus = 8
+params.cpus = 4
+params.maxforks = 32
 params.executor = 'local'
 
 params.toBeImputed = './'
@@ -233,6 +234,8 @@ imputation_ch = toBeImputed.map {tuple (it,0)}
 
 // Customise manipulation steps
 process manipulate_segment_imputation {
+ executor params.executor
+ maxForks params.maxforks
  //publishDir = params.publishDir
  cpus params.cpus
 
