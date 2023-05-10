@@ -105,7 +105,7 @@ process separateVCF_imputation_panel {
        """
 }
 process separateVCF_to_be_imputed {
-       publishDir params.phasedDir, mode: 'copy', overwrite: false
+       //publishDir params.phasedDir, mode: 'copy', overwrite: false
        //publishDir = params.publishDir
        input:
        tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_toBeImputed
