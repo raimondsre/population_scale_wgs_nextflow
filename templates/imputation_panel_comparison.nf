@@ -71,34 +71,34 @@ vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel = vcfIntervals_toBeImpute
 
 // Separate VCF into fragments (has to be before separating by sample)
 process separateVCF {
- publishDir params.phasedDir, mode: 'copy', overwrite: false
- //publishDir = params.publishDir
- input:
- tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel
- 
- output:
- set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
+       publishDir params.phasedDir, mode: 'copy', overwrite: false
+       //publishDir = params.publishDir
+       input:
+       tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel
+       
+       output:
+       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
 
- script:
- input = remExt(vcf.name) 
- """
- if [ -e ${params.phasedDir}/${input}.${intervalname}.vcf.gz ]; then
-  cp ${params.phasedDir}/${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
-  cp ${params.phasedDir}/${input}.${intervalname}.vcf.gz.tbi ${input}.${intervalname}.vcf.gz.tbi
- else
-       bcftools view ${vcf} ${chr}:${start}-${stop} |
-       bcftools view --exclude 'POS<${start}' |
-       bcftools view --exclude 'POS>${stop}' |
-       bcftools norm --remove-duplicates |
-       bcftools view -c3 -Oz -o ${input}.${intervalname}.vcf.gz
-       bcftools index -t ${input}.${intervalname}.vcf.gz
- fi
+       script:
+       input = remExt(vcf.name) 
+       """
+       if [ -e ${params.phasedDir}/${input}.${intervalname}.vcf.gz ]; then
+              cp ${params.phasedDir}/${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
+              cp ${params.phasedDir}/${input}.${intervalname}.vcf.gz.tbi ${input}.${intervalname}.vcf.gz.tbi
+       else
+              bcftools view ${vcf} ${chr}:${start}-${stop} |
+              bcftools view --exclude 'POS<${start}' |
+              bcftools view --exclude 'POS>${stop}' |
+              bcftools norm --remove-duplicates |
+              bcftools view -c3 -Oz -o ${input}.${intervalname}.vcf.gz
+              bcftools index -t ${input}.${intervalname}.vcf.gz
+       fi
        variantsPresent=1
        # Check wether VCF segment has variants present
        if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -lt 50 ]; then variantsPresent=0; fi
        # Check wether genetic map file contains variants in segment
        if [ `awk '\$2 >= ${start} && \$2 <= ${stop} {print \$0}' ${params.refDir}/imputation/mapChr/eagle_${chr}_b38.map | wc -l` -eq 0 ]; then variantsPresent=0; fi
- """
+       """
 }
 
 // Select toBeImputed - impPanel segment pairs only, if both have at least 1 variant after filtering
