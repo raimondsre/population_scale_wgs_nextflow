@@ -79,7 +79,7 @@ vcfIntervals_toBeUsedAsImputationPanel = intervals2.combine(vcf_imputation_panel
 // Separate VCF into fragments (has to be before separating by sample)
 process separateVCF_imputation_panel {
        executor params.executor
-       publishDir params.phasedDir, mode: 'copy', overwrite: false
+       publishDir params.phasedDir, mode: 'symlink', overwrite: false
        //publishDir = params.publishDir
        input:
        tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_toBeUsedAsImputationPanel
@@ -91,8 +91,8 @@ process separateVCF_imputation_panel {
        input = remExt(vcf.name) 
        """
        if [ -e ${params.phasedDir}/${input}.${intervalname}.vcf.gz ]; then
-              mv ${params.phasedDir}/${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
-              mv ${params.phasedDir}/${input}.${intervalname}.vcf.gz.tbi ${input}.${intervalname}.vcf.gz.tbi
+              cp -P ${params.phasedDir}/${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
+              cp -P ${params.phasedDir}/${input}.${intervalname}.vcf.gz.tbi ${input}.${intervalname}.vcf.gz.tbi
        else
               bcftools view ${vcf} ${chr}:${start}-${stop} |
               bcftools view --exclude 'POS<${start}' |
@@ -158,7 +158,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel =
 process phasing {
 executor params.executor
 
- publishDir params.phasedDir, mode: 'copy', overwrite: false
+ publishDir params.phasedDir, mode: 'symlink', overwrite: false
  //cpus 8 //8 necessary, but optimal value is 2
  cpus params.cpus
  label 'Phasing'
@@ -178,8 +178,8 @@ executor params.executor
  # Phasing
  # If phased segment already exists, take it. Otherwise phase anew
  if [ -e ${params.phasedDir}/${phased}.vcf.gz ]; then
-  mv ${params.phasedDir}/${phased}.vcf.gz ${phased}.vcf.gz
-  mv ${params.phasedDir}/${phased}.vcf.gz.tbi ${phased}.vcf.gz.tbi
+  cp -P ${params.phasedDir}/${phased}.vcf.gz ${phased}.vcf.gz
+  cp -P ${params.phasedDir}/${phased}.vcf.gz.tbi ${phased}.vcf.gz.tbi
  else
   ${params.refDir}/Eagle_v2.4.1/eagle \
           --vcf ${vcf} \
@@ -201,7 +201,7 @@ separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
 
 process bref_imp_panel {
        executor params.executor
-       publishDir params.phasedDir, mode: 'copy', overwrite: false
+       publishDir params.phasedDir, mode: 'symlink', overwrite: false
        label 'bref'
        tag "${intervalname}.${input}"
 
@@ -214,7 +214,7 @@ process bref_imp_panel {
        script:
        """
        if [ -e ${params.phasedDir}/${remExt(vcf.name)}.bref ]; then
-        mv ${params.phasedDir}/${remExt(vcf.name)}.bref ${remExt(vcf.name)}.bref
+        cp -P ${params.phasedDir}/${remExt(vcf.name)}.bref ${remExt(vcf.name)}.bref
         touch equaliser_element
        else
         java -jar ${params.refDir}/bref.27Jan18.7e1.jar ${vcf}
