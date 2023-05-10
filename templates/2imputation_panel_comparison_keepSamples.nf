@@ -191,7 +191,7 @@ process phasing {
 toBeImputed = Channel.create()
 imputationPanel = Channel.create()
 separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel_phased
-       .choice(toBeImputed, imputationPanel) { it[2] == remPath(params.toBeImputed) ? 0 : 1 }
+       .choice(toBeImputed, imputationPanel) { it[2] == remPath(params.toBeImputed)+"."+params.subsetname  ? 0 : 1 }
 
 process bref_imp_panel {
        publishDir params.phasedDir, mode: 'copy', overwrite: false
