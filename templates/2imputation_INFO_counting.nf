@@ -79,7 +79,7 @@ process count_by_info_score {
        script:
        output_full = remExt(vcf.name)+".txt"
        output_counted = remExt(vcf.name)+".counted.txt"
-       name = "${remExt(vcf.name)}" - ".${intervalname}.INFO"
+       name = "${remExt(vcf.name)}" - ".${intervalname}"
        """
        echo -e 'CHR\tSNP\tREF\tALT\tAF\tINFO\tAC' > ${output_full}
        
