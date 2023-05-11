@@ -14,7 +14,7 @@ params.imputedGenotypes = './'
 Channel
  .fromPath(params.imputedGenotypes)
  .map { tuple(it, it+".tbi") }
- .into { vcf_toBeImputed; vcf_toBeImputed_extractSamples }
+ .into { vcf_imputedGenotypes }
 // Intervals
 counter = 0
 Channel
@@ -35,11 +35,7 @@ def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 def remExtBref(String fileName) {return fileName.replaceFirst(/\.bref$/,'')}
 
 // Make single channel for intervals and vcf file to be imputed
-vcfIntervals_toBeImputed = intervals1.combine(vcf_toBeImputed)
-// Make single channel for intervals and vcf file to be used as imputation panel
-vcfIntervals_toBeUsedAsImputationPanel = intervals2.combine(vcf_imputation_panel)
-// Concatanate to-be-separated channels into a single channel
-vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel = vcfIntervals_toBeImputed.mix(vcfIntervals_toBeUsedAsImputationPanel)
+vcfIntervals_imputedGenotypes = intervals1.combine(vcf_imputedGenotypes)
 
 //###
 //### Analysis
@@ -49,10 +45,10 @@ vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel = vcfIntervals_toBeImpute
 process separateVCF {
        //publishDir params.phasedDir, mode: 'copy', overwrite: false
        input:
-       tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel
+       tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_imputedGenotypes
        
        output:
-       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
+       set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into separated_by_segment
 
        script:
        input = remExt(vcf.name) 
@@ -74,7 +70,7 @@ process separateVCF {
 process count_by_info_score {
        //publishDir params.publishDir, mode: 'copy', overwrite: true
        input:
-       set val(order), val(intervalname), val(input), file(vcf), file(idx) from segments_ready_for_collection_imputed_for_info_counting
+       set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
 
        output:
        set val(name), file(output_counted) into counted_segments_ready_for_collection
