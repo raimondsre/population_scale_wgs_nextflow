@@ -65,7 +65,8 @@ process separateVCF {
        if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -lt 50 ]; then variantsPresent=0; fi
        """
 }
-
+separated_by_segment = separated_by_segment
+       .filter { it[5] == "1" }
 // Counting variant number by info score
 process count_by_info_score {
        //publishDir params.publishDir, mode: 'copy', overwrite: true
