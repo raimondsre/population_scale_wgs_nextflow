@@ -25,7 +25,7 @@ Channel
         counter += 1
         [counter, value].flatten()}
  .filter { !(it[1] in ['chrX','chrY','chrM']) }
- //.filter({it[1].contains('chr22')})
+ .filter({it[1].contains('chr22')})
  //.filter({it[4].contains('chr4_190000001_190214555')}) // Imputation problematic with the following segments: chr9_40000001_45000000,
  .into { intervals1; intervals2 }
  
@@ -58,6 +58,7 @@ process separateVCF {
               bcftools view --exclude 'POS>${stop}' |
               bcftools norm --remove-duplicates |
               bcftools +fill-tags -- -t AF,AC |
+              bcftools annotate --rename <(echo "INFO/R2 INFO") |
               bcftools view -c1 -Oz -o ${input}.${intervalname}.vcf.gz
               bcftools index -t ${input}.${intervalname}.vcf.gz
        variantsPresent=1
