@@ -58,7 +58,7 @@ process separateVCF {
               bcftools view --exclude 'POS>${stop}' |
               bcftools norm --remove-duplicates |
               bcftools +fill-tags -- -t AF,AC |
-              bcftools annotate --rename <(echo "INFO/R2 INFO") |
+              bcftools annotate --rename-annots <(echo "INFO/R2 INFO") |
               bcftools view -c1 -Oz -o ${input}.${intervalname}.vcf.gz
               bcftools index -t ${input}.${intervalname}.vcf.gz
        variantsPresent=1 
