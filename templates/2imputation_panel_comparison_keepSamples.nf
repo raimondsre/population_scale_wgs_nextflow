@@ -1,6 +1,6 @@
 #!/usr/bin/env nextflow
 
-// Imputation pipeline for variably select subsets of toBeImputed set
+// Imputation pipeline to variably select subsets of toBeImputed set
 // Here is an example script to launch imputation for multiple subsets of VCF file:
 // samples being two column, nominatind sample ID and groupl (e.g. country)
 //
