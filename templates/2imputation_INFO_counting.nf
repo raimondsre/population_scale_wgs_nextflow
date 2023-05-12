@@ -61,7 +61,7 @@ process separateVCF {
               bcftools annotate --rename <(echo "INFO/R2 INFO") |
               bcftools view -c1 -Oz -o ${input}.${intervalname}.vcf.gz
               bcftools index -t ${input}.${intervalname}.vcf.gz
-       variantsPresent=1
+       variantsPresent=1 
        # Check wether VCF segment has variants present
        if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -lt 50 ]; then variantsPresent=0; fi
        """
