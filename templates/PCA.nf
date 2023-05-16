@@ -4,7 +4,7 @@ params.publishDir = './results'
 
 params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
-params.samplesToKeep = './keep.samples'
+params.samplesToKeep = 'all'
 // Define channels for intervals and initial .vcf.gz file
 // Input file
 Channel
@@ -81,14 +81,19 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
 
  output:
- set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
+ set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.filtered.vcf.gz"), file("${remExt(vcf.name)}.filtered.vcf.gz.tbi") into segments_ready_for_collection
 
  """
- bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} | 
- bcftools norm --multiallelics - |
- bcftools view -c3 |
- bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
- bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
+ if [ ${params.samplesToKeep} != 'all' ]; then 
+ bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} -Oz -o ${remExt(vcf.name)}.selected_samples.vcf.gz
+ mv ${remExt(vcf.name)}.selected_samples.vcf.gz ${vcf}
+ bcftools index -tf ${vcf}
+ fi
+
+ bcftools +fill-tags -- -t AF,AC,F_MISSING ${vcf} |
+ bcftools view -i 'F_MISSING<0.1' |
+ bcftools view -i 'AF>0.01' -Oz -o ${remExt(vcf.name)}.filtered.vcf.gz
+ bcftools index -t ${remExt(vcf.name)}.filtered.vcf.gz
  """
 }
 
@@ -108,11 +113,11 @@ process concatanate_segments {
  set file(outputVCF), file(outputVCFtbi)
 
  script:
- outputVCF = input+".ChrPos.539samples.splitMultiall.c3.vcf.gz"
+ outputVCF = input+".vcf.gz"
  outputVCFtbi = outputVCF+".tbi"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
- # --naive is risky as it does not check if samples match.
+ # --naive should to be used with caution.
  bcftools concat --naive -f vcfFiles.txt -Oz -o ${outputVCF}
  bcftools index -t ${outputVCF}
  """
