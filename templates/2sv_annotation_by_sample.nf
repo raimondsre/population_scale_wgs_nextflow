@@ -106,6 +106,7 @@ separated_by_segment_and_sample = separated_by_segment_and_sample.filter { it[6]
 
 // Customise manipulation steps
 process manipulate_segment_by_interval_and_sample_annotsv {
+ conda = '/home/raimondsre/.conda/envs/parallel'
  //publishDir params.publishDir
  //cpus 1
  input:

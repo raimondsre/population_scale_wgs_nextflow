@@ -65,6 +65,7 @@ process separateVCF_by_samples {
 
 // Customise manipulation steps
 process manipulate_segment_by_interval_and_sample_annotsv {
+ conda = '/home/raimondsre/.conda/envs/parallel'
  //publishDir params.publishDir
  //cpus 1
  input:

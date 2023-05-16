@@ -106,6 +106,7 @@ separated_by_segment = separated_by_segment.filter { it[5] == "1" }.map { tuple(
 
 // Customise manipulation steps
 process manipulate_segment_by_interval_and_sample_annotsv {
+ conda = '/home/raimondsre/.conda/envs/parallel'
  //publishDir params.publishDir
  //cpus 1
  input:
@@ -118,7 +119,6 @@ process manipulate_segment_by_interval_and_sample_annotsv {
  vcf_name = vcf.name
  """
  uname -a | awk '{print \$2}'
-
  export ANNOTSV=${params.annotsvDir}
  ${params.annotsvDir}/bin/AnnotSV -SVinputFile ${vcf} \
                 -outputFile ${intervalname}.${input}.ac1.annotsv \
