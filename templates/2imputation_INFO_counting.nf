@@ -1,4 +1,5 @@
 #!/usr/bin/env nextflow
+// Pipeline to count variants in VCF file in selected subsets (currently: by INFO (R2) score, by AF bracket)
 
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
