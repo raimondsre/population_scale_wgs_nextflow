@@ -1,5 +1,8 @@
 #!/usr/bin/env nextflow
-// main_bySegmentOnly.nf
+// Pipeline to count simple variants (SNPs and indels)
+// Counts by sample
+// By whole VCF (no division by segments)
+
 params.publishDir = './results'
 
 params.inputVCF = './merged.two.vcf.gz'

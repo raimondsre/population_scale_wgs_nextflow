@@ -1,5 +1,6 @@
 #!/usr/bin/env nextflow
-// main_bySegmentOnly.nf
+// Pipeline to change genotype notation "|" to "/"
+// It allows to 
 params.publishDir = './results'
 
 params.inputVCF = './merged.two.vcf.gz'

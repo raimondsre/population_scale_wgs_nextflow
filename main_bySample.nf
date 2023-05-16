@@ -1,5 +1,6 @@
 #!/usr/bin/env nextflow
-// Testin
+// Pipeline to separate VCF by segment, separate by sample, perform custom manipulation, merge and concatanate back
+
 params.publishDir = './results'
 
 params.VCFfile = './merged.two.vcf.gz'

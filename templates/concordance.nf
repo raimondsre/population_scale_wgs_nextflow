@@ -1,5 +1,6 @@
 #!/usr/bin/env nextflow
-// Testin
+// Pipeline to calculate concordance between two VCF files with equal samples and variants.
+
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 

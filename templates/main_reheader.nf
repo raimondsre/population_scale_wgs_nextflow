@@ -1,5 +1,6 @@
 #!/usr/bin/env nextflow
-// main_bySegmentOnly.nf
+// Pipeline to change all VCF sample IDs to new ones provided by --correctNames
+
 params.publishDir = './results'
 
 params.inputVCF = './merged.two.vcf.gz'

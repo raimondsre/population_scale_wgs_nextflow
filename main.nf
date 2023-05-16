@@ -1,5 +1,6 @@
 #!/usr/bin/env nextflow
-// main_bySegmentOnly.nf
+// Pipeline to separate VCF by segment, perform custom manipulation and concatanate back
+
 params.publishDir = './results'
 
 params.inputVCF = './merged.two.vcf.gz'

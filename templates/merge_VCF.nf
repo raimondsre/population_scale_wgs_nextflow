@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
-// Testin
+// Pipeline to merge two VCF files 
+// No filtering is applied
+
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 

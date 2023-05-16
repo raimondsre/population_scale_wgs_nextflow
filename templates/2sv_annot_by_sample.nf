@@ -1,5 +1,8 @@
 #!/usr/bin/env nextflow
-// main_bySegmentOnly.nf
+// Pipeline to count structural variants (SVs)
+// Counts by sample
+// By whole VCF (no division by segments)
+
 params.publishDir = './results'
 params.annotsvDir = '/home_beegfs/raimondsre/programmas/AnnotSV'
 

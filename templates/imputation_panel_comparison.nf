@@ -1,4 +1,6 @@
 #!/usr/bin/env nextflow
+// Pipeline to impute VCF with another VCF (reference panel)
+// Outputs imputed VCF and variants counted by AF and INFO score
 
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'

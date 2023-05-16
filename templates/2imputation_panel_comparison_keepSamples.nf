@@ -1,9 +1,11 @@
 #!/usr/bin/env nextflow
+// Pipeline to impute VCF with another VCF (reference panel)
+// Outputs imputed VCF and variants counted by AF and INFO score
 
 // Imputation pipeline to variably select subsets of toBeImputed set
 // Here is an example script to launch imputation for multiple subsets of VCF file:
 // samples being two column, nominatind sample ID and groupl (e.g. country)
-//
+
 //                 samples=/home_beegfs/groups/bmc/references/phenotypes/aadr_european_10plus.samples
 //                 samplesDir=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/lv_genome_reference_20220722/imputation/imputing_different_european_populations
                 

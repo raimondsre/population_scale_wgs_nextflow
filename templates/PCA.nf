@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
-// main_bySegmentOnly.nf
+// Pipeline to perform PCA analysis of VCF file
+// Option --samplesToKeep allows for PCA of subsets
+
 params.publishDir = './results'
 
 params.inputVCF = './merged.two.vcf.gz'
@@ -160,7 +162,7 @@ process pca_analysis {
        conda = '/home/raimondsre/.conda/envs/plink'
        publishDir params.publishDir, mode: 'move', overwrite: true
        cpus 8
-       
+
        input:
        set val(input), file(plink) from pca_analysis
 
