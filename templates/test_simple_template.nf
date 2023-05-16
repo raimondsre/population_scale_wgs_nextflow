@@ -3,7 +3,6 @@
 
 params.input = 'Hello world!'
 process convertToUpper {
-       publishDir '.'
        output:
        file "test"
        """
