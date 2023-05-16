@@ -23,7 +23,7 @@ process convertToUpper {
 }
 
 process testing_template {
-       publishDir '.'
+       publishDir '.', mode: 'copy', overwrite: true
        input:
        file ("file") from letters2
        output:
