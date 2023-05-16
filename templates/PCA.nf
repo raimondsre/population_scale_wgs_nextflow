@@ -62,7 +62,7 @@ process separateVCF {
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals
  
  output:
- set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment
+ set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into separated_by_segment
 
  script:
  input = remExt(vcf.name) 
@@ -71,8 +71,13 @@ process separateVCF {
        bcftools view --exclude 'POS<${start}' |
        bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
+
+       variantsPresent=1
+       # Check wether VCF segment has variants present
+       if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
+separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map { tuple(it[0..4]) }
 
 // Customise manipulation steps
 process manipulate_segment {
