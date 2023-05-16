@@ -3,12 +3,10 @@
 
 params.input = 'Hello world!'
 process convertToUpper {
+       publishDir '.'
        output:
-       stdout result
+       file "test"
        """
-       echo ${params.input}
+       echo ${params.input} > test
        """
-}
-result.subscribe {
-       println it.trim()
 }
