@@ -16,20 +16,22 @@ process convertToUpper {
        input:
        file x from letters 
        output:
-       stdout result
+       file ("file") into result
        """
-       echo $x 
+       echo $x > file
        """
 }
 
 process testing_template {
        input:
-       file x from letters2
+       file ("file") from letters2
        output:
        stdout result2
 
-       script:
-       template 'test_simple_template.nf --input ${x}'
+       shell:
+       '''
+       ~/templates/test_simple_template.nf --input !{x}
+       '''
 }
 
 result.subscribe {
