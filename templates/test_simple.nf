@@ -30,7 +30,7 @@ process testing_template {
 
        shell:
        '''
-       ~/templates/test_simple_template.nf --input !{x}
+       ~/templates/test_simple_template.nf --input file
        '''
 }
 
