@@ -42,6 +42,7 @@ samples_ch
  .into { samples_ch1; samples_ch2}
 
 // Define function to remove .vcf.gz extension
+def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst(/\.vcf\.gz$/,'')}
 def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 
 // Make single channel for intervals and vcf file
@@ -83,6 +84,8 @@ process manipulate_segment {
  output:
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.filtered.vcf.gz"), file("${remExt(vcf.name)}.filtered.vcf.gz.tbi") into segments_ready_for_collection
 
+ script:
+ input = input+".subset."+remPath(params.samplesToKeep)
  """
  if [ ${params.samplesToKeep} != 'all' ]; then 
  bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} -Oz -o ${remExt(vcf.name)}.selected_samples.vcf.gz
