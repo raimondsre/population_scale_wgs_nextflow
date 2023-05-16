@@ -30,7 +30,7 @@ process testing_template {
 
        shell:
        '''
-       ${projectDir}/test_simple_template.nf --input file
+       !{projectDir}/test_simple_template.nf --input file
        '''
 }
 
