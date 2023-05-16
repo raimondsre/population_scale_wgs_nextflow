@@ -85,7 +85,7 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.filtered.vcf.gz"), file("${remExt(vcf.name)}.filtered.vcf.gz.tbi") into segments_ready_for_collection
 
  script:
- input = input+".subset."+remPath(params.samplesToKeep)
+ input = input+".subset_of_"+remPath(params.samplesToKeep)
  """
  if [ ${params.samplesToKeep} != 'all' ]; then 
  bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} -Oz -o ${remExt(vcf.name)}.selected_samples.vcf.gz
