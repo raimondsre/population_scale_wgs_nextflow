@@ -35,5 +35,5 @@ process testing_template {
 }
 
 result.subscribe {
-       println it.trim()
+       println it
 }
