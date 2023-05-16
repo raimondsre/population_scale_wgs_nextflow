@@ -123,7 +123,7 @@ process merge_segments {
 }
 
 
-merged_ch
+merged_ch 
        .filter { it[4] == "1" }
        .map { tuple(it[0..3]) }
        .toSortedList({ a,b -> a[0] <=> b[0] })
