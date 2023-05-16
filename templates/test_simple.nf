@@ -25,13 +25,13 @@ process convertToUpper {
 process testing_template {
        publishDir '.', mode: 'copy', overwrite: true
        input:
-       file ("file") from letters2
+       file input from letters2
        output:
        file "test" 
 
        shell:
        '''
-       nextflow run !{projectDir}/test_simple_template.nf --input file
+       nextflow run !{projectDir}/test_simple_template.nf --input !{input}
        '''
 }
 
