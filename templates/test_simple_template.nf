@@ -3,9 +3,10 @@
 
 params.input = 'Hello world!'
 process convertToUpper {
+       publishDir '.'
        output:
        file "test"
        """
-       echo ${params.input} > test
+       cat ${params.input} > test
        """
 }
