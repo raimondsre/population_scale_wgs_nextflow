@@ -142,13 +142,13 @@ process plink_conversion {
        --make-bed --out ${input}
 
        plink2 --bfile ${input} --mind 0.1 --make-bed --out ${input}
-       
        """
 }
 
 // PCA analysis
 process pca_analysis {
        conda = '/home/raimondsre/.conda/envs/plink'
+       publishDir params.publishDir, mode: 'move', overwrite: true
 
        input:
        set val(input), file(plink) from pca_analysis
