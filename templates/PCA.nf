@@ -105,21 +105,61 @@ segments_ready_for_collection_collected = segments_ready_for_collection
 
 // Concatanate segments
 process concatanate_segments {
- publishDir params.publishDir, mode: 'move', overwrite: true
+ //publishDir params.publishDir, mode: 'move', overwrite: true
  //cpus 16
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
  output:
- set file(outputVCF), file(outputVCFtbi)
+ set val(input), file(outputVCF) into plink_conversion
 
  script:
- outputVCF = input+".vcf.gz"
+ outputVCF = input+".filtered.vcf.gz"
  outputVCFtbi = outputVCF+".tbi"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  # --naive should to be used with caution.
  bcftools concat --naive -f vcfFiles.txt -Oz -o ${outputVCF}
- bcftools index -t ${outputVCF}
+ # no indexing necessary for plink2
+ # bcftools index -t ${outputVCF}
  """
 }
 
+// Convertion to PLINK, additional filtering
+process plink_conversion {
+       conda = '/home/raimondsre/.conda/envs/plink'
+
+       input:
+       set val(input), file(vcf) from plink_conversion
+
+       output:
+       set val(input), file("${input}.{bim,bed,fam}") into pca_analysis
+
+       script:
+       """
+       plink2 --vcf ${vcf} \
+       --output-chr chrM --rm-dup force-first \
+       --snps-only --vcf-half-call h --max-alleles 2 \
+       --make-bed --out ${input}
+
+       plink2 --bfile ${input} --mind 0.1 --make-bed --out ${input}
+       
+       """
+}
+
+// PCA analysis
+process pca_analysis {
+       conda = '/home/raimondsre/.conda/envs/plink'
+
+       input:
+       set val(input), file(plink) from pca_analysis
+
+       output:
+       file("${input}.eigenvec")
+
+       script:
+       """
+       plink2 --bfile ${input} --allow-extra-chr --indep-pairwise 50 10 0.5 --out ${input}; 
+       plink2 --bfile ${input} --allow-extra-chr --allow-no-sex --chr {1..22} --extract  ${input}.prune.in --pca 10 --out ${input}
+      
+       """
+}
