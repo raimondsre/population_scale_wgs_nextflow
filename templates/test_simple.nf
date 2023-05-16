@@ -10,7 +10,7 @@ process splitLetters {
        """
 }
 letters
-       .into{ letters; letters2 }
+       .into{ letters; letters2 } 
 
 process convertToUpper {
        input:
