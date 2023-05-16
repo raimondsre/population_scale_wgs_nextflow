@@ -30,7 +30,7 @@ process testing_template {
 
        shell:
        '''
-       !{projectDir}/test_simple_template.nf --input file
+       nextflow run !{projectDir}/test_simple_template.nf --input file
        '''
 }
 
