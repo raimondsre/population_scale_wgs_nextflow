@@ -23,10 +23,11 @@ process convertToUpper {
 }
 
 process testing_template {
+       publishDir '.'
        input:
        file ("file") from letters2
        output:
-       stdout result2
+       file "test" 
 
        shell:
        '''
