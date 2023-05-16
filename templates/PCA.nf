@@ -136,6 +136,7 @@ process concatanate_segments {
 // Convertion to PLINK, additional filtering
 process plink_conversion {
        conda = '/home/raimondsre/.conda/envs/plink'
+       cpus 8
 
        input:
        set val(input), file(vcf) from plink_conversion
@@ -158,7 +159,8 @@ process plink_conversion {
 process pca_analysis {
        conda = '/home/raimondsre/.conda/envs/plink'
        publishDir params.publishDir, mode: 'move', overwrite: true
-
+       cpus 8
+       
        input:
        set val(input), file(plink) from pca_analysis
 
