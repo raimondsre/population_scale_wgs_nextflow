@@ -7,6 +7,6 @@ process convertToUpper {
        output:
        file "test"
        """
-       cat ${params.input} > test
+       cat ${params.input} > test 
        """
 }
