@@ -83,8 +83,8 @@ separated_by_segment = separated_by_segment.filter { it[5] == "1"  }.map { tuple
 // Customise manipulation steps
 process manipulate_segment_vep {
  //publishDir params.publishDir
- //cpus 4
- executor 'local'
+ cpus 4
+ //executor 'local'
 
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
