@@ -51,7 +51,7 @@ def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 vcfIntervals = intervals1.combine(vcf)
 //samples_ch1.subscribe { println it }
  
-//###
+//### 
 //### Analysis
 //###
 
