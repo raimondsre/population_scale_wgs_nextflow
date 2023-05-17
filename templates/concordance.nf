@@ -177,7 +177,7 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(txt_all) from segments_ready_for_collection_collected 
  output:
- file output
+ file output 
  script:
  output = "${txt_all[0].name}" - "_${intervalname}"
  """
