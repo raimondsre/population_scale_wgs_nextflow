@@ -172,7 +172,7 @@ segments_ready_for_collection_collected = segments_ready_for_collection
 // .groupTuple(by:[2])
 
 // Concatanate segments
-process concatanate_segments { 
+process concatanate_segments {  
  publishDir params.publishDir, mode: 'copy', overwrite: true
 
  input: 
