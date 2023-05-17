@@ -42,7 +42,7 @@ process extract_overlapping_vcf_samples {
  input:
  tuple file(vcf1), file(idx1), file(vcf2), file(idx2) from samples_from_first_and_second_concordance_file
  output:
- file 'samples_overlap' into samples_ch mode flatten
+ file 'samples_overlap' into samples_ch
  script:
  """
  bcftools query -l ${vcf1} > samples1
@@ -51,14 +51,6 @@ process extract_overlapping_vcf_samples {
  if [ `cat samples_overlap | wc -l` -eq 0]; then echo "No overlapping samples detected."; exit; fi
  """
 }
-
-counter2 = 0
-samples_ch
- .splitText() {it.replaceFirst(/\n/,'')}
- .map {value ->
-        counter2 += 1
-        [counter2, value].flatten()}
- .into { samples_ch1; samples_ch2}
 // Define function to remove .vcf.gz extension
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst(/\.vcf\.gz$/,'')}
 def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
@@ -69,7 +61,7 @@ vcfIntervals_first = intervals1.combine(vcf_first)
 // Make single channel for intervals and vcf file to be used as imputation panel
 vcfIntervals_second = intervals2.combine(vcf_second)
 
-vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second)
+vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second).combine(samples_ch)
 
 //vcfIntervals_first_and_second.subscribe { println it }
  
@@ -81,7 +73,7 @@ process separateVCF {
  //publishDir params.publishDir
 
  input:
- tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_first_and_second
+ tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx), file(overlap) from vcfIntervals_first_and_second
  
  output:
  set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment_first_and_second
@@ -90,6 +82,7 @@ process separateVCF {
  input = remExt(vcf.name) 
  """
        bcftools view ${vcf} ${chr}:${start}-${stop} |
+       bcftools view -S ${overlap} |
        bcftools view --exclude 'POS<${start}' |
        bcftools view --exclude 'POS>${stop}' |
        bcftools view -v snps -m2 -c3 -Oz -o ${input}.${intervalname}.vcf.gz
