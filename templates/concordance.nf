@@ -175,7 +175,7 @@ segments_ready_for_collection_collected = segments_ready_for_collection
 process concatanate_segments {
  publishDir params.publishDir, mode: 'copy', overwrite: true
 
- input:
+ input: 
  set val(order), val(intervalname), val(output), val(txt_all) from segments_ready_for_collection_collected 
  output:
  file output 

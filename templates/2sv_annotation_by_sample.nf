@@ -108,7 +108,7 @@ separated_by_segment_and_sample = separated_by_segment_and_sample.filter { it[6]
 process manipulate_segment_by_interval_and_sample_annotsv {
  conda = '/home/raimondsre/.conda/envs/parallel'
  //publishDir params.publishDir
- //cpus 1
+ //cpus 1 
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(sample) from separated_by_segment_and_sample
 
