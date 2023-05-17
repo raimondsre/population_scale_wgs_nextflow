@@ -116,7 +116,7 @@ process manipulate_segment_by_interval_and_sample_annotsv {
  set val(order), val(intervalname), val(input), file("${intervalname}.${sample}.annotsv.counted") into segments_ready_for_collection
 
  script:
- vcf_name = vcf.name
+ vcf_name = vcf.name 
  """
  uname -a | awk '{print \$2}'
 
