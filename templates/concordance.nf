@@ -161,8 +161,8 @@ process manipulate_segment_concordance {
 
 segments_ready_for_collection_collected = segments_ready_for_collection
  .toSortedList({ a,b -> a[0] <=> b[0] })
- .flatten().buffer ( size: 4 )
- .groupTuple(by:[2]) 
+ .flatten().buffer ( size: 4 ) 
+ .groupTuple(by:[2])  
 //segments_sample_ready_for_collection_collected.subscribe {println it}
  
 // Arrange segments and group by input file name
