@@ -48,7 +48,7 @@ process extract_overlapping_vcf_samples {
  bcftools query -l ${vcf1} > samples1
  bcftools query -l ${vcf2} > samples2
  comm -12 <(sort samples1) <(sort samples2) > samples_overlap 
- if [ `cat samples_overlap | wc -l` -eq 0]; then echo "No overlapping samples detected."; exit; fi
+ if [ `cat samples_overlap | wc -l` -eq 0 ]; then echo "No overlapping samples detected."; exit; fi
  """
 }
 // Define function to remove .vcf.gz extension
