@@ -157,7 +157,7 @@ process manipulate_segment_concordance {
 
        script:
        """
-       SnpSift concordance -v ${vcf[0]} ${vcf[1]} > temp
+       SnpSift concordance -v ${vcf[0]} ${vcf[1]}
        """
 }
 
