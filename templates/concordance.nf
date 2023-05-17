@@ -149,19 +149,20 @@ process manipulate_segment_concordance {
        set val(order), val(intervalname), val(input), file(vcf) from segments_ready_for_concordance
 
        output:
-       set val(order), val(intervalname), file("concordance_${input[0]}_${input[1]}_${intervalname}.by_sample.txt") into segments_ready_for_collection
+       set val(order), val(intervalname), val(output), file("${output}.${intervalname}.by_sample.txt") into segments_ready_for_collection
 
        script:
+       output = input[0]+".compared_to."+input[1]
        """
        SnpSift concordance -v ${vcf[0]} ${vcf[1]}
-       mv concordance_merged_array.by_sample.txt concordance_${input[0]}_${input[1]}_${intervalname}.by_sample.txt
+       mv concordance_merged_array.by_sample.txt ${output}.${intervalname}.by_sample.txt
        """ 
 }
 
 segments_ready_for_collection_collected = segments_ready_for_collection
  .toSortedList({ a,b -> a[0] <=> b[0] })
- .flatten().buffer ( size: 3 )
- .groupTuple(by:[0,1]) 
+ .flatten().buffer ( size: 4 )
+ .groupTuple(by:[2]) 
 //segments_sample_ready_for_collection_collected.subscribe {println it}
  
 // Arrange segments and group by input file name
@@ -175,11 +176,10 @@ process concatanate_segments {
  publishDir params.publishDir, mode: 'copy', overwrite: true
 
  input:
- set val(order), val(intervalname), val(txt_all) from segments_ready_for_collection_collected 
+ set val(order), val(intervalname), val(output), val(txt_all) from segments_ready_for_collection_collected 
  output:
  file output 
  script:
- output = "${txt_all[0].name}" - "_${intervalname}"
  """
  echo -e "sample\tV2\tV3\tV4\tMISSING_ENTRY_test1/MISSING_ENTRY_test2\tMISSING_ENTRY_test1/MISSING_GT_test2\tMISSING_ENTRY_test1/REF\tMISSING_ENTRY_test1/ALT_1\tMISSING_ENTRY_test1/ALT_2\tMISSING_GT_test1/MISSING_ENTRY_test2\tMISSING_GT_test1/MISSING_GT_test2\tMISSING_GT_test1/REF\tMISSING_GT_test1/ALT_1\tMISSING_GT_test1/ALT_2\tREF/MISSING_ENTRY_test2\tREF/MISSING_GT_test2\tREF/REF\tREF/ALT_1\tREF/ALT_2\tALT_1/MISSING_ENTRY_test2\tALT_1/MISSING_GT_test2\tALT_1/REF\tALT_1/ALT_1\tALT_1/ALT_2\tALT_2/MISSING_ENTRY_test2\tALT_2/MISSING_GT_test2\tALT_2/REF\tALT_2/ALT_1\tALT_2/ALT_2\tERROR\tV31" > ${output}
  cat ${txt_all.join(' ')} | grep -v "sample" | sed '/^\$/d' | awk 'OFS"\t"' >> ${output}
