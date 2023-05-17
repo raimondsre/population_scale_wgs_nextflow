@@ -155,7 +155,7 @@ process manipulate_segment_concordance {
        """
        SnpSift concordance -v ${vcf[0]} ${vcf[1]}
        mv concordance_merged_array.by_sample.txt concordance_${input[0]}_${input[1]}_${intervalname}.by_sample.txt
-       """
+       """ 
 }
 
 segments_ready_for_collection_collected = segments_ready_for_collection
