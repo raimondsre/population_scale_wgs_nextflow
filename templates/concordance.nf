@@ -37,6 +37,8 @@ samples_from_first_and_second_concordance_file = vcf_first_extractSamples.combin
 //samples_from_first_and_second_concordance_file.subscribe {println it}
 
 process extract_overlapping_vcf_samples {
+ errorStrategy 'finish'
+
  input:
  tuple file(vcf1), file(idx1), file(vcf2), file(idx2) from samples_from_first_and_second_concordance_file
  output:
@@ -46,6 +48,7 @@ process extract_overlapping_vcf_samples {
  bcftools query -l ${vcf1} > samples1
  bcftools query -l ${vcf2} > samples2
  comm -12 <(sort samples1) <(sort samples2) > samples_overlap 
+ if [ `cat samples_overlap | wc -l` -eq 0]; then echo "No overlapping samples detected."; exit; fi
  """
 }
 
