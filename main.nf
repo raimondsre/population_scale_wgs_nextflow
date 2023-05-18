@@ -108,7 +108,7 @@ process concatanate_segments {
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
  output:
- set file(outputVCF), file(outputVCFtbi)
+ set file(outputVCF), file(outputVCFtbi) into main_VCF
 
  script:
  outputVCF = params.outputName+".vcf.gz"
@@ -121,3 +121,103 @@ process concatanate_segments {
  """
 }
 
+main_VCF
+       .into { main_VCF;
+       PCA;
+       varinat_counting_all_vep; varinat_counting_all_annotsv;
+       varinat_counting_by_sample_vep; varinat_counting_by_sample_annotsv;
+       imputation;
+       merge_VCF;
+       extract_samples
+       }
+
+process PCA {
+       publishDir params.publishDir, mode: 'move', overwrite: true
+       input:
+       set file(vcf), file(idx) from PCA
+       output:
+       file "*.eigenvec" into output_PCA
+
+       shell:
+       '''
+       nextflow run !{projectDir}/templates/PCA.nf --input !{vcf}
+       '''
+}
+
+process varinat_counting_all_vep {
+       publishDir params.publishDir, mode: 'move', overwrite: true
+       input:
+       set file(vcf), file(idx) from varinat_counting_all_vep
+       output:
+       file "*.counted" into output_varinat_counting_all_vep
+
+       shell:
+       '''
+       nextflow run !{projectDir}/templates/2snp_annotation.nf --input !{vcf}
+       '''
+}
+
+process varinat_counting_all_annotsv {
+       publishDir params.publishDir, mode: 'move', overwrite: true
+       input:
+       set file(vcf), file(idx) from varinat_counting_all_annotsv
+       output:
+       file "*.counted" into output_varinat_counting_all_annotsv
+
+       shell:
+       '''
+       nextflow run !{projectDir}/templates/2sv_annotation.nf --input !{vcf}
+       '''
+}
+
+process varinat_counting_by_sample_vep {
+       publishDir params.publishDir, mode: 'move', overwrite: true
+       input:
+       set file(vcf), file(idx) from varinat_counting_by_sample_vep
+       output:
+       file "*.counted" into output_varinat_counting_by_sample_vep
+
+       shell:
+       '''
+       nextflow run !{projectDir}/templates/2snp_annot_by_sample.nf --input !{vcf}
+       '''
+}
+
+process varinat_counting_by_sample_annotsv {
+       publishDir params.publishDir, mode: 'move', overwrite: true
+       input:
+       set file(vcf), file(idx) from varinat_counting_by_sample_annotsv
+       output:
+       file "*.counted" into output_varinat_counting_by_sample_annotsv
+
+       shell:
+       '''
+       nextflow run !{projectDir}/templates/2sv_annot_by_sample.nf --input !{vcf}
+       '''
+}
+
+process imputation {
+       publishDir params.publishDir, mode: 'move', overwrite: true
+       input:
+       set file(vcf), file(idx) from imputation
+       output:
+       file "*.counted.txt" into output_imputation
+
+       shell:
+       '''
+       nextflow run !{projectDir}/templates/2sv_annot_by_sample.nf --input !{vcf}
+       '''
+}
+
+process concordance {
+       publishDir params.publishDir, mode: 'move', overwrite: true
+       input:
+       set file(vcf), file(idx) from concordance
+       output:
+       file "*compared_to*" into output_concordance
+
+       shell:
+       '''
+       nextflow run !{projectDir}/templates/concordance.nf --input1 !{vcf} --input2 ${params.array_for_concordance}
+       '''
+}
