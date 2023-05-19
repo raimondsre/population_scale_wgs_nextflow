@@ -67,7 +67,7 @@ separated_by_segment_split_samples = vcf
 // Customise manipulation steps
 process manipulate_segment_by_interval_and_sample_vep {
  //publishDir params.publishDir
- cpus 1
+ cpus 2
  
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx), val(sample) from separated_by_segment_and_sample
