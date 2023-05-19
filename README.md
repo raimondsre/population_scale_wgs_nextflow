@@ -5,6 +5,7 @@ Complete workflow replicating main results of Latvian Genome Reference paper wil
 
 nextflow run raimondsre/population_scale_wgs_nextflow -r main --input reference_panel.vcf.gz
 
-Subworkflows can be run separately, e.g.
+
+Subworkflows are run separately, e.g.
 
 nextflow run raimondsre/population_scale_wgs_nextflow/templates/imputation_panel_comparison.nf -r main --input reference_panel.vcf.gz
