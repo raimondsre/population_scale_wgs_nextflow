@@ -8,4 +8,4 @@ Complete workflow replicating main results of Latvian Genome Reference paper wil
 
 Subworkflows are run separately, e.g.
 
-`nextflow run raimondsre/population_scale_wgs_nextflow/templates/imputation_panel_comparison.nf -r main --input reference_panel.vcf.gzś
+`nextflow run raimondsre/population_scale_wgs_nextflow/templates/imputation_panel_comparison.nf -r main --input reference_panel.vcf.gz` 
