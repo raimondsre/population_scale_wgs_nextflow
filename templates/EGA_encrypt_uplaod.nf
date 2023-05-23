@@ -33,9 +33,9 @@ process ega_encrypt {
        // (params.batchDir+"/"+params.batchName+"/"+read_encrypted).isEmpty()
 
        script:
-       read_encrypted = ${read}+".gpg"
-       read_encrypted_checksum = ${read}+".gpg.md5"
-       read_unencrypted_checksum = ${read}+".md5"
+       read_encrypted = read+".gpg"
+       read_encrypted_checksum = read+".gpg.md5"
+       read_unencrypted_checksum = read+".md5"
        """
        java -jar ${params.EGAencryptor} -i ${read}
        """
