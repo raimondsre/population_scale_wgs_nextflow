@@ -37,12 +37,9 @@ process ega_encrypt {
        read_encrypted_checksum = read+".gpg.md5"
        read_unencrypted_checksum = read+".md5"
        """
-       if [ ! -f ${params.batchDir}/${params.batchName}/${read_encrypted} ]; then
        java -jar ${params.EGAencryptor} -i ${read}
        mv output-files/* .
-       else
-       touch ${read_encrypted} ${read_encrypted_checksum} ${read_unencrypted_checksum}
-       fi
+
        """
 }
 
