@@ -38,6 +38,7 @@ process ega_encrypt {
        read_unencrypted_checksum = read+".md5"
        """
        java -jar ${params.EGAencryptor} -i ${read}
+       mv output-files/* .
        """
 }
 
