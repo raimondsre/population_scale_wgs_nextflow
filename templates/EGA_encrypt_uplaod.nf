@@ -13,7 +13,7 @@ Channel
        .splitCsv(header:false, sep:'\t',strip:true)
        .map { row -> tuple(row[0], row[1], row[2]) }
        .multiMap { 
-              ch_one: tuple (it[0], it[1], 1)
+              ch_one: tuple (it[0], it[1], 1) 
               ch_two: tuple (it[0], it[2], 2)
               }
        .set { to_mix }
