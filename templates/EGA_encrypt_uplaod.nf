@@ -1,7 +1,7 @@
 #!/usr/bin/env nextflow
 
 params.sampleLocation = './for.trimming'
-params.batchDir = params.projectDir
+params.batchDir = projectDir
 params.batchName = 'lv_reference_20220722_502samples'
 params.EGAencryptor = '/home/raimondsre/programms/EGA-Cryptor-2.0.0/ega-cryptor-2.0.0.jar'
 
