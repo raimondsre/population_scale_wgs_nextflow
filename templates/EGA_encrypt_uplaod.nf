@@ -16,7 +16,7 @@ Channel
               }
        .set { to_mix }
 to_mix.ch_one.mix(to_mix.ch_two)
-       .filter { (params.batchDir+"/"+params.batchName+"/"+it[1].name()+".gpg").isEmpty() }
+       .filter { (params.batchDir+"/"+params.batchName+"/"+it[1].name+".gpg").isEmpty() }
        .into { to_encrypt; intervals2 }
 to_encrypt.subscribe { println it}
 
