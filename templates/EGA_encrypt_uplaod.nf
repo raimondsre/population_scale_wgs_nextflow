@@ -21,7 +21,7 @@ to_mix.ch_one.mix(to_mix.ch_two)
 
 // Encrypt each file
 process ega_encrypt {
-       publishDir params.batchDir+"/"+params.batchName, mode: 'copy', overwrite: false
+       publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
 
        input:
        set val(SAMPLE_ID), path(read), val(read_num) from to_encrypt
