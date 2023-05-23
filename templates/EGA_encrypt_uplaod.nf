@@ -17,7 +17,8 @@ Channel
        .set { to_mix }
 to_mix.ch_one.mix(to_mix.ch_two)
        .into { to_encrypt; intervals2 }
-
+to_encrypt.subscribe { println it}
+/*
 // Encrypt each file
 process ega_encrypt {
        publishDir params.batchDir+"/"+params.batchName
@@ -47,3 +48,6 @@ process ega_encrypt {
 }
 
 // Upload files to EGA
+
+/*
+*/
