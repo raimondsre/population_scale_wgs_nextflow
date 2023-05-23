@@ -30,7 +30,7 @@ process ega_encrypt {
        set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum) into read_encrypted
 
        when:
-       (params.batchDir+"/"+params.batchName+"/"+read+".gpg").isEmpty()
+       (params.batchDir+"/"+params.batchName+"/"+read.name()+".gpg").isEmpty()
 
        script:
        read_encrypted = read+".gpg"
