@@ -17,11 +17,11 @@ Channel
        .set { to_mix }
 to_mix.ch_one.mix(to_mix.ch_two)
        .into { to_encrypt; intervals2 }
-to_encrypt.subscribe { println it}
-/*
+//to_encrypt.subscribe { println it}
+
 // Encrypt each file
 process ega_encrypt {
-       publishDir params.batchDir+"/"+params.batchName
+       publishDir params.batchDir+"/"+params.batchName, mode: 'copy'
 
        input:
        set val(SAMPLE_ID), file(read), val(read_num) from to_encrypt
@@ -37,12 +37,6 @@ process ega_encrypt {
        read_encrypted_checksum = ${read}+".gpg.md5"
        read_unencrypted_checksum = ${read}+".md5"
        """
-       if [ -e ${params.batchDir}/${params.batchName}/${read_encrypted} ]; then
-
-       else
-
-       fi
-
        java -jar ${params.EGAencryptor} -i ${read}
        """
 }
