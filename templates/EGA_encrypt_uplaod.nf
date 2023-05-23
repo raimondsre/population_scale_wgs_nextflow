@@ -5,6 +5,8 @@ params.batchDir = projectDir
 params.batchName = 'lv_reference_20220722_502samples'
 params.EGAencryptor = '/home/raimondsre/programms/EGA-Cryptor-2.0.0/ega-cryptor-2.0.0.jar'
 
+def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
+
 // Read the input file containing sample ID and it's location
 Channel
        .fromPath(params.sampleLocation)
@@ -16,7 +18,7 @@ Channel
               }
        .set { to_mix }
 to_mix.ch_one.mix(to_mix.ch_two)
-       .filter { (params.batchDir+"/"+params.batchName+"/"+it[1]+".gpg").isEmpty() }
+       .filter { (params.batchDir+"/"+params.batchName+"/"+remPath(it[1])+".gpg").isEmpty() }
        .into { to_encrypt; intervals2 }
 to_encrypt.subscribe { println it}
 
