@@ -18,7 +18,7 @@ Channel
               }
        .set { to_mix }
 to_mix.ch_one.mix(to_mix.ch_two)
-       .map {tuple(it, params.batchDir+"/"+params.batchName+"/"+remPath(it[1])+".gpg")}
+       .map {tuple(it, (params.batchDir+"/"+params.batchName+"/"+remPath(it[1])+".gpg").isEmpty())}
        .into { test }
 test.subscribe {println it}
 /*
