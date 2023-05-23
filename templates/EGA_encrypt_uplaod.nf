@@ -23,7 +23,7 @@ process ega_encrypt {
        publishDir params.batchDir+"/"+params.batchName
 
        input:
-       set val(SAMPLE_ID), file(read), val(read_num) from ro_encrypt
+       set val(SAMPLE_ID), file(read), val(read_num) from to_encrypt
 
        output:
        set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum) into read_encrypted
