@@ -21,7 +21,7 @@ to_mix.ch_one.mix(to_mix.ch_two)
 
 // Encrypt each file
 process ega_encrypt {
-       publishDir params.batchDir+"/"+params.batchName, mode: 'copy'
+       //publishDir params.batchDir+"/"+params.batchName, mode: 'copy'
 
        input:
        set val(SAMPLE_ID), file(read), val(read_num) from to_encrypt
@@ -29,8 +29,8 @@ process ega_encrypt {
        output:
        set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum) into read_encrypted
 
-       when:
-       (params.batchDir+"/"+params.batchName+"/"+read_encrypted).isEmpty()
+       // when:
+       // (params.batchDir+"/"+params.batchName+"/"+read_encrypted).isEmpty()
 
        script:
        read_encrypted = ${read}+".gpg"
