@@ -16,9 +16,11 @@ Channel
               }
        .set { to_mix }
 to_mix.ch_one.mix(to_mix.ch_two)
+       .filter { (params.batchDir+"/"+params.batchName+"/"+read.name()+".gpg").isEmpty() }
        .into { to_encrypt; intervals2 }
-//to_encrypt.subscribe { println it}
+to_encrypt.subscribe { println it}
 
+/*
 // Encrypt each file
 process ega_encrypt {
        publishDir params.batchDir+"/"+params.batchName, mode: 'copy'
@@ -29,8 +31,8 @@ process ega_encrypt {
        output:
        set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum) into read_encrypted
 
-       when:
-       (params.batchDir+"/"+params.batchName+"/"+read.name()+".gpg").isEmpty()
+       // when:
+       // (params.batchDir+"/"+params.batchName+"/"+read.name()+".gpg").isEmpty()
 
        script:
        read_encrypted = read+".gpg"
