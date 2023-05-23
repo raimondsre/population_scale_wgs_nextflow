@@ -18,6 +18,10 @@ Channel
               }
        .set { to_mix }
 to_mix.ch_one.mix(to_mix.ch_two)
+       .map {tuple(it, params.batchDir+"/"+params.batchName+"/"+remPath(it[1])+".gpg")}
+       .into { test }
+test.subscribe {println it}
+/*
        .filter { (params.batchDir+"/"+params.batchName+"/"+remPath(it[1])+".gpg").isEmpty() }
        .into { to_encrypt; intervals2 }
 to_encrypt.subscribe { println it}
