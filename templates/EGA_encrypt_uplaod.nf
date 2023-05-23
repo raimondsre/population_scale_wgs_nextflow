@@ -25,15 +25,15 @@ process ega_encrypt {
 
        input:
        set val(SAMPLE_ID), path(read), val(read_num) from to_encrypt
-       read_encrypted = read+".gpg"
 
        output:
        set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum) into read_encrypted
 
        when:
-       (params.batchDir+"/"+params.batchName+"/"+read_encrypted).isEmpty()
+       (params.batchDir+"/"+params.batchName+"/"+read+".gpg").isEmpty()
 
        script:
+       read_encrypted = read+".gpg"
        read_encrypted_checksum = read+".gpg.md5"
        read_unencrypted_checksum = read+".md5"
        """
