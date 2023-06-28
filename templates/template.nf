@@ -94,6 +94,7 @@ process manipulate_segment {
  bcftools view -c1 |
  bcftools norm --multiallelics - |
  bcftools view -c1 -Oz -o ${remExt(vcf.name)}.clean.vcf.gz
+ bcftools index -t ${remExt(vcf.name)}.clean.vcf.gz
  bcftools annotate -a ${params.dbsnp} -c 'ID' ${remExt(vcf.name)}.clean.vcf.gz -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
