@@ -42,12 +42,25 @@ process ega_encrypt {
        java -jar ${params.EGAencryptor} -i ${read}
        mv output-files/* .
        else
-       touch ${read_encrypted} ${read_encrypted_checksum} ${read_unencrypted_checksum}
+       ln -s ${params.batchDir}/${params.batchName}/${read_encrypted} > ${read_encrypted}
+       ln -s ${params.batchDir}/${params.batchName}/${read_encrypted_checksum} > ${read_encrypted_checksum}
+       ln -s ${params.batchDir}/${params.batchName}/${read_unencrypted_checksum} > ${read_unencrypted_checksum}
        fi
        """
 }
 
 // Upload files to EGA
+process ega_encrypt {
+       cpus 1
+       
+       input:
+       set val(read_encrypted), path(read_encrypted_checksum), val(read_unencrypted_checksum) from read_encrypted
+
+       script:
+       """
+       lftp -u ega-box-2005 ftp.ega.ebi.ac.uk -e "put ${read_encrypted} -o lv_reference_20220722_502samples/; put ${read_encrypted_checksum} -o lv_reference_20220722_502samples/; put ${read_unencrypted_checksum} -o lv_reference_20220722_502samples/; exit"
+       """
+}
 
 /*
 */
