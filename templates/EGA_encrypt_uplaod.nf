@@ -50,7 +50,7 @@ process ega_encrypt {
 }
 
 // Upload files to EGA
-process ega_encrypt {
+process ega_upload {
        cpus 1
        
        input:
