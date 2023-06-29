@@ -58,7 +58,7 @@ process ega_encrypt {
 
        script:
        """
-       lftp -u ega-box-2005 ftp.ega.ebi.ac.uk -e "put ${read_encrypted} -o lv_reference_20220722_502samples/; put ${read_encrypted_checksum} -o lv_reference_20220722_502samples/; put ${read_unencrypted_checksum} -o lv_reference_20220722_502samples/; exit"
+       lftp ftp.ega.ebi.ac.uk -e "put ${read_encrypted} -o lv_reference_20220722_502samples/; put ${read_encrypted_checksum} -o lv_reference_20220722_502samples/; put ${read_unencrypted_checksum} -o lv_reference_20220722_502samples/; exit"
        """
 }
 
