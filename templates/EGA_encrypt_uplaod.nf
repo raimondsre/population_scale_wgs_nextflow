@@ -42,9 +42,9 @@ process ega_encrypt {
        java -jar ${params.EGAencryptor} -i ${read}
        mv output-files/* .
        else
-       ln -s ${params.batchDir}/${params.batchName}/${read_encrypted} > ${read_encrypted}
-       ln -s ${params.batchDir}/${params.batchName}/${read_encrypted_checksum} > ${read_encrypted_checksum}
-       ln -s ${params.batchDir}/${params.batchName}/${read_unencrypted_checksum} > ${read_unencrypted_checksum}
+       ln -s ${params.batchDir}/${params.batchName}/${read_encrypted} ${read_encrypted}
+       ln -s ${params.batchDir}/${params.batchName}/${read_encrypted_checksum} ${read_encrypted_checksum}
+       ln -s ${params.batchDir}/${params.batchName}/${read_unencrypted_checksum} ${read_unencrypted_checksum}
        fi
        """
 }
