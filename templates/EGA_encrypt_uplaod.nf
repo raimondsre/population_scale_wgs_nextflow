@@ -67,7 +67,13 @@ process ega_upload {
        script:
        path = params.batchName+"/"+SAMPLE_ID
        """
-       lftp ftp.ega.ebi.ac.uk -e "mkdir -p ${path}; cd ${path}; put ${read_encrypted_checksum}; put ${read_unencrypted_checksum}; put ${read_encrypted}; exit"
+       lftp ftp.ega.ebi.ac.uk -e "mkdir -p ${path}; exit"
+       if [ $? -ne 0 ]; then
+       echo "An error occurred"
+       # Handle the error
+       fi
+       
+       lftp ftp.ega.ebi.ac.uk -e "cd ${path}; put ${read_encrypted_checksum}; put ${read_unencrypted_checksum}; put ${read_encrypted}; exit"
        """
 }
 
