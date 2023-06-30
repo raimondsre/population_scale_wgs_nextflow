@@ -18,7 +18,8 @@ Channel
        .set { to_mix }
 to_mix.ch_one.mix(to_mix.ch_two)
        .filter { SAMPLE_ID, read, read_num ->
-        def file_exists = read.exists()
+        def file = read.toFile()
+        def file_exists = file.exists()
         if (! file_exists) println ">>> WARNING: File ${read} does not exist and will not be included"
         file_exists
        }
