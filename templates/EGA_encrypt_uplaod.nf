@@ -10,6 +10,7 @@ Channel
        .fromPath(params.sampleLocation)
        .splitCsv(header:false, sep:'\t',strip:true)
        .map { row -> tuple(row[0], row[1], row[2]) }
+       .filter({it[1].contains('25408')})
        .multiMap { 
               ch_one: tuple (it[0], it[1], 1)
               ch_two: tuple (it[0], it[2], 2)
@@ -28,7 +29,7 @@ process ega_encrypt {
        set val(SAMPLE_ID), path(read), val(read_num) from to_encrypt
 
        output:
-       set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum) into read_encrypted
+       set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum), val(SAMPLE_ID) into read_encrypted
 
        // when:
        // (params.batchDir+"/"+params.batchName+"/"+read.name()+".gpg").isEmpty()
@@ -54,11 +55,12 @@ process ega_upload {
        cpus 1
        
        input:
-       set val(read_encrypted), path(read_encrypted_checksum), val(read_unencrypted_checksum) from read_encrypted
+       set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum), val(SAMPLE_ID) from read_encrypted
 
        script:
+       path = params.batchName+"/"+SAMPLE_ID
        """
-       lftp ftp.ega.ebi.ac.uk -e "put ${read_encrypted} -o lv_reference_20220722_502samples/; put ${read_encrypted_checksum} -o lv_reference_20220722_502samples/; put ${read_unencrypted_checksum} -o lv_reference_20220722_502samples/; exit"
+       lftp ftp.ega.ebi.ac.uk -e "mkdir ${path}; put ${read_encrypted} -o ${path}; put ${read_encrypted_checksum} -o ${path}; put ${read_unencrypted_checksum} -o ${path}; exit"
        """
 }
 
