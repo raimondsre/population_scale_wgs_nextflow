@@ -10,7 +10,7 @@ Channel
        .fromPath(params.sampleLocation)
        .splitCsv(header:false, sep:'\t',strip:true)
        .map { row -> tuple(row[0], row[1], row[2]) }
-       .filter({it[1].contains('25408')})
+       //.filter({it[1].contains('25408')})
        .multiMap { 
               ch_one: tuple (it[0], it[1], 1)
               ch_two: tuple (it[0], it[2], 2)
