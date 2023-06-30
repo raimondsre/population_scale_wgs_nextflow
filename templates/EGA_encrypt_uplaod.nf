@@ -17,6 +17,7 @@ Channel
               }
        .set { to_mix }
 to_mix.ch_one.mix(to_mix.ch_two)
+       // Filter out fastq files that does not exist
        .filter { SAMPLE_ID, read, read_num ->
         def file = new File(read)
         def file_exists = file.exists()
@@ -66,7 +67,7 @@ process ega_upload {
        script:
        path = params.batchName+"/"+SAMPLE_ID
        """
-       lftp ftp.ega.ebi.ac.uk -e "mkdir -p ${path}; cd ${path}; put ${read_encrypted}; put ${read_encrypted_checksum}; put ${read_unencrypted_checksum}; exit"
+       lftp ftp.ega.ebi.ac.uk -e "mkdir -p ${path}; cd ${path}; put ${read_encrypted_checksum}; put ${read_unencrypted_checksum}; put ${read_encrypted}; exit"
        """
 }
 
