@@ -17,6 +17,11 @@ Channel
               }
        .set { to_mix }
 to_mix.ch_one.mix(to_mix.ch_two)
+       .filter { SAMPLE_ID, read, read_num ->
+        def file_exists = read.exists()
+        if (! file_exists) println ">>> WARNING: File ${read} does not exist and will not be included"
+        file_exists
+       }
        .into { to_encrypt; intervals2 }
 //to_encrypt.subscribe { println it}
 
@@ -40,12 +45,12 @@ process ega_encrypt {
        read_unencrypted_checksum = read+".md5"
        """
        if [ ! -f ${params.batchDir}/${params.batchName}/${read_encrypted} ]; then
-       java -jar ${params.EGAencryptor} -i ${read}
-       mv output-files/* .
+              java -jar ${params.EGAencryptor} -i ${read}
+              mv output-files/* .
        else
-       ln -s ${params.batchDir}/${params.batchName}/${read_encrypted} ${read_encrypted}
-       ln -s ${params.batchDir}/${params.batchName}/${read_encrypted_checksum} ${read_encrypted_checksum}
-       ln -s ${params.batchDir}/${params.batchName}/${read_unencrypted_checksum} ${read_unencrypted_checksum}
+              ln -s ${params.batchDir}/${params.batchName}/${read_encrypted} ${read_encrypted}
+              ln -s ${params.batchDir}/${params.batchName}/${read_encrypted_checksum} ${read_encrypted_checksum}
+              ln -s ${params.batchDir}/${params.batchName}/${read_unencrypted_checksum} ${read_unencrypted_checksum}
        fi
        """
 }
@@ -60,7 +65,7 @@ process ega_upload {
        script:
        path = params.batchName+"/"+SAMPLE_ID
        """
-       lftp ftp.ega.ebi.ac.uk -e "mkdir ${path}; put ${read_encrypted} -o ${path}; put ${read_encrypted_checksum} -o ${path}; put ${read_unencrypted_checksum} -o ${path}; exit"
+       lftp ftp.ega.ebi.ac.uk -e "mkdir -p ${path}; cd ${path}; put ${read_encrypted}; put ${read_encrypted_checksum}; put ${read_unencrypted_checksum}; exit"
        """
 }
 
