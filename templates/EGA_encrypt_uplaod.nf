@@ -67,7 +67,7 @@ process ega_upload {
        script:
        path = params.batchName+"/"+SAMPLE_ID
        """
-       lftp ftp.ega.ebi.ac.uk -e "cd ${path} || mkdir -p ${path}; cd ${path}; put ${read_encrypted_checksum}; put ${read_unencrypted_checksum}; put ${read_encrypted}; exit"
+       lftp ftp.ega.ebi.ac.uk -e "cd ${path} || mkdir -p ${path} || cd ${path}; put ${read_encrypted_checksum}; put ${read_unencrypted_checksum}; put ${read_encrypted}; exit"
        """
 }
 
