@@ -66,7 +66,8 @@ process ega_encrypt {
 // Upload files to EGA
 process ega_upload {
        cpus 2
-       
+       maxForks 30
+
        input:
        set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum), val(SAMPLE_ID) from read_encrypted
 
