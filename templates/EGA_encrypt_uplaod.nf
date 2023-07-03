@@ -19,6 +19,7 @@ Channel
 to_mix.ch_one.mix(to_mix.ch_two)
        // Filter out fastq files that does not exist
        .filter { SAMPLE_ID, read, read_num ->
+        def fastq_filename = read.tokenize('/').last()
         def file = new File(read)
         def file_exists = file.exists()
         if (! file_exists) println ">>> WARNING: File ${read} does not exist and will not be included"
@@ -27,7 +28,7 @@ to_mix.ch_one.mix(to_mix.ch_two)
        // Filter out fastq files that has already been uploaded
        .filter { SAMPLE_ID, read, read_num ->
         def fastq_path = read
-        def fastq_filename = tokenize('/').last()
+        def fastq_filename = fastq_path.tokenize('/').last()
         def file = new File("${params.batchDir}/${params.batchName}/list_of_ega_uploaded/${fastq_filename}.gpg")
         def uploaded_to_ega = file.exists()
         if (uploaded_to_ega) prinltn ">>> WARNING: FILE ${fastq_filename} of ${SAMPLE_ID} sample already encrypted and uploaded"
