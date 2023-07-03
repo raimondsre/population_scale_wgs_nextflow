@@ -31,7 +31,7 @@ to_mix.ch_one.mix(to_mix.ch_two)
         def fastq_filename = fastq_path.tokenize('/').last()
         def file = new File("${params.batchDir}/${params.batchName}/list_of_ega_uploaded/${fastq_filename}.gpg")
         def uploaded_to_ega = file.exists()
-        if (uploaded_to_ega) prinltn ">>> WARNING: FILE ${fastq_filename} of ${SAMPLE_ID} sample already encrypted and uploaded"
+        if (uploaded_to_ega) println ">>> WARNING: FILE ${fastq_filename} of ${SAMPLE_ID} sample already encrypted and uploaded"
         !uploaded_to_ega
        }
        .into { to_encrypt; intervals2 }
