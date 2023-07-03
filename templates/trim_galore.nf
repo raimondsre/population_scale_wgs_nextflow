@@ -35,7 +35,7 @@ process adaptor_trimming {
                 --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
                 --paired --no_report_file \
                 -o . ${read1} ${read2}
-       if [ ! -f ${params.batchDir}/${params.batchName}/variant_calling.tsv ]; then mkdir -p ${params.batchDir}/${params.batchName} && touch ${params.batchDir}/${params.batchName}/variant_calling.tsv; done
+       if [ ! -f ${params.batchDir}/${params.batchName}/variant_calling.tsv ]; then mkdir -p ${params.batchDir}/${params.batchName} && touch ${params.batchDir}/${params.batchName}/variant_calling.tsv; fi
        echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.batchDir}/${params.batchName}/${read1_trimmed}\t${params.batchDir}/${params.batchName}/${read1_trimmed}" >> ${params.batchDir}/${params.batchName}/variant_calling.tsv
        """
 }
