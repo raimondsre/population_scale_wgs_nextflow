@@ -24,8 +24,16 @@ to_mix.ch_one.mix(to_mix.ch_two)
         if (! file_exists) println ">>> WARNING: File ${read} does not exist and will not be included"
         file_exists
        }
+       // Filter out fastq files that has already been uploaded
+       .filter { SAMPLE_ID, read, read_num ->
+        def fastq_path = read
+        def fastq_filename = tokenize('/').last()
+        def file = new File("${params.batchDir}/${params.batchName}/list_of_ega_uploaded/${fastq_filename}.gpg")
+        def uploaded_to_ega = file.exists()
+        if (uploaded_to_ega) prinltn ">>> WARNING: FILE ${fastq_filename} of ${SAMPLE_ID} sample already encrypted and uploaded"
+        !uploaded_to_ega
+       }
        .into { to_encrypt; intervals2 }
-//to_encrypt.subscribe { println it}
 
 // Encrypt each file
 process ega_encrypt {
@@ -37,9 +45,6 @@ process ega_encrypt {
 
        output:
        set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum), val(SAMPLE_ID) into read_encrypted
-
-       // when:
-       // (params.batchDir+"/"+params.batchName+"/"+read.name()+".gpg").isEmpty()
 
        script:
        read_encrypted = read+".gpg"
@@ -68,6 +73,7 @@ process ega_upload {
        path = params.batchName+"/"+SAMPLE_ID
        """
        lftp ftp.ega.ebi.ac.uk -e "cd ${path} || mkdir -p ${path} || cd ${path}; put ${read_encrypted_checksum}; put ${read_unencrypted_checksum}; put ${read_encrypted}; exit"
+       touch ${params.batchDir}/${params.batchName}/list_of_ega_uploaded/${read_encrypted}
        """
 }
 
