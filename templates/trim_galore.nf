@@ -10,7 +10,7 @@ Channel
        .splitCsv(header:false, sep:'\t',strip:true)
        .map { row -> tuple(row[0], row[1], row[2], row[3]) }
        //.filter({it[1].contains('25408')})
-       .into { for_trimming }
+       .set { for_trimming }
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
 
@@ -26,12 +26,13 @@ process adaptor_trimming {
        set file(read1_trimmed), file(read2_trimmed) into read_encrypted
 
        script:
-       read1_trimmed = read1.toString().replaceAll("_1.","_1_val_1.")
-       read2_trimmed = read2.toString().replaceAll("_2.","_2_val_2.")
+       read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
+       read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
        """
        trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
                 --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
                 --paired --no_report_file \
                 -o . ${read1} ${read2}
+       echo -e "${SAMPLE_ID}\t0\t0${SAMPLE_ID}\t${sample_chunk}\t${params.batchDir}/${params.batchName}/${read1_trimmed}\t${params.batchDir}/${params.batchName}/${read1_trimmed}" >> ${params.batchDir}/${params.batchName}/variant_calling.tsv
        """
 }
