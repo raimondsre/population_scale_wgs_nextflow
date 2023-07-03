@@ -27,8 +27,8 @@ process adaptor_trimming {
        set file(read1_trimmed), file(read2_trimmed) into read_encrypted
 
        script:
-       read1_trimmed = read1.replaceAll("_1.","_1_val_1.")
-       read2_trimmed = read2.replaceAll("_2.","_2_val_2.")
+       read1_trimmed = read1.toString.replaceAll("_1.","_1_val_1.")
+       read2_trimmed = read2.toString.replaceAll("_2.","_2_val_2.")
        """
        trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
                 --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
