@@ -17,7 +17,6 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 // Encrypt each file
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
-       conda 'trim_galore'
        cpus 16
        
        input:
