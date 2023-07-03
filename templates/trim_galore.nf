@@ -25,7 +25,7 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 // Encrypt each file
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
-       cpus 1
+       cpus 16
        executor = 'local'
        
        input:
