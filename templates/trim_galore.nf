@@ -27,7 +27,6 @@ process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 1
        executor = 'local'
-
        
        input:
        set val(SAMPLE_ID), (sample_chunk), path(read1), path(read2) from for_trimming
@@ -47,6 +46,6 @@ process adaptor_trimming {
               -o . ${read1} ${read2}
        
        if [ ! -f ${varCal_tsv} ]; then mkdir -p ${batchDir} && touch ${varCal_tsv}; fi
-       echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${batchDir}/${read1_trimmed}\t${batchDir}/${read1_trimmed}" >> ${varCal_tsv}
+       echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${batchDir}/${read1_trimmed}\t${batchDir}/${read2_trimmed}" >> ${varCal_tsv}
        """
 }
