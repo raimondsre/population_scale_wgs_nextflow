@@ -59,7 +59,7 @@ process ega_encrypt {
 
 // Upload files to EGA
 process ega_upload {
-       cpus 1
+       cpus 2
        
        input:
        set file(read_encrypted), file(read_encrypted_checksum), file(read_unencrypted_checksum), val(SAMPLE_ID) from read_encrypted
