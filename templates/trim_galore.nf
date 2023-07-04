@@ -22,12 +22,10 @@ Channel
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
 
-// Encrypt each file
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
-       cpus 1
+       cpus 16
        executor = 'local'
-
        
        input:
        set val(SAMPLE_ID), (sample_chunk), path(read1), path(read2) from for_trimming
@@ -38,12 +36,15 @@ process adaptor_trimming {
        script:
        read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
        read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
+       varCal_tsv = "${params.batchDir}/${params.batchName}/${params.batchName}_variant_calling.tsv"
+       batchDir = ${params.batchDir}/${params.batchName}
        """
        trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
               --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
               --paired --no_report_file \
               -o . ${read1} ${read2}
-       if [ ! -f ${params.batchDir}/${params.batchName}/variant_calling.tsv ]; then mkdir -p ${params.batchDir}/${params.batchName} && touch ${params.batchDir}/${params.batchName}/variant_calling.tsv; fi
-       echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.batchDir}/${params.batchName}/${read1_trimmed}\t${params.batchDir}/${params.batchName}/${read1_trimmed}" >> ${params.batchDir}/${params.batchName}/variant_calling.tsv
+       
+       if [ ! -f ${varCal_tsv} ]; then mkdir -p ${batchDir} && touch ${varCal_tsv}; fi
+       echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${batchDir}/${read1_trimmed}\t${batchDir}/${read2_trimmed}" >> ${varCal_tsv}
        """
 }
