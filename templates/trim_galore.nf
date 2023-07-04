@@ -25,7 +25,7 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
-       executor = 'local'
+       executor = 'pbs'
        
        input:
        set val(SAMPLE_ID), (sample_chunk), path(read1), path(read2) from for_trimming
