@@ -9,14 +9,6 @@ Channel
        .fromPath(params.sampleLocation)
        .splitCsv(header:false, sep:'\t',strip:true)
        .map { row -> tuple(row[0], row[1], row[2], row[3]) }
-       .filter { SAMPLE_ID, chunk, read1, read2 ->
-        def fastq_path1 = read1
-        def fastq_filename = fastq_path1.tokenize('/').last().toString().replaceAll("_1.f","_1_val_1.f")
-        def file = new File("${params.batchDir}/${params.batchName}/${fastq_filename}")
-        def file_exists = file.exists()
-        if (file_exists) println ">>> WARNING: FILE ${read1} of ${SAMPLE_ID} sample already trimmed"
-        !file_exists
-       }
        //.filter({it[1].contains('25408')})
        .set { for_trimming }
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
