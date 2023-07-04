@@ -14,7 +14,7 @@ Channel
         def fastq_filename = fastq_path1.tokenize('/').last().toString().replaceAll("_1.f","_1_val_1.f")
         def file = new File("${params.batchDir}/${params.batchName}/${fastq_filename}")
         def file_exists = file.exists()
-        if (file_exists) println ">>> WARNING: FILE ${read1.tokenize('/').last()} of ${SAMPLE_ID} sample already trimmed"
+        //if (file_exists) println ">>> WARNING: FILE ${read1.tokenize('/').last()} of ${SAMPLE_ID} sample already trimmed"
         !file_exists
        }
        //.filter({it[1].contains('25408')})
