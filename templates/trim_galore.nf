@@ -20,9 +20,7 @@ Channel
        //.filter({it[1].contains('25408')})
        .set { for_trimming }
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
-
-
-// Encrypt each file
+/*
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
@@ -49,3 +47,4 @@ process adaptor_trimming {
        echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${batchDir}/${read1_trimmed}\t${batchDir}/${read2_trimmed}" >> ${varCal_tsv}
        """
 }
+*/
