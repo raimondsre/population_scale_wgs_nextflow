@@ -3,7 +3,7 @@
 params.sampleLocation = './for.trimming'
 params.batchDir = '.'
 params.batchName = 'lv_reference_20220722_502samples'
-/*
+
 // Read the input file containing sample ID and it's location
 Channel
        .fromPath(params.sampleLocation)
