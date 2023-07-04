@@ -37,7 +37,7 @@ process adaptor_trimming {
        read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
        read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
        varCal_tsv = "${params.batchDir}/${params.batchName}/${params.batchName}_variant_calling.tsv"
-       batchDir = ${params.batchDir}/${params.batchName}
+       batchDir = "${params.batchDir}/${params.batchName}"
        """
        trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
               --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
