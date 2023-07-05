@@ -153,9 +153,11 @@ process manipulate_segment_concordance {
 
        script:
        output = input[0]+".compared_to."+input[1]
+       first_vcf_pref = input[0].tokenize('.').first()
+       second_vcf_pref = input[1].tokenize('.').first()
        """
        SnpSift concordance -v ${vcf[0]} ${vcf[1]}
-       mv concordance_merged_array.by_sample.txt ${output}.${intervalname}.by_sample.txt
+       mv concordance_${first_vcf_pref}_${second_vcf_pref}.by_sample.txt ${output}.${intervalname}.by_sample.txt
        """ 
 }
 
