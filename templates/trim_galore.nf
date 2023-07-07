@@ -39,7 +39,7 @@ process adaptor_trimming {
        varCal_tsv = "${params.batchDir}/${params.batchName}/${params.batchName}_variant_calling.tsv"
        batchDir = "${params.batchDir}/${params.batchName}"
        """
-       trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
+       trim_galore  --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
               --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
               --paired --no_report_file \
               -o . ${read1} ${read2}
