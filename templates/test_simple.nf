@@ -9,3 +9,4 @@ process calculate_polygenic_score {
        """
        cat ${params.input} > output.csv
        """
+}
