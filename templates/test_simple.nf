@@ -1,12 +1,10 @@
 #!/usr/bin/env nextflow
 
 params.input = './input.csv'
+params.output = './output.csv'
 
 process calculate_polygenic_score {
-       publishDir "./results"
-       output:
-       file "output.csv" 
        """
-       cat ${params.input} > output.csv
+       cat ${params.input} > ${params.output}
        """
 }
