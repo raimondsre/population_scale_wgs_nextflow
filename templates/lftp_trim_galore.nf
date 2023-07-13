@@ -33,10 +33,7 @@ process file_transfer {
 
        script:
        """
-       #lftp -e "set ssl:verify-certificate no; get ${read1_lftp} ; get ${read2_lftp}; exit"
-       echo ${read1_lftp}
-       echo ${SAMPLE_ID}
-       echo ${sample_chunk}
+       lftp -e "set ssl:verify-certificate no; get ${read1_lftp} ; get ${read2_lftp}; exit"
        """
 }
 /*
