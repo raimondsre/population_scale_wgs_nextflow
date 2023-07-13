@@ -28,8 +28,6 @@ process file_transfer {
        input:
        set val(SAMPLE_ID), (sample_chunk), file(read1_lftp), file(read2_lftp) from for_lftp
        
-       output:
-       set val(SAMPLE_ID), (sample_chunk), file(read1_lftp), file(read1_lftp) into for_trimming
 
        script:
        """
