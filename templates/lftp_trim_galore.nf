@@ -21,7 +21,8 @@ Channel
        .set { for_lftp }
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
-
+for_lftp.subscribe{ println it }
+/*
 process file_transfer { 
        cpus 1
        input:
@@ -62,3 +63,5 @@ process adaptor_trimming {
        echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${batchDir}/${read1_trimmed}\t${batchDir}/${read2_trimmed}" >> ${varCal_tsv}
        """
 }
+
+*/
