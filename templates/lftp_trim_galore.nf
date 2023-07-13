@@ -21,8 +21,8 @@ Channel
        .set { for_lftp }
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
-for_lftp.subscribe{ println it }
-/*
+//for_lftp.subscribe{ println it }
+
 process file_transfer { 
        cpus 1
        input:
@@ -33,11 +33,11 @@ process file_transfer {
 
        script:
        """
-       lftp -e "set ssl:verify-certificate no; get ${read1_lftp} ; get ${read2_lftp}; exit"
-
+       #lftp -e "set ssl:verify-certificate no; get ${read1_lftp} ; get ${read2_lftp}; exit"
+       echo ${read1_lftp}
        """
 }
-
+/*
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
