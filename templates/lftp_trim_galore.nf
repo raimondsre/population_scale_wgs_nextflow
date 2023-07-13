@@ -28,11 +28,9 @@ process file_transfer {
        set val(SAMPLE_ID), (sample_chunk), file(read1_lftp), file(read2_lftp) from for_lftp
        
        output:
-       set val(SAMPLE_ID), (sample_chunk), file(r1), file(r2) into for_trimming
+       set val(SAMPLE_ID), (sample_chunk), file(read1_lftp), file(read1_lftp) into for_trimming
 
        script:
-       r1 = remPath(read1_lftp)
-       r2 = remPath(read2_lftp)
        """
        lftp -e "set ssl:verify-certificate no; get ${read1_lftp} ; get ${read2_lftp}; exit"
 
