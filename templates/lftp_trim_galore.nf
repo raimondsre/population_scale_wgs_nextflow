@@ -25,7 +25,7 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
 process file_transfer { 
        cpus 1
-       clusterOptions '-l nodes=wn62'
+       clusterOptions '-l nodes=ui-1'
 
        input:
        set val(SAMPLE_ID), (sample_chunk), path(read1_lftp), path(read2_lftp) from for_lftp
