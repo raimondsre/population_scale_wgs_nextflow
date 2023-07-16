@@ -28,7 +28,7 @@ process file_transfer {
        clusterOptions 'local'
 
        input:
-       set val(SAMPLE_ID), (sample_chunk), path(read1_lftp), path(read2_lftp) from for_lftp
+       set val(SAMPLE_ID), (sample_chunk), val(read1_lftp), val(read2_lftp) from for_lftp
        
        output:
        set val(SAMPLE_ID), (sample_chunk), file(read1), file(read2) into for_trimming
