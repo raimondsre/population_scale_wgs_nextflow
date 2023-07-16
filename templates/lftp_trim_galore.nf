@@ -21,8 +21,9 @@ Channel
        .set { for_lftp }
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
-//for_lftp.subscribe{ println it }
+for_lftp.subscribe{ println it }
 
+/*
 process file_transfer { 
        cpus 1
        clusterOptions 'local'
@@ -31,11 +32,13 @@ process file_transfer {
        set val(SAMPLE_ID), (sample_chunk), path(read1_lftp), path(read2_lftp) from for_lftp
        
        output:
-       set val(SAMPLE_ID), (sample_chunk), file(read1_lftp), file(read1_lftp) into for_trimming
+       set val(SAMPLE_ID), (sample_chunk), file(read1), file(read2) into for_trimming
 
        script:
+       read1 = remPath(${read1_lftp})
+       read2 = remPath(${read2_lftp})
        """
-       lftp -e "set ssl:verify-certificate no; get ${read1_lftp} ; get ${read2_lftp}; exit"
+       lftp -e "set ssl:verify-certificate no; get ${read1_lftp} -o ${read1}; get ${read2_lftp} -o ${read2}; exit"
        """
 }
 /*
