@@ -46,7 +46,7 @@ process adaptor_trimming {
        cpus 16
 
        input:
-       set val(SAMPLE_ID), (sample_chunk), path(read1), path(read2) from for_trimming
+       set val(SAMPLE_ID), (sample_chunk), file(read1), file(read2) from for_trimming
 
        output:
        set file(read1_trimmed), file(read2_trimmed)
