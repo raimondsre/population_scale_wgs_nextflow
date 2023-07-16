@@ -37,7 +37,8 @@ process file_transfer {
        read1 = remPath(read1_lftp.toString())
        read2 = remPath(read2_lftp.toString())
        """
-       lftp -e "set ssl:verify-certificate no; get ${read1_lftp} -o ${read1}; get ${read2_lftp} -o ${read2}; exit"
+       echo ${read1_lftp}
+       #lftp -e "set ssl:verify-certificate no; get ${read1_lftp} -o ${read1}; get ${read2_lftp} -o ${read2}; exit"
        """
 }
 /*
