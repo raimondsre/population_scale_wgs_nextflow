@@ -40,12 +40,10 @@ process file_transfer {
        lftp -e "set ssl:verify-certificate no; get ${read1_lftp} -o ${read1}; get ${read2_lftp} -o ${read2}; exit"
        """
 }
-
+/*
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
-       executor 'local'
-       conda = '/home/raimondsre/.conda/envs/trim'
 
        input:
        set val(SAMPLE_ID), (sample_chunk), path(read1), path(read2) from for_trimming
