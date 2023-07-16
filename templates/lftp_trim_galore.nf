@@ -40,7 +40,7 @@ process file_transfer {
        lftp -e "set ssl:verify-certificate no; get ${read1_lftp} -o ${read1}; get ${read2_lftp} -o ${read2}; exit"
        """
 }
-/*
+
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
@@ -67,4 +67,5 @@ process adaptor_trimming {
        """
 }
 
+/*
 */
