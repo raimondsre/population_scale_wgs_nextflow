@@ -21,8 +21,7 @@ Channel
        .set { for_lftp }
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
-for_lftp.subscribe{ println it }
-
+//for_lftp.subscribe{ println it }
 
 process file_transfer { 
        cpus 1
