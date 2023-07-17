@@ -24,6 +24,7 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 //for_lftp.subscribe{ println it }
 
 process file_transfer { 
+       publishDir params.batchDir, mode: 'move', overwrite: false
        cpus 1
        //executor 'pbs'
        clusterOptions '-l nodes=wn61 -A bmc_flpp_0151'
@@ -45,7 +46,9 @@ process file_transfer {
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
- 
+       container = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
+       runOptions = '--bind $PWD,/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis'
+
        input:
        set val(SAMPLE_ID), (sample_chunk), file(read1), file(read2) from for_trimming
 
