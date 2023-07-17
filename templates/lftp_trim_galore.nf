@@ -40,7 +40,7 @@ process file_transfer {
        read1 = remPath(read1_lftp)
        read2 = remPath(read2_lftp)
        """
-       lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait; exit"
+       lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2}; wait; exit"
        """
 }
 
