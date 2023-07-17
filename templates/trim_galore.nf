@@ -26,6 +26,8 @@ process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
        executor = 'pbs'
+       container = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
+       runOptions = '--bind $PWD,/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis'
        
        input:
        set val(SAMPLE_ID), (sample_chunk), path(read1), path(read2) from for_trimming
