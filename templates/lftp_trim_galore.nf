@@ -45,8 +45,10 @@ process file_transfer {
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
-       //container = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
-
+       container = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
+       runOptions = '--bind $PWD,/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis'
+       autoMounts = false
+       
        input:
        set val(SAMPLE_ID), (sample_chunk), file(read1), file(read2) from for_trimming
 
