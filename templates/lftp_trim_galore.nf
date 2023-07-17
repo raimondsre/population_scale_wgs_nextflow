@@ -25,7 +25,7 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 //for_lftp.subscribe{ println it }
 
 process file_transfer { 
-       publishDir params.batchDir, mode: 'move', overwrite: false
+       // params.batchDir, mode: 'move', overwrite: false
        cpus 1
        //executor 'pbs'
        clusterOptions '-l nodes=wn61 -A bmc_flpp_0151'
@@ -40,7 +40,7 @@ process file_transfer {
        read1 = remPath(read1_lftp)
        read2 = remPath(read2_lftp)
        """
-       lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2}; wait; exit"
+       lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait; exit"
        """
 }
 
