@@ -48,7 +48,8 @@ process adaptor_trimming {
        container = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
        runOptions = '--bind $PWD,/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis'
        autoMounts = false
-       
+       cacheDir = "$PWD"
+
        input:
        set val(SAMPLE_ID), (sample_chunk), file(read1), file(read2) from for_trimming
 
