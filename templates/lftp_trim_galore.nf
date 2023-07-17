@@ -3,6 +3,7 @@
 params.sampleLocation = './for.trimming'
 params.batchDir = '.'
 params.batchName = 'lv_reference_20220722_502samples'
+params.trimGaloreContainer = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
 
 // Read the input file containing sample ID and it's location
 Channel
@@ -46,8 +47,7 @@ process file_transfer {
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
-       container = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
-       runOptions = '--bind $PWD,/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis'
+       container = params.trimGaloreContainer
 
        input:
        set val(SAMPLE_ID), (sample_chunk), file(read1), file(read2) from for_trimming
