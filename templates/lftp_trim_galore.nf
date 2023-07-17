@@ -45,7 +45,8 @@ process file_transfer {
 process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
-
+       container = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/qbic-singularity-trimgalore_v0.4.5.sif'
+       
        input:
        set val(SAMPLE_ID), (sample_chunk), file(read1), file(read2) from for_trimming
 
