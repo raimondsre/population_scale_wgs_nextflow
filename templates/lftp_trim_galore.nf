@@ -4,6 +4,7 @@ params.sampleLocation = './for.trimming'
 params.batchDir = '.'
 params.batchName = 'lv_reference_20220722_502samples'
 params.trimGaloreContainer = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
+params.hpc_billing_account = 'bmc_flpp_0151'
 
 // Read the input file containing sample ID and it's location
 Channel
@@ -28,7 +29,7 @@ process file_transfer {
        // params.batchDir, mode: 'move', overwrite: false
        cpus 1
        //executor 'pbs'
-       clusterOptions '-l nodes=wn61 -A bmc_flpp_0151'
+       clusterOptions "-l nodes=wn61 -A ${hpc_billing_account}"
 
        input:
        set val(SAMPLE_ID), (sample_chunk), val(read1_lftp), val(read2_lftp) from for_lftp
