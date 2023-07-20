@@ -30,7 +30,7 @@ Channel
         counter += 1
         [counter, value].flatten()}
  //.filter({it[1].contains('chr14')})
- .filter({it[4].contains('chr2_50000001_55000000')})
+ //.filter({it[4].contains('chr2_50000001_55000000')})
  .into { intervals1; intervals2 }
 // Samples in first and second input VCF
 samples_from_first_and_second_concordance_file = vcf_first_extractSamples.combine(vcf_second_extractSamples)
