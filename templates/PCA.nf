@@ -148,7 +148,7 @@ process plink_conversion {
 
        script:
        """
-       plink2 --vcf ${vcf} \
+       plink2 --vcf ${vcf} --threads 16 \
        --output-chr chrM --rm-dup force-first \
        --snps-only --vcf-half-call h --max-alleles 2 \
        --make-bed --out ${input}
