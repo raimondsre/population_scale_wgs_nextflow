@@ -117,7 +117,7 @@ segments_ready_for_collection_collected = segments_ready_for_collection
 // Concatanate segments
 process concatanate_segments {
  publishDir params.publishDir, mode: 'copy', overwrite: true
- //cpus 16
+
  input:
  set val(order), val(intervalname), val(input), file(vcf_all), file(idx_all) from segments_ready_for_collection_collected 
  output:
@@ -138,7 +138,7 @@ process concatanate_segments {
 // Convertion to PLINK, additional filtering
 process plink_conversion {
        conda = '/home/raimondsre/.conda/envs/plink'
-       cpus 8
+       cpus 16
 
        input:
        set val(input), file(vcf) from plink_conversion
