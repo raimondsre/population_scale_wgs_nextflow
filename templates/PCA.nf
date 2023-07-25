@@ -102,7 +102,7 @@ process manipulate_segment {
  fi
 
  bcftools +fill-tags ${vcf} -- -t AF,AC,F_MISSING |
- bcftools view -i 'F_MISSING<0.1' |
+ bcftools view -i 'F_MISSING<0.4' |
  bcftools view -i 'AF>0.01' -Oz -o ${remExt(vcf.name)}.filtered.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.filtered.vcf.gz
  """
