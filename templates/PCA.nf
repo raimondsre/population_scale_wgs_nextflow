@@ -138,7 +138,7 @@ process concatanate_segments {
 // Convertion to PLINK, additional filtering
 process plink_conversion {
        conda = '/home/raimondsre/.conda/envs/plink'
-       cpus 16
+       cpus 32
 
        input:
        set val(input), file(vcf) from plink_conversion
@@ -148,7 +148,7 @@ process plink_conversion {
 
        script:
        """
-       plink2 --vcf ${vcf} --threads 16 \
+       plink2 --vcf ${vcf} --threads 32 \
        --output-chr chrM --rm-dup force-first \
        --snps-only --vcf-half-call h --max-alleles 2 \
        --make-bed --out ${input}
