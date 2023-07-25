@@ -8,7 +8,7 @@ params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
 params.samplesToKeep = 'all'
 // Define channels for intervals and initial .vcf.gz file
-// Input file
+// Input file 
 Channel
  .fromPath(params.inputVCF)
  .map { tuple(it, it+".tbi") }
