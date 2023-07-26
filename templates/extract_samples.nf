@@ -8,7 +8,7 @@ params.intervalsBed = './hg38intervals50mil'
 params.samplesToKeep = './keep.samples'
 params.variantsToKeep = './keep.variants'
 params.subset = 'all'
-params.outputName = remExt(params.inputVCF)+'.subset_of_'+params.subset
+params.outputName = remPath(params.inputVCF)+'.subset_of_'+params.subset
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file
@@ -48,6 +48,7 @@ samples_ch
 
 // Define function to remove .vcf.gz extension
 def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
+def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst(/\.vcf\.gz$/,'')}
 
 // Make single channel for intervals and vcf file
 vcfIntervals = intervals1.combine(vcf)
