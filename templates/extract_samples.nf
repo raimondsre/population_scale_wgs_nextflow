@@ -7,7 +7,8 @@ params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
 params.samplesToKeep = './keep.samples'
 params.variantsToKeep = './keep.variants'
-params.outputName = remExt(params.inputVCF)+'.filtered'
+params.subset = 'all'
+params.outputName = remExt(params.inputVCF)+'.subset_of_'+params.subset
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file
@@ -88,7 +89,8 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
- bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
+ bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} | 
+ bcftools filter -i 'ID=@${params.variantsToKeep}' -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
