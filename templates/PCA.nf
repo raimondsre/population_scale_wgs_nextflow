@@ -7,6 +7,8 @@ params.publishDir = './results'
 params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
 params.samplesToKeep = 'all'
+params.variant_missingness_rate = 0.1
+params.proportion_of_variants_present = 0.1
 // Define channels for intervals and initial .vcf.gz file
 // Input file 
 Channel
@@ -102,7 +104,7 @@ process manipulate_segment {
  fi
 
  bcftools +fill-tags ${vcf} -- -t AF,AC,F_MISSING |
- bcftools view -i 'F_MISSING<0.4' |
+ bcftools view -i 'F_MISSING<${params.variant_missingness_rate}' |
  bcftools view -i 'AF>0.01' -Oz -o ${remExt(vcf.name)}.filtered.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.filtered.vcf.gz
  """
@@ -153,7 +155,7 @@ process plink_conversion {
        --snps-only --vcf-half-call h --max-alleles 2 \
        --make-bed --out ${input}
 
-       plink2 --bfile ${input} --mind 0.1 --make-bed --out ${input}
+       plink2 --bfile ${input} --mind ${params.proportion_of_variants_present} --make-bed --out ${input}
        """
 }
 
