@@ -7,7 +7,7 @@ params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
 params.samplesToKeep = './keep.samples'
 params.variantsToKeep = './keep.variants'
-params.subset = 'all'
+params.subset = 'all' 
 params.outputName = remPath(params.inputVCF)+'.subset_of_'+params.subset
 // Define channels for intervals and initial .vcf.gz file
 // Input file
