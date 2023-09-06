@@ -10,13 +10,14 @@ Channel
        .fromPath(params.sampleLocation)
        .splitCsv(header:false, sep:'\t',strip:true)
        .map { row -> tuple(row[0], row[1], row[2], row[3]) }
-       .subscribe { println }
+       .set { test }
+       //.subscribe { println }
        /*.filter { SAMPLE_ID, chunk, read1, read2 ->
         if (chunk  1) println ">>> WARNING: ${SAMPLE_ID} has multiple chunks, use nf-core/sarek to process"
         !(chunk > 1)
        }
        .subscribe { println }
        //.set { for_lftp }
-for_lftp.subscribe{ println }
 /*
 */
+test.subscribe{ println }
