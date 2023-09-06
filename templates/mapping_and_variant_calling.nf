@@ -10,7 +10,12 @@ Channel
        .fromPath(params.sampleLocation)
        .splitCsv(header:false, sep:'\t',strip:true)
        .map { row -> tuple(row[0], row[1], row[2], row[3]) }
-       .groupTuple(by:1)
+       .groupTuple(by:0)
+       .filter {
+        a, b, c, d ->
+        def number_of_chunks = len(a)
+        if (number_of_chunks != 1) println ">>> WARNING: ${a[1]} has multiple chunks, use nf-core/sarek to process"
+       }
        .subscribe { println it }
        /*.filter { SAMPLE_ID, chunk, read1, read2 ->
         def number_of_chunks = chunk.toInteger()
