@@ -14,7 +14,7 @@ Channel
        .filter {
         a, b, c, d ->
         def number_of_chunks = a.length()
-        if (number_of_chunks != 1) println ">>> WARNING: ${a[[1]]} has multiple chunks, use nf-core/sarek to process"
+        if (number_of_chunks != 1) println ">>> WARNING: ${a[[1]]} ${number_of_chunks} has multiple chunks, use nf-core/sarek to process"
         number_of_chunks == 1
        }
        .subscribe { println it }
