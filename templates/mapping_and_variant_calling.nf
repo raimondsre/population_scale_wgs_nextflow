@@ -13,8 +13,9 @@ Channel
        .groupTuple(by:0)
        .filter {
         a, b, c, d ->
-        def number_of_chunks = len(a)
+        def number_of_chunks = length(a)
         if (number_of_chunks != 1) println ">>> WARNING: ${a[1]} has multiple chunks, use nf-core/sarek to process"
+        number_of_chunks == 1
        }
        .subscribe { println it }
        /*.filter { SAMPLE_ID, chunk, read1, read2 ->
