@@ -20,4 +20,4 @@ Channel
        //.set { for_lftp }
 /*
 */
-test.subscribe{ println }
+test.subscribe { println it }
