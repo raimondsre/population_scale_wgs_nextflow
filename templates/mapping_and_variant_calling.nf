@@ -13,7 +13,7 @@ Channel
        .groupTuple(by:0)
        .filter {
         a, b, c, d ->
-        def number_of_chunks = size(a)
+        def number_of_chunks = a.size()
         if (number_of_chunks != 1) println ">>> WARNING: ${a[1]} has multiple chunks, use nf-core/sarek to process"
         number_of_chunks == 1
        }
