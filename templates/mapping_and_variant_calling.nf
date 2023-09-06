@@ -11,8 +11,9 @@ Channel
        .splitCsv(header:false, sep:'\t',strip:true)
        .map { row -> tuple(row[0], row[1], row[2], row[3]) }
        .filter { SAMPLE_ID, chunk, read1, read2 ->
-        if (chunk != 2) println ">>> WARNING: ${SAMPLE_ID} has multiple chunks, use nf-core/sarek to process"
-        chunk == 1
+        def number_of_chunks = chunk.toInteger()
+        if (number_of_chunks != 1) println ">>> WARNING: ${SAMPLE_ID} has multiple chunks, use nf-core/sarek to process"
+        number_of_chunks == 1
        }
        .subscribe { println it }
        //.set { for_lftp }
