@@ -14,6 +14,6 @@ Channel
         if (chunk < 1) println ">>> WARNING: ${SAMPLE_ID} has multiple chunks, use nf-core/sarek to process"
         !(chunk > 1)
        }
-       //.filter({it[1].contains('25408')})
-       .set { for_lftp }
+       .subscribe { println }
+       //.set { for_lftp }
 for_lftp.subscribe{ println }
