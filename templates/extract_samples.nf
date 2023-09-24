@@ -6,9 +6,9 @@ params.publishDir = './results'
 params.inputVCF = './merged.two.vcf.gz'
 params.intervalsBed = './hg38intervals50mil'
 params.samplesToKeep = './keep.samples'
-//params.variantsToKeep = './keep.variants'
-//params.subset = 'all'
-//params.outputName = remPath(params.inputVCF)+'.subset_of_'+params.subset
+params.variantsToKeep = './keep.variants'
+params.subset = 'all'
+params.outputName = remPath(params.inputVCF)+'.subset_of_'+params.subset
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file
@@ -16,7 +16,6 @@ Channel
  .fromPath(params.inputVCF)
  .map { tuple(it, it+".tbi") }
  .into { vcf; vcf_extractSamples }
- /*
 // Intervals
 counter = 0
 Channel
@@ -28,7 +27,6 @@ Channel
         [counter, value].flatten()}
  //.filter({it[1].contains('chrM')})
  .into { intervals1; intervals2 }
- /*
 // Samples in VCF
 process extract_vcf_samples {
  input:
@@ -123,5 +121,3 @@ process concatanate_segments {
  """
 }
 
-/*
-*/
