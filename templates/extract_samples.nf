@@ -9,7 +9,7 @@ params.samplesToKeep = './keep.samples'
 //params.variantsToKeep = './keep.variants'
 //params.subset = 'all'
 //params.outputName = remPath(params.inputVCF)+'.subset_of_'+params.subset
-
+/*
 // Define channels for intervals and initial .vcf.gz file
 // Input file
 Channel
@@ -121,3 +121,5 @@ process concatanate_segments {
  """
 }
 
+/*
+*/
