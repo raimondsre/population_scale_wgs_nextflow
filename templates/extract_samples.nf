@@ -16,6 +16,7 @@ Channel
  .fromPath(params.inputVCF)
  .map { tuple(it, it+".tbi") }
  .into { vcf; vcf_extractSamples }
+ /*
 // Intervals
 counter = 0
 Channel
