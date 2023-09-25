@@ -82,7 +82,7 @@ process separateVCF {
        set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
 
        script:
-       input = remExt(vcf.name) 
+       input = remExt(vcf.name)  
        """
        if [ -e ${params.phasedDir}/${input}.${intervalname}.vcf.gz ]; then
               cp ${params.phasedDir}/${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
