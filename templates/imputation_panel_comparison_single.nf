@@ -93,7 +93,7 @@ process separateVCF {
               bcftools view --exclude 'POS>${stop}' |
               bcftools norm --multiallelics - |
               bcftools norm --remove-duplicates |
-              bcftools view -c3 -Oz -o ${input}.${intervalname}.vcf.gz
+              bcftools view -Oz -o ${input}.${intervalname}.vcf.gz
               bcftools index -t ${input}.${intervalname}.vcf.gz
        fi
        variantsPresent=1
@@ -104,6 +104,7 @@ process separateVCF {
        """
 }
 
+/*
 // Select toBeImputed - impPanel segment pairs only, if both have at least 1 variant after filtering
 separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
        .filter { it[5] == "1" }
