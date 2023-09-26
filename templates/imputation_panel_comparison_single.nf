@@ -124,7 +124,7 @@ process phasing {
  cpus params.cpus
  label 'Phasing'
  tag "${intervalname}.${input}"
-
+ errorStrategy 'ignore'
  input:
  tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
  
