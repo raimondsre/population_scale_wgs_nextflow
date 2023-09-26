@@ -91,6 +91,7 @@ process separateVCF {
               bcftools view ${vcf} ${chr}:${start}-${stop} |
               bcftools view --exclude 'POS<${start}' |
               bcftools view --exclude 'POS>${stop}' |
+              bcftools view --max-alleles 2 |
               bcftools norm --remove-duplicates -Oz -o ${input}.${intervalname}.vcf.gz
               bcftools index -t ${input}.${intervalname}.vcf.gz
        fi
