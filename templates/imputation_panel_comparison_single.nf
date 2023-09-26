@@ -104,7 +104,6 @@ process separateVCF {
        """
 }
 
-/*
 // Select toBeImputed - impPanel segment pairs only, if both have at least 1 variant after filtering
 separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
        .filter { it[5] == "1" }
