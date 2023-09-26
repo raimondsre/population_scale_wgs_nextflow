@@ -92,7 +92,8 @@ process separateVCF {
               bcftools view --exclude 'POS<${start}' |
               bcftools view --exclude 'POS>${stop}' |
               bcftools norm --multiallelics - |
-              bcftools norm --remove-duplicates -Oz -o ${input}.${intervalname}.vcf.gz
+              bcftools norm --remove-duplicates |
+              bcftools view -c3 -Oz -o ${input}.${intervalname}.vcf.gz
               bcftools index -t ${input}.${intervalname}.vcf.gz
        fi
        variantsPresent=1
