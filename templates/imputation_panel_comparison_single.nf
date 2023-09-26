@@ -34,7 +34,7 @@ Channel
         [counter, value].flatten()}
  .filter { !(it[1] in ['chrX','chrY','chrM']) }
  //.filter({it[1].contains('chr22')})
- //.filter({it[4].contains('chr1_65000001_70000000')}) // Imputation problematic with the following segments: chr9_40000001_45000000,
+ .filter(!{it[4].contains('chr5_10000001_15000000')}) // Imputation problematic with the following segments: chr9_40000001_45000000,
  .into { intervals1; intervals2 }
  
 // Samples in input VCF
@@ -124,7 +124,7 @@ process phasing {
  cpus params.cpus
  label 'Phasing'
  tag "${intervalname}.${input}"
- errorStrategy 'ignore'
+
  input:
  tuple val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_toBeImputed_and_toBeUsedAsImputationPanel
  
