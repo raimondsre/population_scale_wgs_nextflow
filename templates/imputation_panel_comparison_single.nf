@@ -252,7 +252,7 @@ process concatanate_segments {
  bcftools index -t ${output}
  """
 }
-
+/*
 // Counting variant number by info score
 process count_by_info_score {
        //publishDir params.publishDir, mode: 'copy', overwrite: true
