@@ -9,6 +9,8 @@ params.samplesToKeep = './keep.samples'
 params.variantsToKeep = './keep.variants'
 params.subset = 'all' 
 params.outputName = remPath(params.inputVCF)+'.subset_of_'+params.subset
+params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased' // Contains phased and bref corrected segments
+
 // Define channels for intervals and initial .vcf.gz file
 // Input file
 Channel
@@ -61,6 +63,7 @@ vcfIntervals = intervals1.combine(vcf)
 // Separate VCF into fragments, has to be before separating by sample
 process separateVCF {
  //publishDir params.publishDir
+       publishDir params.phasedDir, mode: 'symlink', overwrite: false
 
  input:
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals
@@ -71,10 +74,16 @@ process separateVCF {
  script:
  input = remExt(vcf.name) 
  """
-       bcftools view ${vcf} ${chr}:${start}-${stop} |
-       bcftools view --exclude 'POS<${start}' |
-       bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
-       bcftools index -t ${input}.${intervalname}.vcf.gz
+
+        if [ -e ${params.phasedDir}/${input}.${intervalname}.vcf.gz ]; then
+              ln -s ${params.phasedDir}/${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
+              ln -s ${params.phasedDir}/${input}.${intervalname}.vcf.gz.tbi ${input}.${intervalname}.vcf.gz.tbi
+       else
+              bcftools view ${vcf} ${chr}:${start}-${stop} |
+              bcftools view --exclude 'POS<${start}' |
+              bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+              bcftools index -t ${input}.${intervalname}.vcf.gz
+       fi
  """
 }
 
@@ -90,8 +99,8 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
- bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} | 
- bcftools filter -i 'ID=@${params.variantsToKeep}' -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
+ bcftools filter -i 'ID=@${params.variantsToKeep}' ${vcf} | 
+ bcftools view -S ${params.samplesToKeep} --force-samples -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
