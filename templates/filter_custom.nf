@@ -99,7 +99,8 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
- bcftools +setGT -Oz -o ${remExt(vcf.name)}.setID.vcf.gz ${vcf} -- -t q -n . -i 'FMT/DP<5'
+ bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/GQ<20' |
+ bcftools view -i 'F_MISSING <= 0.3' -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
