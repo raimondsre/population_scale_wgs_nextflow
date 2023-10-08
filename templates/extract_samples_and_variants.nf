@@ -27,7 +27,7 @@ Channel
         counter += 1
         [counter, value].flatten()}
  //.filter({it[1].contains('chrM')})
- .filter({!it[4].contains('chr7_155000001_159345973')}) // Imputation problematic with the following segments: chr9_40000001_45000000,
+ //.filter({!it[4].contains('chr7_155000001_159345973')}) // Imputation problematic with the following segments: chr9_40000001_45000000,
  .into { intervals1; intervals2 }
 // Samples in VCF
 process extract_vcf_samples {
