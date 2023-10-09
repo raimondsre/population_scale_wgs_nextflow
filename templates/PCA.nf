@@ -155,7 +155,6 @@ process plink_conversion {
        --snps-only --vcf-half-call h --max-alleles 2 \
        --make-bed --out ${input}
 
-       plink2 --bfile ${input} --mind ${params.proportion_of_variants_present} --hwe 1e-6 --make-bed --out ${input}
        """
 }
 
@@ -173,6 +172,8 @@ process pca_analysis {
 
        script:
        """
+       plink2 --bfile ${input} --mind ${params.proportion_of_variants_present} --hwe 1e-6 --maf 0.01  --make-bed --out ${input}
+       
        plink2 --bfile ${input} --allow-extra-chr --indep-pairwise 50 10 0.5 --out ${input}; 
        plink2 --bfile ${input} --allow-extra-chr --allow-no-sex --chr {1..22} --extract  ${input}.prune.in --pca 10 --out ${input}
       
