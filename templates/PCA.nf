@@ -155,7 +155,7 @@ process plink_conversion {
        --snps-only --vcf-half-call h --max-alleles 2 \
        --make-bed --out ${input}
 
-       plink2 --bfile ${input} --mind ${params.proportion_of_variants_present} --make-bed --out ${input}
+       plink2 --bfile ${input} --mind ${params.proportion_of_variants_present} --hwe 1e-6 --make-bed --out ${input}
        """
 }
 
