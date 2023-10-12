@@ -100,6 +100,7 @@ process manipulate_segment {
 
  """
  bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/GQ<20' |
+  bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/DP<30' |
  bcftools view -i 'F_MISSING <= 0.1' | 
  bcftools +fill-tags -Oz -o ${remExt(vcf.name)}.setID.vcf.gz -- -t ExcHet,AC,AF
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
