@@ -1,5 +1,7 @@
 #!/usr/bin/env nextflow
 
+//before executing, set up lftp authentification
+
 params.sampleLocation = './for.trimming'
 params.batchDir = '.'
 //params.batchName = 'lv_reference_20220722_502samples'
@@ -34,6 +36,7 @@ process file_transfer {
        read2 = remPath(read2_lftp)
        """
        lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait; exit"
+       wait
        """
 }
 
