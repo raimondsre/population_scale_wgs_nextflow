@@ -14,6 +14,8 @@ Channel
        .set { for_trimming }
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
+for_trimming.subscribe{ println it }
+
 /*
 
 process adaptor_trimming {
