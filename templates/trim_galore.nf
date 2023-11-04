@@ -14,6 +14,7 @@ Channel
        .set { for_trimming }
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
+/*
 
 process adaptor_trimming {
        publishDir params.batchDir, mode: 'move', overwrite: false
@@ -39,3 +40,5 @@ process adaptor_trimming {
        #echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${batchDir}/${read1_trimmed}\t${batchDir}/${read2_trimmed}" >> ${varCal_tsv}
        """
 }
+
+*/
