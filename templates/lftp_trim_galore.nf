@@ -4,7 +4,7 @@ params.sampleLocation = './for.trimming'
 params.batchDir = '.'
 params.batchName = 'lv_reference_20220722_502samples'
 params.trimGaloreContainer = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
-params.hpc_billing_account = 'bmc_flpp_0151'
+params.hpc_billing_account = 'bmc_klovins'
 
 // Read the input file containing sample ID and it's location
 Channel
