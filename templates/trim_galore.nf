@@ -37,6 +37,5 @@ process adaptor_trimming {
               --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
               --paired --no_report_file \
               -o . ${read1} ${read2}
-       
        """
 }
