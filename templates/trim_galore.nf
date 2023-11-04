@@ -8,7 +8,7 @@ params.batchDir = '.'
 // Read the input file containing sample ID and it's location
 Channel
        .fromPath(params.sampleLocation)
-       .splitCsv(header:false, sep:',',strip:true)
+       .splitCsv(header:true, sep:',',strip:true)
        .map { row -> tuple(row[0], row[1], row[2], row[3], row[4]) }
        //.filter({it[1].contains('25408')})
        .set { for_trimming }
