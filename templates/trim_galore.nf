@@ -24,7 +24,7 @@ process adaptor_trimming {
        executor = 'pbs'
        
        input:
-       set val(SAMPLE_ID), (sample_chunk), (lane), path(read1), path(read2) from for_trimming
+       set path(read1), path(read2) from for_trimming
 
        output:
        set file(read1_trimmed), file(read2_trimmed)
