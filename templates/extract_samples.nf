@@ -35,6 +35,7 @@ process extract_vcf_samples {
  file 'samples' into samples_ch mode flatten
  script:
  """
+ module load bio/bcftools/1.10.2
  bcftools query -l ${vcf} > samples
  """
 }
