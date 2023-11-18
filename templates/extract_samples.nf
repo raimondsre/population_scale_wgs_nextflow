@@ -96,7 +96,7 @@ process manipulate_segment {
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
-
+ 
 // Arrange segments and group by input file name
 segments_ready_for_collection_collected = segments_ready_for_collection
 .toSortedList({ a,b -> a[0] <=> b[0] })
