@@ -77,7 +77,7 @@ vcfIntervals_first_and_second = vcfIntervals_first.mix(vcfIntervals_second)
 //###
 //### Analysis
 //###
-
+ 
 process separate_segments {
  //publishDir params.publishDir
 
@@ -92,7 +92,8 @@ process separate_segments {
  """
        bcftools view ${vcf} ${chr}:${start}-${stop} |
        bcftools view --exclude 'POS<${start}' |
-       bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
+       bcftools view --exclude 'POS>${stop}' |
+       bcftools annotate --set-id '%CHROM:%POS:%REF:%ALT' -Oz -o ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
  """
 }
