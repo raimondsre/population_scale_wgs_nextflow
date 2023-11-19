@@ -50,6 +50,7 @@ process adaptor_trimming {
        publishDir params.batchDir+"/"+params.batchName, mode: 'move', overwrite: false
        cpus 16
        container = params.trimGaloreContainer
+       errorStrategy = "retry"
 
        input:
        set val(SAMPLE_ID), (sample_chunk), file(read1), file(read2) from for_trimming
