@@ -29,7 +29,7 @@ process file_transfer {
        // params.batchDir, mode: 'move', overwrite: false
        cpus 1
        //executor 'pbs'
-       clusterOptions "-l nodes=wn61 -A ${hpc_billing_account}"
+       clusterOptions "-l nodes=wn61 -A bmc_klovins"
 
        input:
        set val(SAMPLE_ID), (sample_chunk), val(read1_lftp), val(read2_lftp) from for_lftp
