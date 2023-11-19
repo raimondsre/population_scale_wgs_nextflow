@@ -35,7 +35,6 @@ process extract_vcf_samples {
  file 'samples' into samples_ch mode flatten
  script:
  """
- module load bio/bcftools/1.10.2
  bcftools query -l ${vcf} > samples
  """
 }
@@ -72,7 +71,7 @@ process separateVCF {
  script:
  input = remExt(vcf.name) 
  """
-       module load bio/bcftools/1.10.2
+ 
        bcftools view ${vcf} ${chr}:${start}-${stop} |
        bcftools view --exclude 'POS<${start}' |
        bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
@@ -92,7 +91,6 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
- module load bio/bcftools/1.10.2
  bcftools view -S ${params.samplesToKeep} --force-samples ${vcf} -Oz -o ${remExt(vcf.name)}.setID.vcf.gz
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
@@ -117,7 +115,6 @@ process concatanate_segments {
  outputVCF = params.outputName+".vcf.gz"
  outputVCFtbi = outputVCF+".tbi"
  """
- module load bio/bcftools/1.10.2
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  # --naive is risky as it does not check if samples match.
  bcftools concat --naive -f vcfFiles.txt -Oz -o ${outputVCF}
