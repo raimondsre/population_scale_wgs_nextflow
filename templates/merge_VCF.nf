@@ -145,7 +145,7 @@ merged_ch
 
 // Concatanate segments
 process concatanate_segments {
- //publishDir params.publishDir, mode: 'copy', overwrite: true
+ publishDir params.publishDir, mode: 'copy', overwrite: true
 
  input:
  set val(order), val(name), file(vcf_all), file(idx_all) from merged_ch_concat 
