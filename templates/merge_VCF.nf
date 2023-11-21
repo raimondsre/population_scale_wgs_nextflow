@@ -90,7 +90,7 @@ process separate_segments {
  script:
  input = remExt(vcf.name) 
  """
-       ( for i in {1..22} X Y M; do echo "$i chr$i"; done ) > chrom_map.txt
+       ( for i in {1..22} X Y M; do echo "\$i chr\$i"; done ) > chrom_map.txt
        bcftools view ${vcf} ${chr}:${start}-${stop} |
        bcftools view --exclude 'POS<${start}' |
        bcftools view --exclude 'POS>${stop}' |
