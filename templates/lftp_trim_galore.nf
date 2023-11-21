@@ -24,10 +24,10 @@ Channel
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
 //for_lftp.subscribe{ println it }
-
+ 
 process file_transfer { 
        // params.batchDir, mode: 'move', overwrite: false
-       cpus 1
+       cpus 2
        //executor 'pbs' 
        // -A should be ${hpc_billing_account}
        clusterOptions "-l nodes=wn61 -A ${params.hpc_billing_account}"
