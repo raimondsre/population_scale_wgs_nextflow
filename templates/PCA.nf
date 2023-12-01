@@ -168,7 +168,7 @@ process pca_analysis {
        set val(input), file(plink) from pca_analysis
 
        output:
-       file("${input}.eigenvec")
+       file("${input}.eigenvec") file("${input}.eigenval")
 
        script:
        """
