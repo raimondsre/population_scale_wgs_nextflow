@@ -87,7 +87,7 @@ process harmonisation {
        if [ ${intput_ext} == "zip" ]; then
               unzip ${genome}
               mv *txt genome.txt
-              plink --23file genome.txt --keep-allele-order --output-chr MT --recode vcf --out genome
+              plink --23file genome.txt --keep-allele-order --output-chr MT --snps-only just-acgt --recode vcf --out genome
               #normalise to hg19
               bcftools +fixref genome.vcf -Oz -o genome.vcf.gz -- -f ${params.hg37fasta} -m top
 
