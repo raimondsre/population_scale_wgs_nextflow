@@ -98,9 +98,8 @@ process harmonisation {
                      CHAIN=/home/raimondsre/array/input_data/ref/hg19ToHg38.over.chain.gz \
                      REJECT=rejected_variants.vcf \
                      R=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/Homo_sapiens_assembly38.fasta
-              bcftools view output.hg38.vcf -Oz -o output.hg38.vcf.gz
-              bcftools index -t output.hg38.vcf.gz
-              bcftools merge output.hg38.vcf.gz /home/raimondsre/array/input_data/raw/LVBMC/hg38/LatviaGSA192_Sept2021_rerun1/LatviaGSA192_Sept2021_rerun1.vcf.gz -Oz -o merged.vcf.gz
+              bcftools annotate --set-id +'%CHROM:%POS:%REF:%ALT' output.hg38.vcf -Oz -o output.hg38.vcf.gz
+              bcftools merge output.hg38.vcf.gz /home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/pgr_kalkulators/nextflow/gsa.array.192.vcf.gz -Oz -o merged.vcf.gz
        fi
 
        touch normalised_genome.vcf.gz
