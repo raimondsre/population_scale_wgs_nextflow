@@ -91,7 +91,7 @@ process harmonisation {
               #normalise to hg19
               bcftools +fixref genome.vcf -Oz -o genome.vcf.gz -- -f ${params.hg37fasta} -m top
               plink --vcf genome.vcf.gz --keep-allele-order --output-chr chrM --recode vcf --out genome.chrM
-              source activate picard
+              conda activate picard
               export _JAVA_OPTIONS="-Xmx16g"
               picard LiftoverVcf \
               I=genome.chrM.vcf \
