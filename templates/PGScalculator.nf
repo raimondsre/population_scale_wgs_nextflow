@@ -79,7 +79,7 @@ process harmonisation {
        input:
        file(genome) from input_genome
        output:
-       set file("genome.chrM.vcf.gz")
+       set file("genome.chrM.vcf")
 
        script:
        intput_ext = getExt(genome.name)
