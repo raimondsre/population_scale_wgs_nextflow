@@ -74,14 +74,14 @@ def getExt(String fileName) {return fileName.replaceAll(/.*\./,'')}
 // Harmonise genomes
 process harmonisation {
        publishDir params.publishDir, mode: 'copy', overwrite: true
-       
+
        input:
        file(genome) from input_genome
        output:
        set file("normalised_genome.vcf.gz")
 
        script:
-       intput_ext = getExt(genome)
+       intput_ext = getExt(genome.name)
        """
        if [ ${intput_ext} == "zip" ]; then
               unzip ${genome}
