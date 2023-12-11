@@ -75,11 +75,11 @@ def getExt(String fileName) {return fileName.replaceAll(/.*\./,'')}
 // Harmonise genomes
 process harmonisation {
        publishDir params.publishDir, mode: 'copy', overwrite: true
-
+       
        input:
        file(genome) from input_genome
        output:
-       set file("genome.chrM.vcf")
+       set file("output.hg38.vcf")
 
        script:
        intput_ext = getExt(genome.name)
@@ -91,6 +91,14 @@ process harmonisation {
               #normalise to hg19
               bcftools +fixref genome.vcf -Oz -o genome.vcf.gz -- -f ${params.hg37fasta} -m top
               plink --vcf genome.vcf.gz --keep-allele-order --output-chr chrM --recode vcf --out genome.chrM
+              source activate picard
+              export _JAVA_OPTIONS="-Xmx16g"
+              picard LiftoverVcf \
+              I=genome.chrM.vcf \
+              O=output.hg38.vcf \
+              CHAIN=/home/raimondsre/array/input_data/ref/hg19ToHg38.over.chain.gz \
+              REJECT=rejected_variants.vcf \
+              R=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/Homo_sapiens_assembly38.fasta
        fi
 
        touch normalised_genome.vcf.gz
