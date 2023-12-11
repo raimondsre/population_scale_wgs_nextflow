@@ -1,11 +1,11 @@
 #!/usr/bin/env nextflow
-// Pipeline to performs 
+// Workflow to performs 
 //     1. Input 23andMe or VCF format genome harmonisation to GRCh38
 //     2. Quality control
 //     3. Imputation
 //     4. PGS calculation
 //     5. Visualisation and/or JSON preparation
-// Pipeline to impute VCF with another VCF (reference panel)
+// Workflow to impute VCF with another VCF (reference panel)
 // Outputs imputed VCF and variants counted by AF and INFO score
 
 params.publishDir = './results'
@@ -22,8 +22,8 @@ params.imputationPanel1 = './'
 // Input file to be imputed
 Channel
  .fromPath(params.toBeImputed)
- .map { tuple(it, it+".tbi") }
- .into { vcf_toBeImputed; vcf_toBeImputed_extractSamples }
+ .map { file(it) }
+ .into { input_genome; vcf_toBeImputed_extractSamples }
 // Input file to be used as imputation panel
 Channel
  .fromPath(params.imputationPanel1)
@@ -44,27 +44,56 @@ Channel
  .into { intervals1; intervals2 }
  
 // Samples in input VCF
-process extract_vcf_samples {
- input:
- tuple file(vcf), file(idx) from vcf_toBeImputed_extractSamples
- output:
- file 'samples' into samples_ch mode flatten
- script:
- """
- bcftools query -l ${vcf} > samples
- """
-}
-counter2 = 0
-samples_ch
- .splitText() {it.replaceFirst(/\n/,'')}
- .map {value ->
-        counter2 += 1
-        [counter2, value].flatten()}
- .into { samples_ch1; samples_ch2}
+// process extract_vcf_samples {
+//  input:
+//  tuple file(vcf), file(idx) from vcf_toBeImputed_extractSamples
+//  output:
+//  file 'samples' into samples_ch mode flatten
+//  script:
+//  """
+//  bcftools query -l ${vcf} > samples
+//  """
+// }
+// counter2 = 0
+// samples_ch
+//  .splitText() {it.replaceFirst(/\n/,'')}
+//  .map {value ->
+//         counter2 += 1
+//         [counter2, value].flatten()}
+// .into { samples_ch1; samples_ch2 }
 // Define function to remove .vcf.gz extension
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst(/\.vcf\.gz$/,'')}
 def remExt(String fileName) {return fileName.replaceFirst(/\.vcf\.gz$/,'')}
 def remExtBref(String fileName) {return fileName.replaceFirst(/\.bref$/,'')}
+def getExt(String fileName) {return fileName.replaceAll(/.*\./,'')}
+
+//###
+//### Analysis
+//###
+
+// Harmonise genomes
+process harmonisation {
+       publishDir params.publishDir, mode: 'copy', overwrite: true
+       
+       input:
+       file(genome) from input_genome
+       output:
+       set file("normalised_genome.vcf.gz")
+
+       script:
+       intput_ext = getExt(genome)
+       """
+       if [ ${intput_ext} == "zip" ]; then
+              unzip ${genome}
+              mv *txt genome.txt
+              #plink --23file $prfx.txt --keep-allele-order --output-chr MT --recode vcf --out $prfx
+       fi
+
+       touch normalised_genome.vcf.gz
+       """
+}
+
+/*
 
 // Make single channel for intervals and vcf file to be imputed
 vcfIntervals_toBeImputed = intervals1.combine(vcf_toBeImputed)
@@ -72,10 +101,6 @@ vcfIntervals_toBeImputed = intervals1.combine(vcf_toBeImputed)
 vcfIntervals_toBeUsedAsImputationPanel = intervals2.combine(vcf_imputation_panel)
 // Concatanate to-be-separated channels into a single channel
 vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel = vcfIntervals_toBeImputed.mix(vcfIntervals_toBeUsedAsImputationPanel)
-
-//###
-//### Analysis
-//###
 
 // Separate VCF into fragments (has to be before separating by sample)
 process separateVCF {
