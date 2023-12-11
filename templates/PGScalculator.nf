@@ -79,7 +79,7 @@ process harmonisation {
        input:
        file(genome) from input_genome
        output:
-       set file("normalised_genome.vcf.gz")
+       set file("genome.vcf.gz")
 
        script:
        intput_ext = getExt(genome.name)
@@ -90,7 +90,7 @@ process harmonisation {
               plink --23file genome.txt --keep-allele-order --output-chr MT --snps-only just-acgt --recode vcf --out genome
               #normalise to hg19
               bcftools +fixref genome.vcf -Oz -o genome.vcf.gz -- -f ${params.hg37fasta} -m top
-
+              plink --vcf genome.vcf.gz --keep-allele-order --output-chr chrM --recode vcf --out genome.chrM.vcf
        fi
 
        touch normalised_genome.vcf.gz
