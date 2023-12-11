@@ -99,6 +99,7 @@ process harmonisation {
                      REJECT=rejected_variants.vcf \
                      R=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/Homo_sapiens_assembly38.fasta
               bcftools view output.hg38.vcf -Oz -o output.hg38.vcf.gz
+              bcftools index -t output.hg38.vcf.gz
               bcftools merge output.hg38.vcf.gz /home/raimondsre/analysis/hs/genome/prs/pgscalc/testing_individual_risk_prediction/50_samples_and_55588_test_to_impute.vcf.gz -Oz -o merged.vcf.gz
        fi
 
