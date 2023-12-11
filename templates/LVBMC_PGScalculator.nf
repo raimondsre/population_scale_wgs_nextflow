@@ -79,7 +79,7 @@ process harmonisation {
        input:
        file(genome) from input_genome
        output:
-       set file("output.hg38.vcf")
+       set file("merged.vcf.gz")
 
        script:
        intput_ext = getExt(genome.name)
@@ -98,7 +98,8 @@ process harmonisation {
                      CHAIN=/home/raimondsre/array/input_data/ref/hg19ToHg38.over.chain.gz \
                      REJECT=rejected_variants.vcf \
                      R=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/Homo_sapiens_assembly38.fasta
-              bcftools merge output.hg38.vcf /home/raimondsre/analysis/hs/genome/prs/pgscalc/testing_individual_risk_prediction/50_samples_and_55588_test_to_impute.vcf.gz -Oz -o merged.vcf.gz
+              bcftools view output.hg38.vcf -Oz -o output.hg38.vcf.gz
+              bcftools merge output.hg38.vcf.gz /home/raimondsre/analysis/hs/genome/prs/pgscalc/testing_individual_risk_prediction/50_samples_and_55588_test_to_impute.vcf.gz -Oz -o merged.vcf.gz
        fi
 
        touch normalised_genome.vcf.gz
