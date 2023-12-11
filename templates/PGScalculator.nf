@@ -11,6 +11,7 @@
 params.publishDir = './results'
 params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased' // Contains phased and bref corrected segments
+params.hg37fasta = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/human_g1k_v37.fasta'
 params.cpus = 8
 
 params.toBeImputed = './'
@@ -87,6 +88,9 @@ process harmonisation {
               unzip ${genome}
               mv *txt genome.txt
               plink --23file genome.txt --keep-allele-order --output-chr MT --recode vcf --out genome
+              #normalise to hg19
+              bcftools +fixref genome.vcf -Oz -o genome.vcf.gz -- -f ${params.hg37fasta} -m top
+
        fi
 
        touch normalised_genome.vcf.gz
