@@ -93,11 +93,12 @@ process harmonisation {
               plink --vcf genome.vcf.gz --keep-allele-order --output-chr chrM --recode vcf --out genome.chrM
               export _JAVA_OPTIONS="-Xmx16g"
               ~/.conda/envs/picard/bin/picard LiftoverVcf \
-              I=genome.chrM.vcf \
-              O=output.hg38.vcf \
-              CHAIN=/home/raimondsre/array/input_data/ref/hg19ToHg38.over.chain.gz \
-              REJECT=rejected_variants.vcf \
-              R=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/Homo_sapiens_assembly38.fasta
+                     I=genome.chrM.vcf \
+                     O=output.hg38.vcf \
+                     CHAIN=/home/raimondsre/array/input_data/ref/hg19ToHg38.over.chain.gz \
+                     REJECT=rejected_variants.vcf \
+                     R=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/Homo_sapiens_assembly38.fasta
+              bcftools merge output.hg38.vcf 
        fi
 
        touch normalised_genome.vcf.gz
