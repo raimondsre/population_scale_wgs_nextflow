@@ -86,6 +86,7 @@ process harmonisation {
        if [ ${intput_ext} == "zip" ]; then
               unzip ${genome}
               mv *txt genome.txt
+              plink2 --23file genome.txt --keep-allele-order --output-chr MT --recode vcf --out genome
        fi
 
        touch normalised_genome.vcf.gz
