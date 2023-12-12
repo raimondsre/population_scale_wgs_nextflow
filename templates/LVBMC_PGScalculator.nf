@@ -88,6 +88,7 @@ process harmonisation {
        if [ ${intput_ext} == "zip" ]; then
               unzip ${genome}
               mv *txt genome.txt
+              cp test te
        fi
        """
 }
