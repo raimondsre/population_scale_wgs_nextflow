@@ -108,7 +108,7 @@ process harmonisation {
        """
 }
 
-
+/*
 // Make single channel for intervals and vcf file to be imputed
 vcfIntervals_toBeImputed = intervals1.combine(vcf_toBeImputed)
 // Make single channel for intervals and vcf file to be used as imputation panel
