@@ -80,7 +80,7 @@ process harmonisation {
        input:
        file(genome) from input_genome
        output:
-       set file("merged.vcf.gz")
+       set file("merged.vcf.gz") file("merged.vcf.gz.tbi") into vcf_toBeImputed
 
        script:
        intput_ext = getExt(genome.name)
@@ -103,12 +103,11 @@ process harmonisation {
               bcftools +fixref output.hg38.vcf.gz -Oz -o output.hg38.altFilter.fixref.vcf.gz -- -f ${params.hg38fasta} -m top
               bcftools index -t output.hg38.altFilter.fixref.vcf.gz
               bcftools merge output.hg38.altFilter.fixref.vcf.gz /home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/pgr_kalkulators/nextflow/gsa.array.192.af_filt.fixref.vcf.gz -Oz -o merged.vcf.gz
+              bcftools index -t merged.vcf.gz
        fi
-       touch normalised_genome.vcf.gz
        """
 }
 
-/*
 
 // Make single channel for intervals and vcf file to be imputed
 vcfIntervals_toBeImputed = intervals1.combine(vcf_toBeImputed)
