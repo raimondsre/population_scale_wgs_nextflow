@@ -80,6 +80,25 @@ process harmonisation {
        input:
        file(genome) from input_genome
        output:
+       file("genome.txt")
+
+       script:
+       intput_ext = getExt(genome.name)
+       """
+       if [ ${intput_ext} == "zip" ]; then
+              unzip ${genome}
+              mv *txt genome.txt
+       fi
+       """
+}
+/*
+// Harmonise genomes
+process harmonisation {
+       publishDir params.publishDir, mode: 'copy', overwrite: true
+       
+       input:
+       file(genome) from input_genome
+       output:
        set file("merged.vcf.gz"), file("merged.vcf.gz.tbi") into vcf_toBeImputed
 
        script:
