@@ -99,8 +99,9 @@ process harmonisation {
                      REJECT=rejected_variants.vcf \
                      R=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/Homo_sapiens_assembly38.fasta
               bcftools annotate --set-id +'%CHROM:%POS:%REF:%ALT' output.hg38.vcf -Oz -o output.hg38.vcf.gz
-              bcftools index -t output.hg38.vcf.gz
-              bcftools merge output.hg38.vcf.gz /home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/pgr_kalkulators/nextflow/gsa.array.192.af_filt.vcf.gz -Oz -o merged.vcf.gz
+              bcftools view -e 'ALT="."' output.hg38.vcf.gz -Oz -o output.hg38.altFilter.vcf.gz
+              bcftools index -t output.hg38.altFilter.vcf.gz
+              bcftools merge output.hg38.altFilter.vcf.gz /home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/pgr_kalkulators/nextflow/gsa.array.192.af_filt.vcf.gz -Oz -o merged.vcf.gz
 
        fi
 
