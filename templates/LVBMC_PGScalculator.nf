@@ -117,7 +117,7 @@ vcfIntervals_toBeUsedAsImputationPanel = intervals2.combine(vcf_imputation_panel
 vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel = vcfIntervals_toBeImputed.mix(vcfIntervals_toBeUsedAsImputationPanel)
 
 vcfIntervals_toBeImputed_and_toBeUsedAsImputationPanel.subscribe { println it }
-/*
+
 // Separate VCF into fragments (has to be before separating by sample)
 process separateVCF {
        publishDir params.phasedDir, mode: 'copy', overwrite: false
