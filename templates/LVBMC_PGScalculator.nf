@@ -80,7 +80,7 @@ process harmonisation {
        input:
        file(genome) from input_genome
        output:
-       set file("merged.vcf.gz") file("merged.vcf.gz.tbi") into vcf_toBeImputed
+       tuple file("merged.vcf.gz") file("merged.vcf.gz.tbi") into vcf_toBeImputed
 
        script:
        intput_ext = getExt(genome.name)
