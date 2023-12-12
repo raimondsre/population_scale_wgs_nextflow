@@ -104,7 +104,7 @@ process harmonisation {
               bcftools index -t output.hg38.altFilter.vcf.gz
               bcftools +fixref output.hg38.altFilter.vcf.gz -Oz -o output.hg38.altFilter.fixref.vcf.gz -- -f ${params.hg38fasta} -m top
               bcftools index -t output.hg38.altFilter.fixref.vcf.gz
-              bcftools merge output.hg38.altFilter.fixref.vcf.gz /home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/pgr_kalkulators/nextflow/gsa.array.192.af_filt.vcf.gz -Oz -o merged.vcf.gz
+              bcftools merge output.hg38.altFilter.fixref.vcf.gz /home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/pgr_kalkulators/nextflow/gsa.array.192.af_filt.fixref.vcf.gz -Oz -o merged.vcf.gz
 
        fi
 
