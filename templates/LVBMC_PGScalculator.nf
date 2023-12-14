@@ -88,26 +88,10 @@ process harmonisation {
        if [ ${intput_ext} == "zip" ]; then
               unzip ${genome}
               mv *txt genome.txt
-              plink --23file genome.txt --keep-allele-order --output-chr MT --snps-only just-acgt --recode vcf --out genome
-              #normalise to hg19
-              bcftools +fixref genome.vcf -Oz -o genome.vcf.gz -- -f ${params.hg37fasta} -m top
-              plink --vcf genome.vcf.gz --keep-allele-order --output-chr chrM --recode vcf --out genome.chrM
-              export _JAVA_OPTIONS="-Xmx16g"
-              ~/.conda/envs/picard/bin/picard LiftoverVcf \
-                     I=genome.chrM.vcf \
-                     O=output.hg38.vcf \
-                     CHAIN=/home/raimondsre/array/input_data/ref/hg19ToHg38.over.chain.gz \
-                     REJECT=rejected_variants.vcf \
-                     R=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/Homo_sapiens_assembly38.fasta
-              bcftools annotate --set-id +'%CHROM:%POS:%REF:%ALT' output.hg38.vcf -Oz -o output.hg38.vcf.gz
-              bcftools +fixref output.hg38.vcf.gz -Oz -o output.hg38.altFilter.fixref.vcf.gz -- -f ${params.hg38fasta} -m top
-              bcftools index -t output.hg38.altFilter.fixref.vcf.gz
-              bcftools merge output.hg38.altFilter.fixref.vcf.gz /home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/pgr_kalkulators/nextflow/gsa.array.192.af_filt.fixref.vcf.gz -Oz -o merged.vcf.gz
-              bcftools index -t merged.vcf.gz
        fi
        """
 }
-
+/*
 
 // Make single channel for intervals and vcf file to be imputed
 vcfIntervals_toBeImputed = intervals1.combine(vcf_toBeImputed)
