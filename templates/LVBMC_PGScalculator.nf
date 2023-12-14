@@ -1,5 +1,5 @@
 #!/usr/bin/env nextflow
-// Workflow to performs 
+// Workflow to perform
 //     1. Input 23andMe or VCF format genome harmonisation to GRCh38
 //     2. Quality control
 //     3. Imputation
@@ -73,26 +73,6 @@ def getExt(String fileName) {return fileName.replaceAll(/.*\./,'')}
 //### Analysis
 //###
 
-// Harmonise genomes
-process harmonisation {
-       publishDir params.publishDir, mode: 'copy', overwrite: true
-       
-       input:
-       file(genome) from input_genome
-       output:
-       file("genome.txt")
-
-       script:
-       intput_ext = getExt(genome.name)
-       """
-       if [ ${intput_ext} == "zip" ]; then
-              unzip ${genome}
-              mv *txt genome.txt
-              cp test te
-       fi
-       """
-}
-/*
 // Harmonise genomes
 process harmonisation {
        publishDir params.publishDir, mode: 'copy', overwrite: true
