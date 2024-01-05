@@ -4,7 +4,7 @@ params.sampleLocation = './for.trimming'
 params.batchDir = '.'
 params.batchName = 'lv_reference_20220722_502samples'
 params.trimGaloreContainer = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
-params.hpc_billing_account = 'bmc_klovins'
+params.hpc_billing_account = 'bmc_1mgenome'
 
 // Read the input file containing sample ID and it's location
 Channel
@@ -24,7 +24,7 @@ Channel
 def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
 //for_lftp.subscribe{ println it }
- 
+ /*
 process file_transfer { 
        // params.batchDir, mode: 'move', overwrite: false
        cpus 2
@@ -47,7 +47,7 @@ process file_transfer {
 }
 
 process adaptor_trimming {
-       publishDir params.batchDir+"/results", mode: 'move', overwrite: false
+       publishDir params.batchDir, mode: 'move', overwrite: false
        cpus 16
        container = params.trimGaloreContainer
        errorStrategy = "ignore"
@@ -62,7 +62,7 @@ process adaptor_trimming {
        read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
        read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
        varCal_tsv = "${params.batchDir}/${params.batchName}/${params.batchName}_variant_calling.tsv"
-       batchDir = "${params.batchDir}/${params.batchName}"
+       batchDir = "${params.batchDir}"
        """
        trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
               --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
