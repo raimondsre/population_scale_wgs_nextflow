@@ -27,7 +27,7 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
 process file_transfer { 
        // params.batchDir, mode: 'move', overwrite: false
-       cpus 2
+       cpus 4
        //executor 'pbs' 
        // -A should be ${hpc_billing_account}
        clusterOptions "-l nodes=wn61 -A ${params.hpc_billing_account}"
