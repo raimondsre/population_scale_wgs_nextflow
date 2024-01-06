@@ -20,7 +20,7 @@ process file_transfer {
     tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp)
 
     output:
-    tuple val(SAMPLE_ID), val(sample_chunk), file(read1), file(read2)
+    tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
 
     script:
     read1 = remPath(read1_lftp)
@@ -35,10 +35,10 @@ process adaptor_trimming {
     container params.trimGaloreContainer
 
     input:
-    tuple val(SAMPLE_ID), val(sample_chunk), file(read1), file(read2)
+    tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
 
     output:
-    tuple file(read1_trimmed), file(read2_trimmed)
+    tuple path(read1_trimmed), path(read2_trimmed)
 
     script:
     read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
@@ -56,17 +56,21 @@ process adaptor_trimming {
 }
 
 process save_trimmed {
-    publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
+    //publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
 
     input:
-    tuple file(read1_trimmed), file(read2_trimmed)
+    tuple path(read1_trimmed), path(read2_trimmed)
 
     output: 
     tuple file(read1_trimmed), file(read2_trimmed)
 
     script:
     """
-
+    read1=$(readlink -f "${read1_trimmed}")
+    read2=$(readlink -f "${read2_trimmed}")
+    mv $read1 ${params.fastqDir}
+    mv $read2 ${params.fastqDir}
+    
     """
 }
 
