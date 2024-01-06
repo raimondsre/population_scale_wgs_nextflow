@@ -79,7 +79,7 @@ workflow {
         .filter { SAMPLE_ID, chunk, read1, read2 ->
             def fastq_path1 = read1
             def fastq_filename = fastq_path1.tokenize('/').last().toString().replaceAll("_1.f","_1_val_1.f")
-            def file = new File("${params.batchDir}/${params.batchName}/${fastq_filename}")
+            def file = new File("${params.fastqDir}/${params.batchName}/${fastq_filename}")
             def file_exists = file.exists()
             if (file_exists) println ">>> WARNING: FILE ${read1.tokenize('/').last()} of ${SAMPLE_ID} sample already trimmed"
             !file_exists
