@@ -67,6 +67,7 @@ process save_trimmed {
 
     script:
     """
+    sleep 1s
     """
 }
 
