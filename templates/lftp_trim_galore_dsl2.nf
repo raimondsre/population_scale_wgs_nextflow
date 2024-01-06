@@ -38,7 +38,7 @@ process adaptor_trimming {
     tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
 
     output:
-    tuple path(read1_trimmed), path(read2_trimmed)
+    tuple file(read1_trimmed), file(read2_trimmed)
 
     script:
     read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
@@ -59,13 +59,14 @@ process save_trimmed {
     publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
 
     input:
-    tuple path(read1_trimmed), path(read2_trimmed)
+    tuple file(read1_trimmed), file(read2_trimmed)
 
     output: 
     tuple file(read1_trimmed), file(read2_trimmed)
 
     script:
     """
+
     """
 }
 
