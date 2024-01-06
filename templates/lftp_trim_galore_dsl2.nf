@@ -13,7 +13,7 @@ def remPath(String fileName) {
 }
 
 process file_transfer {
-    cpus 1
+    cpus 2
     clusterOptions "-l nodes=wn61 -A ${params.hpc_billing_account}"
 
     input:
