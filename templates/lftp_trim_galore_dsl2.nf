@@ -13,8 +13,8 @@ def remPath(String fileName) {
 }
 
 process file_transfer {
-    cpus 2
-    clusterOptions "-l nodes=wn61 -A ${params.hpc_billing_account}"
+    //cpus 2
+    clusterOptions "-l nodes=wn61:ppn=2 -A ${params.hpc_billing_account}"
 
     input:
     tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum)
