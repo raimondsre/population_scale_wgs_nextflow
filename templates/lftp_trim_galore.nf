@@ -80,6 +80,10 @@ process save_trimmed {
        set file(read1_trimmed), file(read2_trimmed) from for_saving
        output: 
        set file(read1_trimmed), file(read2_trimmed)
+
+       script:
+       """
+       """
 }
 
 /*
