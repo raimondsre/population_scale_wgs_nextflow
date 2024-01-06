@@ -33,7 +33,7 @@ process file_transfer {
     md5sum2_r1=\$(md5sum ${read1} | awk '{ print \$1 }')
     echo "md5sum r1 NAS" \$md5sum1_r1
     echo "md5sum r1 HPC" \$md5sum2_r1
-
+       echo -e "\n"
     md5sum1_r2=${read2_md5sum}
     md5sum2_r2=\$(md5sum ${read2} | awk '{ print \$1 }')
     echo "md5sum r2 NAS" \$md5sum1_r2
