@@ -31,6 +31,7 @@ process file_transfer {
 }
 
 process adaptor_trimming {
+    publishDir params.batchDir, mode: 'move', overwrite: true, failOnError: true
     cpus 1
     container params.trimGaloreContainer
 
@@ -55,17 +56,22 @@ process adaptor_trimming {
     """
 }
 
-process save_trimmed {
-    //publishDir params.batchDir, mode: 'move', overwrite: true, failOnError: true
+// process save_trimmed {
+//     publishDir params.batchDir, mode: 'move', overwrite: true, failOnError: true
 
-    input:
-    tuple path(read1_trimmed), path(read2_trimmed)
+//     input:
+//     tuple path(read1_trimmed), path(read2_trimmed)
 
-    script:
-    """
-    mv ${read1_trimmed} ${params.fastqDir}
-    """
-}
+//     output: 
+//     tuple path(read1_trimmed), path(read2_trimmed)
+
+//     script:
+//     """
+//     mv ${read1_trimmed} ${params.fastqDir}
+//     mv ${read2_trimmed} ${params.fastqDir}
+
+//     """
+// }
 
 workflow {
 
@@ -86,5 +92,4 @@ workflow {
     for_lftp
         | file_transfer
         | adaptor_trimming
-        | save_trimmed
 }
