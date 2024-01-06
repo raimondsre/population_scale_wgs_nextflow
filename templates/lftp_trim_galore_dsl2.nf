@@ -42,10 +42,10 @@ process file_transfer {
     if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
     echo "Checksums are equal or missing in NAS."
     else
-    echo "Checksums doesn't match, corrupted fastq files will be deleted and transfer repeated"
+    echo "Checksums doesn't match"
     rm ${read1}
     rm ${read2}
-    lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait; exit"
+    exit 1
     fi
     """
 }
