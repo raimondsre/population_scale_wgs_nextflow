@@ -20,7 +20,7 @@ process file_transfer {
     tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp)
 
     output:
-    tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
+    tuple val(SAMPLE_ID), val(sample_chunk), file(read1), file(read2)
 
     script:
     read1 = remPath(read1_lftp)
@@ -35,7 +35,7 @@ process adaptor_trimming {
     container params.trimGaloreContainer
 
     input:
-    tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
+    tuple val(SAMPLE_ID), val(sample_chunk), file(read1), file(read2)
 
     output:
     tuple file(read1_trimmed), file(read2_trimmed)
