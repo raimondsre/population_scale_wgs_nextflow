@@ -47,16 +47,16 @@ process file_transfer {
 }
 
 process adaptor_trimming {
-       publishDir params.batchDir, mode: 'move', overwrite: false
+       //publishDir params.batchDir, mode: 'move', overwrite: true, failOnError: true
        cpus 1
        container = params.trimGaloreContainer
-       errorStrategy = "ignore"
+       //errorStrategy = "ignore"
 
        input:
        set val(SAMPLE_ID), (sample_chunk), file(read1), file(read2) from for_trimming
 
        output:
-       set file(read1_trimmed), file(read2_trimmed)
+       set file(read1_trimmed), file(read2_trimmed) into for_saving
 
        script:
        read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
@@ -72,6 +72,14 @@ process adaptor_trimming {
        if [ ! -f ${varCal_tsv} ]; then mkdir -p ${batchDir} && touch ${varCal_tsv}; fi
        echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${batchDir}/${read1_trimmed}\t${batchDir}/${read2_trimmed}" >> ${varCal_tsv}
        """
+}
+
+process save_trimmed {
+       publishDir params.batchDir, mode: 'move', overwrite: true, failOnError: true
+       input:
+       set file(read1_trimmed), file(read2_trimmed) from for_saving
+       output: 
+       set file(read1_trimmed), file(read2_trimmed)
 }
 
 /*
