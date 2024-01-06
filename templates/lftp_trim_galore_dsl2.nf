@@ -52,7 +52,7 @@ process file_transfer {
 
 process adaptor_trimming {
        publishDir params.fastqDir, mode: 'copy', overwrite: true, failOnError: true
-    cpus 1
+    cpus 8
     container params.trimGaloreContainer
 
     input:
