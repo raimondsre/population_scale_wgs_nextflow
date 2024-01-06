@@ -3,7 +3,7 @@
 nextflow.enable.dsl=2
 
 params.sampleLocation = './for.trimming'
-params.batchDir = '.'
+params.fastqDir = '.'
 params.batchName = 'lv_reference_20220722_502samples'
 params.trimGaloreContainer = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
 params.hpc_billing_account = 'bmc_1mgenome'
@@ -43,8 +43,8 @@ process adaptor_trimming {
     script:
     read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
     read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
-    varCal_tsv = "${params.batchDir}/${params.batchName}_variant_calling.tsv"
-    batchDir = "${params.batchDir}"
+    varCal_tsv = "${params.fastqDir}/${params.batchName}_variant_calling.tsv"
+    batchDir = "${params.fastqDir}"
     """
     trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
            --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
@@ -57,7 +57,7 @@ process adaptor_trimming {
 }
 
 process save_trimmed {
-    publishDir params.batchDir, mode: 'move', overwrite: true, failOnError: true
+    //publishDir params.batchDir, mode: 'move', overwrite: true, failOnError: true
 
     input:
     tuple path(read1_trimmed), path(read2_trimmed)
@@ -67,7 +67,7 @@ process save_trimmed {
 
     script:
     """
-    sleep 1s
+    mv ${read1_trimmed} ${params.fastqDir}
     """
 }
 
