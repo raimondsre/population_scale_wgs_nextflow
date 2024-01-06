@@ -42,7 +42,7 @@ process file_transfer {
     if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
     echo "Checksums are equal or missing in NAS."
     else
-    echo "Checksums doesn't match"
+    echo "Checksums doesn't match."
     rm ${read1}
     rm ${read2}
     exit 1
