@@ -44,15 +44,14 @@ process adaptor_trimming {
     read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
     read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
     varCal_tsv = "${params.fastqDir}/${params.batchName}_variant_calling.tsv"
-    batchDir = "${params.fastqDir}"
     """
     trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
            --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
            --paired --no_report_file \
            -o . ${read1} ${read2} 
     
-    if [ ! -f ${varCal_tsv} ]; then mkdir -p ${batchDir} && touch ${varCal_tsv}; fi
-    echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${batchDir}/${read1_trimmed}\t${batchDir}/${read2_trimmed}" >> ${varCal_tsv}
+    if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir} && touch ${varCal_tsv}; fi
+    echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}" >> ${varCal_tsv}
     """
 }
 
