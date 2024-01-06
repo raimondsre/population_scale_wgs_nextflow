@@ -66,8 +66,8 @@ process save_trimmed {
 
     script:
     """
-    read1=$(readlink -f "${read1_trimmed}")
-    read2=$(readlink -f "${read2_trimmed}")
+    read1=$(readlink -f ${read1_trimmed})
+    read2=$(readlink -f ${read2_trimmed})
     mv $read1 ${params.fastqDir}
     mv $read2 ${params.fastqDir}
     
