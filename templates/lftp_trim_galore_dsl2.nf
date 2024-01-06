@@ -30,7 +30,7 @@ process file_transfer {
     
     md5sum1=${read1_md5sum}
     md5sum2=\$(md5sum ${read1} | awk '{ print \$1 }')
-    if [ -z "$md5sum1" ] || [ "$md5sum1" == "$md5sum2" ]; then
+    if [ -z "\$md5sum1" ] || [ "\$md5sum1" == "\$md5sum2" ]; then
     echo "Checksums are equal or missing."
     else
     lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait; exit"
