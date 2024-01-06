@@ -26,16 +26,21 @@ process file_transfer {
     read1 = remPath(read1_lftp)
     read2 = remPath(read2_lftp)
     """
-    lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait; exit"
+    lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait all; exit"
     
     sleep 3s
-    md5sum1=${read1_md5sum}
-    md5sum2=\$(md5sum ${read1} | awk '{ print \$1 }')
-    echo \$md5sum1
-    echo \$md5sum2
+    md5sum1_r1=${read1_md5sum}
+    md5sum2_r1=\$(md5sum ${read1} | awk '{ print \$1 }')
+    echo \$md5sum1_r1
+    echo \$md5sum2_r1
 
-    if [ -z "\$md5sum1" ] || [ "\$md5sum1" == "\$md5sum2" ]; then
-    echo "Checksums are equal or missing."
+    md5sum1_r2=${read2_md5sum}
+    md5sum2_r2=\$(md5sum ${read2} | awk '{ print \$1 }')
+    echo \$md5sum1_r2
+    echo \$md5sum2_r2
+    
+    if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" ] && [ "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
+    echo "Checksums are equal or missing in NAS."
     else
     rm ${read1}
     rm ${read2}
