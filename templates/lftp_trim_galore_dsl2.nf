@@ -31,6 +31,9 @@ process file_transfer {
 
     md5sum1=${read1_md5sum}
     md5sum2=\$(md5sum ${read1} | awk '{ print \$1 }')
+    echo \$md5sum1
+    echo \$md5sum2
+    
     if [ -z "\$md5sum1" ] || [ "\$md5sum1" == "\$md5sum2" ]; then
     echo "Checksums are equal or missing."
     else
