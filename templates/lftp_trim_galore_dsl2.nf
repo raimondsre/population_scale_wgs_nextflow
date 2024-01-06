@@ -17,7 +17,7 @@ process file_transfer {
     clusterOptions "-l nodes=wn61 -A ${params.hpc_billing_account}"
 
     input:
-    tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp)
+    tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum)
 
     output:
     tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
@@ -27,6 +27,7 @@ process file_transfer {
     read2 = remPath(read2_lftp)
     """
     lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait; exit"
+    md5sum ${read1} > ${read1}.md5sum
     """
 }
 
@@ -80,8 +81,8 @@ workflow {
     Channel
         .fromPath(params.sampleLocation)
         .splitCsv(header:false, sep:'\t',strip:true)
-        .map { row -> tuple(row[0], row[1], row[2], row[3]) }
-        .filter { SAMPLE_ID, chunk, read1, read2 ->
+        .map { row -> tuple(row[0], row[1], row[2], row[3], row[4], row[5]) }
+        .filter { SAMPLE_ID, chunk, read1, read2, read1_md5sum, read2_md5sum ->
             def fastq_path1 = read1
             def fastq_filename = fastq_path1.tokenize('/').last().toString().replaceAll("_1.f","_1_val_1.f")
             def file = new File("${params.fastqDir}/${params.batchName}/${fastq_filename}")
