@@ -31,7 +31,7 @@ process file_transfer {
 }
 
 process adaptor_trimming {
-    publishDir params.batchDir, mode: 'move', overwrite: true, failOnError: true
+    publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
     cpus 1
     container params.trimGaloreContainer
 
