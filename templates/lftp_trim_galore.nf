@@ -27,7 +27,7 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'')}
 
 process file_transfer { 
        // params.batchDir, mode: 'move', overwrite: false
-       cpus 4
+       cpus 1
        //executor 'pbs' 
        // -A should be ${hpc_billing_account}
        clusterOptions "-l nodes=wn61 -A ${params.hpc_billing_account}"
@@ -48,7 +48,7 @@ process file_transfer {
 
 process adaptor_trimming {
        publishDir params.batchDir, mode: 'move', overwrite: false
-       cpus 16
+       cpus 1
        container = params.trimGaloreContainer
        errorStrategy = "ignore"
 
