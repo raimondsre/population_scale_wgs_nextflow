@@ -56,7 +56,7 @@ process adaptor_trimming {
 }
 
 process save_trimmed {
-    publishDir params.batchDir, mode: 'move', overwrite: true, failOnError: true
+    publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
 
     input:
     tuple path(read1_trimmed), path(read2_trimmed)
