@@ -61,9 +61,6 @@ process save_trimmed {
     input:
     tuple path(read1_trimmed), path(read2_trimmed)
 
-    output: 
-    tuple path(read1_trimmed), path(read2_trimmed)
-
     script:
     """
     mv ${read1_trimmed} ${params.fastqDir}
