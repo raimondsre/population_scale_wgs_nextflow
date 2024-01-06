@@ -28,7 +28,6 @@ process file_transfer {
     """
     lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait all; exit"
     
-    sleep 3s
     md5sum1_r1=${read1_md5sum}
     md5sum2_r1=\$(md5sum ${read1} | awk '{ print \$1 }')
     echo "md5sum read 1 NAS:" \$md5sum1_r1
