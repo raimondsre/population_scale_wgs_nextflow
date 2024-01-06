@@ -31,13 +31,13 @@ process file_transfer {
     sleep 3s
     md5sum1_r1=${read1_md5sum}
     md5sum2_r1=\$(md5sum ${read1} | awk '{ print \$1 }')
-    echo \$md5sum1_r1
-    echo \$md5sum2_r1
+    echo "md5sum r1 NAS" \$md5sum1_r1
+    echo "md5sum r1 HPC" \$md5sum2_r1
 
     md5sum1_r2=${read2_md5sum}
     md5sum2_r2=\$(md5sum ${read2} | awk '{ print \$1 }')
-    echo \$md5sum1_r2
-    echo \$md5sum2_r2
+    echo "md5sum r2 NAS" \$md5sum1_r2
+    echo "md5sum r2 HPC" \$md5sum2_r2
     
     if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
     echo "Checksums are equal or missing in NAS."
