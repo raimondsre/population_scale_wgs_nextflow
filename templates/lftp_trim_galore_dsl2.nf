@@ -46,16 +46,18 @@ process md5sum_check_and_adaptor_trimming {
     read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
     varCal_tsv = "${params.fastqDir}/${params.batchName}_variant_calling.tsv"
     """    
+    #calculate md5sum of transferred files and send it to the background
     md5sum ${read1} | awk '{ print \$1 }' > md5sum2_r1.txt &
     md5sum ${read2} | awk '{ print \$1 }' > md5sum2_r2.txt &
 
+    #while md5sum is being calculated, trim adaptors
     trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
            --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
            --paired --no_report_file \
            -o . ${read1} ${read2}
     wait
 
-
+    #check if md5sums match
     md5sum2_r1=\$(cat md5sum2_r1.txt)
     md5sum2_r2=\$(cat md5sum2_r2.txt)
 
@@ -67,9 +69,11 @@ process md5sum_check_and_adaptor_trimming {
     echo "md5sum read 2 NAS:" \$md5sum1_r2
     echo "md5sum read 2 HPC:" \$md5sum2_r2
     
+    #add md5sum reports to output file
     if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir}; > ${varCal_tsv}; fi
     echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}\t\$md5sum1_r1\t\$md5sum1_r2\t\$md5sum2_r1\t\$md5sum2_r2" >> ${varCal_tsv}
     
+    #if md5sums doesn't match, throw an error
     if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
     echo "Checksums are equal or missing in NAS."
     else
