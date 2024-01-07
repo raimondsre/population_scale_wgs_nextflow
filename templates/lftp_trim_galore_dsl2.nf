@@ -14,7 +14,7 @@ def remPath(String fileName) {
 
 process file_transfer {
     //cpus 2
-    //clusterOptions "-l walltime=96:00:00,nodes=wn61:ppn=1 -A ${params.hpc_billing_account}"
+    clusterOptions "-l walltime=96:00:00,nodes=wn61:ppn=1 -A ${params.hpc_billing_account}"
 
     input:
     tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum)
@@ -40,13 +40,13 @@ process md5sum_check {
 
     script:
     """    
+    md5sum2_r1=\$(md5sum ${read1} | awk '{ print \$1 }') & md5sum2_r2=\$(md5sum ${read2} | awk '{ print \$1 }') & wait all
+
     md5sum1_r1=${read1_md5sum}
-    md5sum2_r1=\$(md5sum ${read1} | awk '{ print \$1 }')
     echo "md5sum read 1 NAS:" \$md5sum1_r1
     echo "md5sum read 1 HPC:" \$md5sum2_r1
        echo -e "---"
     md5sum1_r2=${read2_md5sum}
-    md5sum2_r2=\$(md5sum ${read2} | awk '{ print \$1 }')
     echo "md5sum read 2 NAS:" \$md5sum1_r2
     echo "md5sum read 2 HPC:" \$md5sum2_r2
     
