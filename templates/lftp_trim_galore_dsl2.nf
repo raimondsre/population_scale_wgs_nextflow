@@ -40,7 +40,9 @@ process md5sum_check {
 
     script:
     """    
-    md5sum2_r1=\$(md5sum ${read1} | awk '{ print \$1 }') & md5sum2_r2=\$(md5sum ${read2} | awk '{ print \$1 }') & wait all
+    md5sum2_r1=\$(md5sum ${read1} | awk '{ print \$1 }') & 
+    md5sum2_r2=\$(md5sum ${read2} | awk '{ print \$1 }') & 
+    wait all
 
     md5sum1_r1=${read1_md5sum}
     echo "md5sum read 1 NAS:" \$md5sum1_r1
