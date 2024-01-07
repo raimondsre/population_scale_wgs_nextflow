@@ -32,6 +32,7 @@ process file_transfer {
 process md5sum_check_and_adaptor_trimming {
     publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
     cpus 8
+    errorStrategy = 'ignore'
     container params.trimGaloreContainer
 
     input:
@@ -52,9 +53,6 @@ process md5sum_check_and_adaptor_trimming {
            --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
            --paired --no_report_file \
            -o . ${read1} ${read2}
-    if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir} && > ${varCal_tsv}; fi
-    echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}" >> ${varCal_tsv}
-    
     wait
 
 
@@ -68,6 +66,9 @@ process md5sum_check_and_adaptor_trimming {
     md5sum1_r2=${read2_md5sum}
     echo "md5sum read 2 NAS:" \$md5sum1_r2
     echo "md5sum read 2 HPC:" \$md5sum2_r2
+    
+    if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir}; > ${varCal_tsv}; fi
+    echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}\t\$md5sum1_r1\t\$md5sum1_r2\t\$md5sum2_r1\t\$md5sum2_r2" >> ${varCal_tsv}
     
     if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
     echo "Checksums are equal or missing in NAS."
