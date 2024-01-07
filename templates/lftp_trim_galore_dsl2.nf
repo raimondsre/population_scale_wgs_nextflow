@@ -69,7 +69,7 @@ process md5sum_check_and_adaptor_trimming {
     echo "md5sum read 2 NAS:" \$md5sum1_r2
     echo "md5sum read 2 HPC:" \$md5sum2_r2
     
-    #if md5sums doesn't match, throw an error which will be ignored and problematic recorded in results directory
+    #if md5sums doesn't match, throw an error which will be ignored and issue recorded in results directory
     sample_id=\$(echo ${SAMPLE_ID} | sed 's/-.*//g')
     if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
     echo "Checksums are equal or missing in NAS."
