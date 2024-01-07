@@ -20,7 +20,7 @@ process file_transfer {
     tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum)
 
     output:
-    tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
+    tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum), path(read1), path(read2)
 
     script:
     read1 = remPath(read1_lftp)
@@ -28,6 +28,38 @@ process file_transfer {
     """
     lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait all; exit"
     
+    md5sum1_r1=${read1_md5sum}
+    md5sum2_r1=\$(md5sum ${read1} | awk '{ print \$1 }')
+    echo "md5sum read 1 NAS:" \$md5sum1_r1
+    echo "md5sum read 1 HPC:" \$md5sum2_r1
+       echo -e "---"
+    md5sum1_r2=${read2_md5sum}
+    md5sum2_r2=\$(md5sum ${read2} | awk '{ print \$1 }')
+    echo "md5sum read 2 NAS:" \$md5sum1_r2
+    echo "md5sum read 2 HPC:" \$md5sum2_r2
+    
+    if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
+    echo "Checksums are equal or missing in NAS."
+    else
+    echo "Checksums doesn't match."
+    rm ${read1}
+    rm ${read2}
+    exit 1
+    fi
+    """
+}
+process md5sum_check {
+    //cpus 2
+    clusterOptions "-l walltime=96:00:00,nodes=wn61:ppn=1 -A ${params.hpc_billing_account}"
+
+    input:
+    tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum), path(read1), path(read2)
+
+    output:
+    tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
+
+    script:
+    """    
     md5sum1_r1=${read1_md5sum}
     md5sum2_r1=\$(md5sum ${read1} | awk '{ print \$1 }')
     echo "md5sum read 1 NAS:" \$md5sum1_r1
@@ -112,5 +144,6 @@ workflow {
 
     for_lftp
         | file_transfer
+        | md5sum_check
         | adaptor_trimming
 }
