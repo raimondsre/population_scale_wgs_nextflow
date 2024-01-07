@@ -7,7 +7,7 @@ params.fastqDir = '.'
 params.batchName = 'lv_reference_20220722_502samples'
 params.trimGaloreContainer = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
 params.hpc_billing_account = 'bmc_1mgenome'
-
+params.md5sumReportDir = '.'
 def remPath(String fileName) {
     return fileName.replaceAll(/.*\//,'')
 }
@@ -44,7 +44,7 @@ process md5sum_check_and_adaptor_trimming {
     script:
     read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
     read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
-    varCal_tsv = "${params.fastqDir}/${params.batchName}_variant_calling.tsv"
+    varCal_tsv = "${params.md5sumReportDir}/${params.batchName}_variant_calling.tsv"
     """    
     #calculate md5sum of transferred files and send it to the background
     md5sum ${read1} | awk '{ print \$1 }' > md5sum2_r1.txt &
@@ -74,14 +74,13 @@ process md5sum_check_and_adaptor_trimming {
     echo "Checksums are equal or missing in NAS."
     #add md5sum reports to output file
     if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir}; > ${varCal_tsv}; fi
-    echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}\t\$md5sum1_r1\t\$md5sum1_r2\t\$md5sum2_r1\t\$md5sum2_r2" >> ${varCal_tsv}
+    echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}" >> ${varCal_tsv}
     
     else
     echo "Checksums doesn't match."
     #add md5sum reports to output file
-    if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir}; > ${varCal_tsv}.checkum_mismatch; fi
+    if [ ! -f ${varCal_tsv}.checkum_mismatch ]; then mkdir -p ${params.fastqDir}; > ${varCal_tsv}.checkum_mismatch; fi
     echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}\t\$md5sum1_r1\t\$md5sum1_r2\t\$md5sum2_r1\t\$md5sum2_r2" >> ${varCal_tsv}.checkum_mismatch
-    
     rm ${read1}
     rm ${read2}
     exit 1
