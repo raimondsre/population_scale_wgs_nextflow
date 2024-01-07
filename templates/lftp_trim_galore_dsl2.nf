@@ -63,7 +63,7 @@ process md5sum_check {
 }
 
 process adaptor_trimming {
-       publishDir params.fastqDir, mode: 'copy', overwrite: true, failOnError: true
+       publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
     cpus 8
     container params.trimGaloreContainer
 
