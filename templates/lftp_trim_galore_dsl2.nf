@@ -69,15 +69,19 @@ process md5sum_check_and_adaptor_trimming {
     echo "md5sum read 2 NAS:" \$md5sum1_r2
     echo "md5sum read 2 HPC:" \$md5sum2_r2
     
+    #if md5sums doesn't match, throw an error which will be ignored
+    if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
+    echo "Checksums are equal or missing in NAS."
     #add md5sum reports to output file
     if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir}; > ${varCal_tsv}; fi
     echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}\t\$md5sum1_r1\t\$md5sum1_r2\t\$md5sum2_r1\t\$md5sum2_r2" >> ${varCal_tsv}
     
-    #if md5sums doesn't match, throw an error which will be ignored
-    if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
-    echo "Checksums are equal or missing in NAS."
     else
     echo "Checksums doesn't match."
+    #add md5sum reports to output file
+    if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir}; > ${varCal_tsv}.checkum_mismatch; fi
+    echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}\t\$md5sum1_r1\t\$md5sum1_r2\t\$md5sum2_r1\t\$md5sum2_r2" >> ${varCal_tsv}.checkum_mismatch
+    
     rm ${read1}
     rm ${read2}
     exit 1
