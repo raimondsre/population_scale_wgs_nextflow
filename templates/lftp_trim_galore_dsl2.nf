@@ -46,7 +46,7 @@ process md5sum_check_and_adaptor_trimming {
     read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
     varCal_tsv = "${params.md5sumReportDir}/${params.batchName}_variant_calling.tsv"
     """    
-    #calculate md5sum of transferred files and send it to the background
+    #calculate md5sum of transferred files and send it to the background thread
     md5sum ${read1} | awk '{ print \$1 }' > md5sum2_r1.txt &
     md5sum ${read2} | awk '{ print \$1 }' > md5sum2_r2.txt &
 
@@ -69,7 +69,7 @@ process md5sum_check_and_adaptor_trimming {
     echo "md5sum read 2 NAS:" \$md5sum1_r2
     echo "md5sum read 2 HPC:" \$md5sum2_r2
     
-    #if md5sums doesn't match, throw an error which will be ignored
+    #if md5sums doesn't match, throw an error which will be ignored and problematic recorded in results directory
     sample_id=\$(echo ${SAMPLE_ID} | sed 's/-.*//g')
     if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
     echo "Checksums are equal or missing in NAS."
