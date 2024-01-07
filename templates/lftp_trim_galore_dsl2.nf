@@ -43,8 +43,8 @@ process md5sum_check {
     md5sum ${read1} | awk '{ print \$1 }' > md5sum2_r1.txt &
     md5sum ${read2} | awk '{ print \$1 }' > md5sum2_r2.txt &
     wait
-    md5sum2_r1=$(cat md5sum2_r1.txt)
-    md5sum2_r2=$(cat md5sum2_r2.txt)
+    md5sum2_r1=\$(cat md5sum2_r1.txt)
+    md5sum2_r2=\$(cat md5sum2_r2.txt)
 
     md5sum1_r1=${read1_md5sum}
     echo "md5sum read 1 NAS:" \$md5sum1_r1
