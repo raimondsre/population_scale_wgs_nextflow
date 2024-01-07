@@ -32,6 +32,7 @@ process file_transfer {
 process md5sum_check_and_adaptor_trimming {
     publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
     cpus 8
+    container params.trimGaloreContainer
 
     input:
     tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum), path(read1), path(read2)
