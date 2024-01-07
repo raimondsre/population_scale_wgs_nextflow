@@ -142,5 +142,5 @@ workflow {
 
     for_lftp
         | file_transfer
-        | md5sum_check
+        | md5sum_check_and_adaptor_trimming
 }
