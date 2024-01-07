@@ -29,20 +29,34 @@ process file_transfer {
     lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait all; exit"
     """
 }
-process md5sum_check {
-    cpus 2
+process md5sum_check_and_adaptor_trimming {
+    publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
+    cpus 8
 
     input:
     tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum), path(read1), path(read2)
 
     output:
-    tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
+    tuple path(read1_trimmed), path(read2_trimmed)
 
     script:
+    read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
+    read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
+    varCal_tsv = "${params.fastqDir}/${params.batchName}_variant_calling.tsv"
     """    
     md5sum ${read1} | awk '{ print \$1 }' > md5sum2_r1.txt &
     md5sum ${read2} | awk '{ print \$1 }' > md5sum2_r2.txt &
+
+    trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
+           --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
+           --paired --no_report_file \
+           -o . ${read1} ${read2}
+    if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir} && > ${varCal_tsv}; fi
+    echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}" >> ${varCal_tsv}
+    
     wait
+
+
     md5sum2_r1=\$(cat md5sum2_r1.txt)
     md5sum2_r2=\$(cat md5sum2_r2.txt)
 
@@ -65,31 +79,31 @@ process md5sum_check {
     """
 }
 
-process adaptor_trimming {
-       publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
-    cpus 8
-    container params.trimGaloreContainer
+// process adaptor_trimming {
+//        publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
+//     cpus 8
+//     container params.trimGaloreContainer
 
-    input:
-    tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
+//     input:
+//     tuple val(SAMPLE_ID), val(sample_chunk), path(read1), path(read2)
 
-    output:
-    tuple path(read1_trimmed), path(read2_trimmed)
+//     output:
+//     tuple path(read1_trimmed), path(read2_trimmed)
 
-    script:
-    read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
-    read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
-    varCal_tsv = "${params.fastqDir}/${params.batchName}_variant_calling.tsv"
-    """
-    trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
-           --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
-           --paired --no_report_file \
-           -o . ${read1} ${read2} 
+//     script:
+//     read1_trimmed = read1.toString().replaceAll("_1.f","_1_val_1.f")
+//     read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
+//     varCal_tsv = "${params.fastqDir}/${params.batchName}_variant_calling.tsv"
+//     """
+//     trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
+//            --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
+//            --paired --no_report_file \
+//            -o . ${read1} ${read2} 
     
-    if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir} && > ${varCal_tsv}; fi
-    echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}" >> ${varCal_tsv}
-    """
-}
+//     if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir} && > ${varCal_tsv}; fi
+//     echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}" >> ${varCal_tsv}
+//     """
+// }
 
 // process save_trimmed {
 //     publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
@@ -129,5 +143,4 @@ workflow {
     for_lftp
         | file_transfer
         | md5sum_check
-        | adaptor_trimming
 }
