@@ -83,7 +83,7 @@ process adaptor_trimming {
            --paired --no_report_file \
            -o . ${read1} ${read2} 
     
-    if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir} && touch ${varCal_tsv}; fi
+    if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir} && > ${varCal_tsv}; fi
     echo -e "${SAMPLE_ID}\t0\t0\t${SAMPLE_ID}\t${sample_chunk}\t${params.fastqDir}/${read1_trimmed}\t${params.fastqDir}/${read2_trimmed}" >> ${varCal_tsv}
     """
 }
