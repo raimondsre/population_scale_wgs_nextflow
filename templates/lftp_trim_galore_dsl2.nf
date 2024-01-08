@@ -2,17 +2,32 @@
 
 nextflow.enable.dsl=2
 
-params.sampleLocation = './for.trimming'
+params.sampleLocation = '.'
 params.fastqDir = '.'
-params.batchName = 'lv_reference_20220722_502samples'
-params.trimGaloreContainer = '/mnt/beegfs2/beegfs_large/raimondsre_add2/genome_analysis/trim_galore_0.6.7.sif'
+params.batchName = '.'
+params.trimGaloreContainer = '.'
 params.hpc_billing_account = 'bmc_1mgenome'
 params.md5sumReportDir = '.'
+
+// Validate input parameters
+checkParam(params.sampleLocation, "sampleLocation")
+checkParam(params.fastqDir, "fastqDir")
+checkParam(params.batchName, "batchName")
+checkParam(params.trimGaloreContainer, "trimGaloreContainer")
+checkParam(params.hpc_billing_account, "hpc_billing_account")
+checkParam(params.md5sumReportDir, "md5sumReportDir")
+
+def checkParam(value, paramName) {
+    if (value == '.') {
+        error "Parameter $paramName is not provided. Please specify the $paramName."
+    }
+}
+
 def remPath(String fileName) {
     return fileName.replaceAll(/.*\//,'')
 }
 
-process file_transfer {
+process FILE_TRANSFER {
     //cpus 2
     clusterOptions "-l walltime=96:00:00,nodes=wn61:ppn=1 -A ${params.hpc_billing_account}"
 
@@ -29,7 +44,7 @@ process file_transfer {
     lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait all; exit"
     """
 }
-process md5sum_check_and_adaptor_trimming {
+process ADAPTOR_TRIMMING_MD5SUM_CHECK {
     publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
     cpus 8
     errorStrategy = 'ignore'
@@ -50,7 +65,7 @@ process md5sum_check_and_adaptor_trimming {
         md5sum ${read1} | awk '{ print \$1 }' > md5sum2_r1.txt &
         md5sum ${read2} | awk '{ print \$1 }' > md5sum2_r2.txt &
 
-    #while md5sum is being calculated, trim adaptors
+    #while md5sum is being calculated, trim MGI WGS adaptors
         trim_galore --cores 16 --adapter AAGTCGGAGGCCAAGCGGTCTTAGGAAGACAA \
             --adapter2 AAGTCGGATCGTAGCCATGTCGTTCTGTGAGCCAAGGAGTTG --quality 20 \
             --paired --no_report_file \
