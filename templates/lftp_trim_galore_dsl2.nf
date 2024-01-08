@@ -6,7 +6,7 @@ params.sampleLocation = '.'
 params.fastqDir = '.'
 params.batchName = '.'
 params.trimGaloreContainer = '.'
-params.hpc_billing_account = 'bmc_1mgenome'
+params.hpc_billing_account = '.'
 params.md5sumReportDir = '.'
 
 // Validate input parameters
