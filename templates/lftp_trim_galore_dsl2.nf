@@ -19,7 +19,7 @@ checkParam(params.md5sumReportDir, "md5sumReportDir")
 
 def checkParam(value, paramName) {
     if (value == '.') {
-        error "Parameter $paramName is not provided. Please specify the $paramName."
+        error "Parameter $paramName is not provided. Please specify the --$paramName."
     }
 }
 
