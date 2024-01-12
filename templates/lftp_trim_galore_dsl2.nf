@@ -29,7 +29,8 @@ def remPath(String fileName) {
 
 process FILE_TRANSFER {
     //cpus 2
-    clusterOptions "-l walltime=96:00:00,nodes=wn61:ppn=1 -A ${params.hpc_billing_account}"
+    clusterOptions "-l walltime=96:00:00,nodes=wn61:ppn=4 -A ${params.hpc_billing_account}"
+    maxForks = 10
 
     input:
     tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum)
