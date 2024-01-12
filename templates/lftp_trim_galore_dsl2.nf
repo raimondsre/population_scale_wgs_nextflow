@@ -47,7 +47,7 @@ process FILE_TRANSFER {
 process ADAPTOR_TRIMMING_MD5SUM_CHECK {
     publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
     cpus 8
-    errorStrategy = 'ignore'
+    //errorStrategy = 'ignore'
     container params.trimGaloreContainer
     clusterOptions "-l walltime=96:00:00,nodes=1:ppn=8 -A ${params.hpc_billing_account}"
 
