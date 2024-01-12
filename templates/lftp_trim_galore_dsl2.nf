@@ -49,6 +49,7 @@ process ADAPTOR_TRIMMING_MD5SUM_CHECK {
     cpus 8
     errorStrategy = 'ignore'
     container params.trimGaloreContainer
+    clusterOptions "-l walltime=96:00:00,nodes=1:ppn=8 -A ${params.hpc_billing_account}"
 
     input:
     tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum), path(read1), path(read2)
@@ -85,18 +86,18 @@ process ADAPTOR_TRIMMING_MD5SUM_CHECK {
         echo "md5sum read 2 HPC:" \$md5sum2_r2
     
     #if md5sums doesn't match, record an issue in results directory
-    sample_id=\$(echo ${SAMPLE_ID} | sed 's/-.*//g')
-    if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
-        echo "Checksums are equal or missing in NAS."
-        #add md5sum reports to output file
-        if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir}; echo "patient,sample,lane,fastq_1,fastq_2" > ${varCal_tsv}; fi
-        echo -e "\${sample_id},${SAMPLE_ID},${sample_chunk},${params.fastqDir}/${read1_trimmed},${params.fastqDir}/${read2_trimmed}" >> ${varCal_tsv}
-    else
-        echo "Checksums doesn't match."
-        #add md5sum reports to output file
-        if [ ! -f ${varCal_tsv}.checkum_mismatch ]; then mkdir -p ${params.fastqDir}; echo "patient,sample,lane,fastq_1,fastq_2,md5sum_nas_r1,md5sum_nas_r2,md5sum_hpc_r1,md5sum_hpc_r2" > ${varCal_tsv}.checkum_mismatch; fi
-        echo -e "\${sample_id},${SAMPLE_ID},${sample_chunk},${params.fastqDir}/${read1_trimmed},${params.fastqDir}/${read2_trimmed},\$md5sum1_r1,\$md5sum1_r2,\$md5sum2_r1,\$md5sum2_r2" >> ${varCal_tsv}.checkum_mismatch
-    fi
+        sample_id=\$(echo ${SAMPLE_ID} | sed 's/-.*//g')
+        if [ -z "\$md5sum1_r1" ] || [[ "\$md5sum1_r1" == "\$md5sum2_r1" && "\$md5sum1_r2" == "\$md5sum2_r2" ]]; then
+            echo "Checksums are equal or missing in NAS."
+            #add md5sum reports to output file
+            if [ ! -f ${varCal_tsv} ]; then mkdir -p ${params.fastqDir}; echo "patient,sample,lane,fastq_1,fastq_2" > ${varCal_tsv}; fi
+            echo -e "\${sample_id},${SAMPLE_ID},${sample_chunk},${params.fastqDir}/${read1_trimmed},${params.fastqDir}/${read2_trimmed}" >> ${varCal_tsv}
+        else
+            echo "Checksums doesn't match."
+            #add md5sum reports to output file
+            if [ ! -f ${varCal_tsv}.checkum_mismatch ]; then mkdir -p ${params.fastqDir}; echo "patient,sample,lane,fastq_1,fastq_2,md5sum_nas_r1,md5sum_nas_r2,md5sum_hpc_r1,md5sum_hpc_r2" > ${varCal_tsv}.checkum_mismatch; fi
+            echo -e "\${sample_id},${SAMPLE_ID},${sample_chunk},${params.fastqDir}/${read1_trimmed},${params.fastqDir}/${read2_trimmed},\$md5sum1_r1,\$md5sum1_r2,\$md5sum2_r1,\$md5sum2_r2" >> ${varCal_tsv}.checkum_mismatch
+        fi
     """
 }
 
