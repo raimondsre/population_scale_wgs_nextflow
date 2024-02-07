@@ -41,7 +41,7 @@ process FILE_TRANSFER {
     read1 = remPath(read1_lftp)
     read2 = remPath(read2_lftp)
     """
-    lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait all; exit"
+    lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; set xfer:clobber on; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait all; exit"
     """
 }
 process ADAPTOR_TRIMMING_MD5SUM_CHECK {
