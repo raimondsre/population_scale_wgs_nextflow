@@ -99,13 +99,14 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
- bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/GQ<20' |
-  bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/DP<30' |
- bcftools view -i 'F_MISSING <= 0.1' | 
- bcftools +fill-tags -Oz -o ${remExt(vcf.name)}.setID.vcf.gz -- -t ExcHet,AC,AF
+ bcftools filter -i 'FILTER="PASS"' -Oz -o ${remExt(vcf.name)}.setID.vcf.gz ${vcf}
  bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
+// bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/GQ<20' |
+// bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/DP<30' |
+// bcftools view -i 'F_MISSING <= 0.1' | 
+// bcftools +fill-tags -Oz -o ${remExt(vcf.name)}.setID.vcf.gz -- -t ExcHet,AC,AF
 
 // Arrange segments and group by input file name
 segments_ready_for_collection_collected = segments_ready_for_collection
