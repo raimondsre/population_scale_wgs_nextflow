@@ -17,5 +17,5 @@ process calculate_polygenic_score {
 workflow {
        input_file = file(params.input)
 
-       calculate_polygenic_score
+       input_file | calculate_polygenic_score
 }
