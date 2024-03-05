@@ -15,7 +15,7 @@ process calculate_polygenic_score {
 }
 
 workflow {
-       input_file = file(params.input)
+       Channel.fromPath(params.input).set{ test_file }
 
-       input_file | calculate_polygenic_score
+       test_file | calculate_polygenic_score
 }
