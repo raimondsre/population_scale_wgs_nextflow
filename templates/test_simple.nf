@@ -9,6 +9,5 @@ process calculate_polygenic_score {
        executor = 'local'
        """
        cat ${params.input} > ${params.output}
-       exit 1
        """
 }
