@@ -7,11 +7,15 @@ params.output = './output.csv'
 
 process calculate_polygenic_score {
        executor = 'local'
+       input:
+       path input_file
        """
-       cat ${params.input} > ${params.output}
+       cat ${input_file} > ${params.output}
        """
 }
 
 workflow {
+       input_file = file(params.input)
+
        calculate_polygenic_score
 }
