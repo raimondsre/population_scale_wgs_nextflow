@@ -6,7 +6,7 @@ params.output = './output.csv'
 
 process calculate_polygenic_score {
        //executor = 'local'
-       cpus = 16
+       //cpus = 16
        queue = 'fast'
        input:
        path input_file
