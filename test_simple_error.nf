@@ -15,6 +15,7 @@ process calculate_polygenic_score {
        fi
 
        cat ${input_file} > ${params.output}
+       exit 1
        """
 }
 
