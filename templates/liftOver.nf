@@ -109,6 +109,7 @@ process manipulate_segment {
        picard LiftoverVcf \
        I=${vcf} \
        O=${remExt(vcf.name)}.setID.vcf.gz \
+       WARN_ON_MISSING_CONTIG=true \
        CHAIN=/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/hg38ToHg19.over.chain \
        REJECT=${remExt(vcf.name)}.setID.rejected_variants.vcf.gz \
        R=/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/Homo_sapiens_assembly38.fasta
