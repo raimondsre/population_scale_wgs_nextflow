@@ -56,7 +56,7 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst
 vcfIntervals = intervals1.combine(vcf)
 //samples_ch1.subscribe { println it }
  
-//###
+//### 
 //### Analysis
 //###
 
