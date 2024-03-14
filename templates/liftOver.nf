@@ -75,7 +75,6 @@ process separateVCF {
  script:
  input = remExt(vcf.name) 
  """
-
         if [ -e ${params.phasedDir}/${input}.${intervalname}.vcf.gz ]; then
               ln -s ${params.phasedDir}/${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
               ln -s ${params.phasedDir}/${input}.${intervalname}.vcf.gz.tbi ${input}.${intervalname}.vcf.gz.tbi
