@@ -95,7 +95,7 @@ separated_by_segment
 // Customise manipulation steps
 process manipulate_segment {
  //publishDir params.publishDir
- cpus 1
+ cpus 2
  container '/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/picard:3.1.1--hdfd78af_0'
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_filtered
@@ -108,9 +108,9 @@ process manipulate_segment {
        picard LiftoverVcf \
        I=${vcf} \
        O=${remExt(vcf.name)}.setID.vcf.gz \
-       CHAIN=/home/raimondsre/array/input_data/ref/hg38ToHg19.over.chain \
+       CHAIN=/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/hg38ToHg19.over.chain \
        REJECT=${remExt(vcf.name)}.setID.rejected_variants.vcf.gz \
-       R=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/Homo_sapiens_assembly38.fasta
+       R=/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/Homo_sapiens_assembly38.fasta
  """
 }
 // bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/GQ<20' |
