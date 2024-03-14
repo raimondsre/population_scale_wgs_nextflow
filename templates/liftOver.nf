@@ -54,8 +54,9 @@ def remPath(String fileName) {return fileName.replaceAll(/.*\//,'').replaceFirst
 
 // Make single channel for intervals and vcf file
 vcfIntervals = intervals1.combine(vcf)
-//samples_ch1.subscribe { println it }
+vcfIntervals.subscribe { println it }
  
+/*
 //### 
 //### Analysis
 //###
@@ -143,4 +144,4 @@ process concatanate_segments {
  bcftools index -t ${outputVCF}
  """
 }
-
+*/
