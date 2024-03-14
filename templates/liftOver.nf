@@ -63,13 +63,14 @@ vcfIntervals = intervals1.combine(vcf)
 // Separate VCF into fragments, has to be before separating by sample
 process separateVCF {
  //publishDir params.publishDir
-       publishDir params.phasedDir, mode: 'symlink', overwrite: false
+ publishDir params.phasedDir, mode: 'symlink', overwrite: false
+ 
 
  input:
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals
  
  output:
- set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment
+ set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into separated_by_segment
 
  script:
  input = remExt(vcf.name) 
@@ -84,22 +85,26 @@ process separateVCF {
               bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
               bcftools index -t ${input}.${intervalname}.vcf.gz
        fi
+       variantsPresent=1
+       if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
-
+separated_by_segment 
+       .filter { it[5] == "1" }
+       .into {separated_by_segment_filtered}
 // Customise manipulation steps
 process manipulate_segment {
  //publishDir params.publishDir
  cpus 2
  container '/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/picard:3.1.1--hdfd78af_0'
  input:
- set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment
+ set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_filtered
 
  output:
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
-       export _JAVA_OPTIONS="-Xmx64g"
+       export _JAVA_OPTIONS="-Xmx16g"
        picard LiftoverVcf \
        I=${vcf} \
        O=${remExt(vcf.name)}.setID.vcf.gz \
