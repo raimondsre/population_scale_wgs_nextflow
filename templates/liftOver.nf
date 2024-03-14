@@ -111,8 +111,6 @@ process manipulate_segment {
        CHAIN=/home/raimondsre/array/input_data/ref/hg38ToHg19.over.chain \
        REJECT=${remExt(vcf.name)}.setID.rejected_variants.vcf.gz \
        R=/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref/Homo_sapiens_assembly38.fasta
-
-       bcftools index -t ${remExt(vcf.name)}.setID.vcf.gz
  """
 }
 // bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/GQ<20' |
