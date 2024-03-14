@@ -94,7 +94,7 @@ separated_by_segment
 // Customise manipulation steps
 process manipulate_segment {
  //publishDir params.publishDir
- cpus 2
+ cpus 4
  time 24.h
  memory 16.GB
  container '/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/picard:3.1.1--hdfd78af_0'
@@ -141,7 +141,7 @@ process concatanate_segments {
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  # --naive is risky as it does not check if samples match.
- bcftools concat --naive -f vcfFiles.txt -Oz -o ${outputVCF}
+ bcftools concat -a -f vcfFiles.txt -Oz -o ${outputVCF}
  bcftools index -t ${outputVCF}
  """
 }
