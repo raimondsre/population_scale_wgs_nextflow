@@ -88,6 +88,7 @@ process separateVCF {
        if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
 }
+/*
 separated_by_segment 
        .filter { it[5] == "1" }
        .into {separated_by_segment_filtered}
@@ -143,3 +144,4 @@ process concatanate_segments {
  """
 }
 
+*/
