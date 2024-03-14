@@ -14,7 +14,11 @@ process calculate_polygenic_score {
               exit 1
        fi
        cat ${input_file} > ${params.output}
-       bash test_simple.sh 
+       
+       nextflow run raimondsre/population_scale_wgs_nextflow/templates/test_simple2.nf -r main -latest \
+       --input /home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/pgr_kalkulators/nextflow/input.csv \
+       --output /home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/pgr_kalkulators/nextflow/output.csv \
+       -c /home_beegfs/groups/bmc/genome_analysis_tmp/hs/analysis/pgr_kalkulators/nextflow/nextflow_imputation.config
        """
 }
 
