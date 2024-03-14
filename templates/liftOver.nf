@@ -95,8 +95,8 @@ separated_by_segment
 process manipulate_segment {
  //publishDir params.publishDir
  cpus 2
- time 24h
- memory 16g
+ time 24.h
+ memory 16.GB
  container '/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/picard:3.1.1--hdfd78af_0'
  input:
  set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_filtered
