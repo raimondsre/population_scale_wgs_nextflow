@@ -117,7 +117,7 @@ process concatanate_segments {
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  # --naive is risky as it does not check if samples match.
- bcftools concat --naive -f vcfFiles.txt -Oz -o ${outputVCF}
+ bcftools concat --naive-force -f vcfFiles.txt -Oz -o ${outputVCF}
  bcftools index -t ${outputVCF}
  """
 }
