@@ -10,6 +10,8 @@ params.variantsToKeep = './keep.variants'
 params.subset = 'all' 
 params.outputName = remPath(params.inputVCF)+'.subset_of_'+params.subset
 params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased' // Contains phased and bref corrected segments
+params.chain_file = '/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/hg38ToHg19.over.chain'
+params.input_reference_genome = '/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/Homo_sapiens_assembly38.fasta'
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file
@@ -110,9 +112,9 @@ process manipulate_segment {
        I=${vcf} \
        O=${remExt(vcf.name)}.setID.vcf.gz \
        WARN_ON_MISSING_CONTIG=true \
-       CHAIN=/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/hg38ToHg19.over.chain \
+       CHAIN=${params.chain_file} \
        REJECT=${remExt(vcf.name)}.setID.rejected_variants.vcf.gz \
-       R=/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/Homo_sapiens_assembly38.fasta
+       R=${params.input_reference_genome}
  """
 }
 // bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/GQ<20' |
