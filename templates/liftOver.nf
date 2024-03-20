@@ -29,7 +29,7 @@ Channel
         counter += 1
         [counter, value].flatten()}
  //.filter({it[1].contains('chr22')})
- //.filter({it[1].contains('22')}) // In case of GRCh37
+ //.filter({it[1].contains('22')}) // In case of GRCh37 17_20000001_22263006
  //.filter({it[4].contains('chr7_155000001_159345973')}) // Imputation problematic with the following segments: chr9_40000001_45000000,
  .into { intervals1; intervals2 }
 // Samples in VCF
