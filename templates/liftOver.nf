@@ -86,6 +86,13 @@ process separateVCF {
               bcftools view --exclude 'POS>${stop}' -Oz -o ${input}.${intervalname}.vcf.gz
               bcftools index -t ${input}.${intervalname}.vcf.gz
        fi
+
+       if [ "${remPath(params.chain_file)}" = "hg19ToHg38.over.chain.gz" ] || [ "${remPath(params.chain_file)}" = "hg19ToHg38.over.chain" ]; then
+       bcftools annotate --rename-chrs chr_names.txt ${input}.${intervalname}.vcf.gz -Oz -o chromosome_corrected.${input}.${intervalname}.vcf.gz
+       mv chromosome_corrected.${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
+       bcftools index -t ${input}.${intervalname}.vcf.gz
+       fi
+
        variantsPresent=1
        if [ `bcftools view ${input}.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
  """
@@ -107,11 +114,6 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
-       if [ "${remPath(params.chain_file)}" = "hg19ToHg38.over.chain.gz" ] || [ "${remPath(params.chain_file)}" = "hg19ToHg38.over.chain" ]; then
-       bcftools annotate --rename-chrs chr_names.txt ${vcf} -Oz -o chromosome_corrected.${vcf}
-       mv chromosome_corrected.${vcf} ${vcf}
-       fi
-
        export _JAVA_OPTIONS="-Xmx16g"
        picard LiftoverVcf \
        I=${vcf} \
