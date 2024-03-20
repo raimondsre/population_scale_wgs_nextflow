@@ -11,7 +11,7 @@ params.subset = 'all'
 params.outputName = remPath(params.inputVCF)+'.subset_of_'+params.subset
 params.phasedDir = '/mnt/beegfs2/home/groups/bmc/references/populationVCF/phased' // Contains phased and bref corrected segments
 params.chain_file = '/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/hg38ToHg19.over.chain'
-params.input_reference_genome = '/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/Homo_sapiens_assembly38.fasta'
+params.target_reference_genome = '/home/raimondsre/analysis/hs/genome/prs/app/continental_ethnicity/Homo_sapiens_assembly38.fasta'
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file
@@ -107,6 +107,11 @@ process manipulate_segment {
  set val(order), val(intervalname), val(input), file("${remExt(vcf.name)}.setID.vcf.gz"), file("${remExt(vcf.name)}.setID.vcf.gz.tbi") into segments_ready_for_collection
 
  """
+       if [ "${remPath(params.chain_file)}" = "hg19ToHg38.over.chain.gz" ] || [ "${remPath(params.chain_file)}" = "hg19ToHg38.over.chain" ]; then
+       bcftools annotate --rename-chrs chr_names.txt ${vcf} -Oz -o chromosome_corrected.${vcf}
+       mv chromosome_corrected.${vcf} ${vcf}
+       fi
+
        export _JAVA_OPTIONS="-Xmx16g"
        picard LiftoverVcf \
        I=${vcf} \
@@ -114,7 +119,7 @@ process manipulate_segment {
        WARN_ON_MISSING_CONTIG=true \
        CHAIN=${params.chain_file} \
        REJECT=${remExt(vcf.name)}.setID.rejected_variants.vcf.gz \
-       R=${params.input_reference_genome}
+       R=${params.target_reference_genome}
  """
 }
 // bcftools +setGT ${vcf} -- -t q -n . -i 'FMT/GQ<20' |
