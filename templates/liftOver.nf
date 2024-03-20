@@ -87,7 +87,12 @@ process separateVCF {
               bcftools index -t ${input}.${intervalname}.vcf.gz
        fi
 
+
+
        if [ "${remPath(params.chain_file)}" = "hg19ToHg38.over.chain.gz" ] || [ "${remPath(params.chain_file)}" = "hg19ToHg38.over.chain" ]; then
+       for CHR in {1..22} X Y MT; do
+          echo ${CHR} chr${CHR}
+          done >> chr_names.txt
        bcftools annotate --rename-chrs chr_names.txt ${input}.${intervalname}.vcf.gz -Oz -o chromosome_corrected.${input}.${intervalname}.vcf.gz
        mv chromosome_corrected.${input}.${intervalname}.vcf.gz ${input}.${intervalname}.vcf.gz
        bcftools index -t ${input}.${intervalname}.vcf.gz
