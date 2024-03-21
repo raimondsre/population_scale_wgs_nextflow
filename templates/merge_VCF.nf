@@ -155,7 +155,7 @@ process concatanate_segments {
  output_full = name+".vcf.gz"
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
- bcftools concat -a -f vcfFiles.txt -Oz -o ${output_full}
+ bcftools concat --naive -f vcfFiles.txt -Oz -o ${output_full}
  bcftools index -t ${output_full}
  """
 }
