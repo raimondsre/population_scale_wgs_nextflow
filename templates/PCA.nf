@@ -131,7 +131,7 @@ process concatanate_segments {
  """
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  # --naive should to be used with caution.
- bcftools concat -a --naive-force -f vcfFiles.txt -Oz -o ${outputVCF}
+ bcftools concat --naive-force -f vcfFiles.txt -Oz -o ${outputVCF}
  # no indexing necessary for plink2
  # bcftools index -t ${outputVCF}
  """
