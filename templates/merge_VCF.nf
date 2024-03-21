@@ -124,7 +124,7 @@ process merge_segments {
        bcftools query -f '%ID\n' ${sec} > sec.id
        comm -12 <(sort first.id) <(sort sec.id) > variants_overlap.${intervalname}
 
-       bcftools merge ${first} ${sec} -Oz -o merged.not_filtered.${intervalname}.vcf.gz
+       bcftools merge ${first} ${sec} -Oz -o merged.not_filtered.${intervalname}.vcf.gz 
        bcftools filter -i 'ID=@variants_overlap.${intervalname}' merged.not_filtered.${intervalname}.vcf.gz -Oz -o merged.${intervalname}.vcf.gz
 
        bcftools index -t merged.${intervalname}.vcf.gz
