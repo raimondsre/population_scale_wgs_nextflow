@@ -46,11 +46,10 @@ process FILE_TRANSFER {
 }
 process ADAPTOR_TRIMMING_MD5SUM_CHECK {
     publishDir params.fastqDir, mode: 'move', overwrite: true, failOnError: true
-    cpus 8
-    queue 'long'
     //errorStrategy = 'ignore'
+    maxForks = 21
     container params.trimGaloreContainer
-    clusterOptions "-l walltime=24:00:00,nodes=1:ppn=16 -A ${params.hpc_billing_account}"
+    clusterOptions "-l walltime=24:00:00,nodes=1:ppn=16 -q long -A ${params.hpc_billing_account}"
 
     input:
     tuple val(SAMPLE_ID), val(sample_chunk), val(read1_lftp), val(read2_lftp), val(read1_md5sum), val(read2_md5sum), path(read1), path(read2)
