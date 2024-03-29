@@ -1,5 +1,5 @@
 #!/usr/bin/env nextflow
-//    nextflow run raimondsre/population_scale_wgs_nextflow/templates/test_simple.nf -r main -latest --input /home/raimondsre/test/input.csv --output /home/raimondsre/test/output.csv
+//    nextflow run raimondsre/population_scale_wgs_nextflow/templates/test_simple2.nf -r main -latest --input /home/raimondsre/test/input.csv --output /home/raimondsre/test/output.csv
 
 params.input = './input.csv'
 params.output = './output.csv'
