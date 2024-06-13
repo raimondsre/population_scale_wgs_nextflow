@@ -21,7 +21,7 @@ params.imputationPanel1 = './'
 //params.intervalsBed = './hg38chr25int5e6.bed'
 
 // Define channels for intervals and initial .vcf.gz file
-// Input file to be imputed
+// Input file to be imputed 
 Channel
  .fromPath(params.toBeImputed)
  .map { file(it) }

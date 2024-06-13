@@ -13,7 +13,7 @@ process calculate_polygenic_score {
               echo "Test cases failed"
               exit 1
        else
-              echo "Test case did not fail"
+              echo "Test 2 case did not fail"
        fi
        cat ${input_file} >> ${params.output}
        """
