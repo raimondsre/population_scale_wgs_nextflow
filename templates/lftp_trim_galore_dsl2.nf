@@ -40,6 +40,7 @@ process FILE_TRANSFER {
     read1 = remPath(read1_lftp)
     read2 = remPath(read2_lftp)
     """
+    hostname
     lftp -e "set ssl:verify-certificate no; set net:connection-limit 2; set xfer:clobber on; get ${read1_lftp} -o ${read1} & get ${read2_lftp} -o ${read2} & wait all; exit"
     """
 }
@@ -61,6 +62,7 @@ process ADAPTOR_TRIMMING_MD5SUM_CHECK {
     read2_trimmed = read2.toString().replaceAll("_2.f","_2_val_2.f")
     varCal_tsv = "${params.md5sumReportDir}/${params.batchName}_variant_calling.tsv"
     """    
+    hostname
     #calculate md5sum of transferred files and send it to the background thread
         md5sum ${read1} | awk '{ print \$1 }' > md5sum2_r1.txt &
         md5sum ${read2} | awk '{ print \$1 }' > md5sum2_r2.txt &
