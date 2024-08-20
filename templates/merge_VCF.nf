@@ -45,6 +45,7 @@ process extract_overlapping_vcf_samples {
  file 'samples_overlap' into samples_ch mode flatten
  script:
  """
+ module load bio/bcftools/1.10.2
  bcftools query -l ${vcf1} > samples1
  bcftools query -l ${vcf2} > samples2
  comm -12 <(sort samples1) <(sort samples2) > samples_overlap 
@@ -146,7 +147,8 @@ merged_ch
        .into {merged_ch_concat}
 
 // Concatanate segments
-process concatanate_segments {
+process concatanate_s
+egments {
  publishDir params.publishDir, mode: 'copy', overwrite: true
 
  input:
