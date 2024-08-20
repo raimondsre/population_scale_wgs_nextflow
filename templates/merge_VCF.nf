@@ -86,7 +86,7 @@ process separate_segments {
  tuple val(order), val(chr), val(start), val(stop), val(intervalname), file(vcf), file(idx) from vcfIntervals_first_and_second
  
  output:
- set val(order), env(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment_first_and_second
+ set val(order), val(intervalname), val(input), file("${input}.${intervalname}.vcf.gz"), file("${input}.${intervalname}.vcf.gz.tbi") into separated_by_segment_first_and_second
 
  script:
  input = remExt(vcf.name) 
@@ -112,10 +112,10 @@ separated_by_segment_first_and_second = separated_by_segment_first_and_second
 // Filter out overlapping variants and merge
 process merge_segments {
        cpus = 2
-       tag = "${intervalname}"
-
+       tag = "$intervalname"
+       
        input:
-       set val(order), env(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second
+       set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second
        output:
        tuple val(order), val(params.outputName), file("merged.${intervalname}.vcf.gz"), file("merged.${intervalname}.vcf.gz.tbi"), env(variantsPresent) into merged_ch
        script:
