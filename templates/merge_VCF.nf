@@ -112,7 +112,6 @@ separated_by_segment_first_and_second = separated_by_segment_first_and_second
 // Filter out overlapping variants and merge
 process merge_segments {
        cpus = 2
-       tag = "$intervalname"
        
        input:
        set val(order), val(intervalname), val(input), file(vcf), file(idx) from separated_by_segment_first_and_second
