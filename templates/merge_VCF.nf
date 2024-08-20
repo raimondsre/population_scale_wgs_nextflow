@@ -8,7 +8,7 @@ params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 params.firstVCF = './'
 params.secondVCF = './'
 //params.VCFfile = './merged.two.vcf.gz'
-params.intervalsBed = '${projectDir}/assets/intervals5mil'
+//params.intervalsBed = '${params.projectDir}/assets/intervals5mil'
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file for corcondance - first
@@ -24,7 +24,7 @@ Channel
 // Intervals
 counter = 0
 Channel
- .fromPath(params.intervalsBed)
+ .fromPath("${params.projectDir}/assets/intervals5mil")
  .splitCsv(header:false, sep:'\t',strip:true)
  .map { row -> tuple(row[0], row[1], row[2], row[0]+"_"+row[1]+"_"+row[2]) }
  
