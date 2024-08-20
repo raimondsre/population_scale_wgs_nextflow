@@ -8,7 +8,7 @@ params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 params.firstVCF = './'
 params.secondVCF = './'
 //params.VCFfile = './merged.two.vcf.gz'
-//params.intervalsBed = './hg38chr25int5e6.bed'
+params.intervalsBed = '${projectDir}/assets/intervals5mil'
 
 // Define channels for intervals and initial .vcf.gz file
 // Input file for corcondance - first
