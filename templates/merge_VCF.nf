@@ -7,6 +7,7 @@ params.refDir = '/home_beegfs/groups/bmc/genome_analysis_tmp/hs/ref'
 
 params.firstVCF = './'
 params.secondVCF = './'
+params.overlap = true
 //params.VCFfile = './merged.two.vcf.gz'
 //params.intervalsBed = '${params.projectDir}/assets/intervals5mil'
 
@@ -120,21 +121,29 @@ process merge_segments {
        first = vcf[0]
        sec = vcf[1]
 
-       """
-       echo $intervalname
-       module load bio/bcftools/1.10.2
-       bcftools query -f '%ID\n' ${first} > first.id
-       bcftools query -f '%ID\n' ${sec} > sec.id
-       comm -12 <(sort first.id) <(sort sec.id) > variants_overlap.${intervalname}
+       if (params.overlap)
+              """
+              module load bio/bcftools/1.10.2
+              bcftools query -f '%ID\n' ${first} > first.id
+              bcftools query -f '%ID\n' ${sec} > sec.id
+              comm -12 <(sort first.id) <(sort sec.id) > variants_overlap.${intervalname}
 
-       bcftools merge ${first} ${sec} -Oz -o merged.not_filtered.${intervalname}.vcf.gz 
-       bcftools filter -i 'ID=@variants_overlap.${intervalname}' merged.not_filtered.${intervalname}.vcf.gz -Oz -o merged.${intervalname}.vcf.gz
+              bcftools merge ${first} ${sec} -Oz -o merged.not_filtered.${intervalname}.vcf.gz 
+              bcftools filter -i 'ID=@variants_overlap.${intervalname}' merged.not_filtered.${intervalname}.vcf.gz -Oz -o merged.${intervalname}.vcf.gz
 
-       bcftools index -t merged.${intervalname}.vcf.gz
+              bcftools index -t merged.${intervalname}.vcf.gz
 
-       variantsPresent=1
-       if [ `bcftools view merged.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
-       """
+              variantsPresent=1
+              if [ `bcftools view merged.${intervalname}.vcf.gz --no-header | wc -l` -eq 0 ]; then variantsPresent=0; fi
+              """
+       else 
+              """
+              module load bio/bcftools/1.10.2
+              bcftools merge ${first} ${sec} -Oz -o merged.${intervalname}.vcf.gz 
+              bcftools index -t merged.${intervalname}.vcf.gz
+
+              variantsPresent=1
+              """
 }
 
 
