@@ -24,7 +24,7 @@ Channel
 // Intervals
 counter = 0
 Channel
- .fromPath("${params.projectDir}/assets/intervals5mil")
+ .fromPath("${workflow.projectDir}/assets/intervals5mil")
  .splitCsv(header:false, sep:'\t',strip:true)
  .map { row -> tuple(row[0], row[1], row[2], row[0]+"_"+row[1]+"_"+row[2]) }
  
