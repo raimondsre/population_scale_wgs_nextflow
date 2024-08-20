@@ -123,6 +123,7 @@ process merge_segments {
        sec = vcf[1]
 
        """
+       echo $intervalname
        module load bio/bcftools/1.10.2
        bcftools query -f '%ID\n' ${first} > first.id
        bcftools query -f '%ID\n' ${sec} > sec.id
