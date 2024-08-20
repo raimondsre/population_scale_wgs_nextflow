@@ -27,12 +27,11 @@ Channel
  .fromPath("${workflow.projectDir}/assets/intervals5mil")
  .splitCsv(header:false, sep:'\t',strip:true)
  .map { row -> tuple(row[0], row[1], row[2], row[0]+"_"+row[1]+"_"+row[2]) }
- 
  .map { value ->
         counter += 1
         [counter, value].flatten()}
  //.filter({it[1].contains('chr14')})
- //.filter({it[4].contains('chr14_1_5000000')})
+ .filter({it[4].contains('chr1_1_5000000')})
  .into { intervals1; intervals2 }
 // Samples in first and second input VCF
 samples_from_first_and_second_merge_file = vcf_first_extractSamples.combine(vcf_second_extractSamples)
