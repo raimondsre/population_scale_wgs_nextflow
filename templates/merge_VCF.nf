@@ -122,7 +122,7 @@ process merge_segments {
        sec = vcf[1]
 
        """
-       bio/bcftools/1.10.2
+       module load bio/bcftools/1.10.2
        bcftools query -f '%ID\n' ${first} > first.id
        bcftools query -f '%ID\n' ${sec} > sec.id
        comm -12 <(sort first.id) <(sort sec.id) > variants_overlap.${intervalname}
@@ -147,8 +147,7 @@ merged_ch
        .into {merged_ch_concat}
 
 // Concatanate segments
-process concatanate_s
-egments {
+process concatanate_segments {
  publishDir params.publishDir, mode: 'copy', overwrite: true
 
  input:
@@ -158,7 +157,7 @@ egments {
  script:
  output_full = name+".vcf.gz"
  """
- bio/bcftools/1.10.2
+ module load bio/bcftools/1.10.2
  echo "${vcf_all.join('\n')}" > vcfFiles.txt
  bcftools concat --naive -f vcfFiles.txt -Oz -o ${output_full}
  bcftools index -t ${output_full}
